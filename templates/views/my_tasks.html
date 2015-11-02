@@ -1,0 +1,132 @@
+{% extends base_template %}
+{% load xadmin_tags %}
+
+{% block content-nav %}
+<div class="navbar content-navbar navbar-default navbar-xs" data-toggle="breakpoint"
+        data-class-xs="navbar content-navbar navbar-inverse navbar-xs"
+        data-class-sm="navbar content-navbar navbar-default navbar-xs">
+	 <div class="navbar-header">
+          <a class="navbar-brand" data-toggle="collapse" data-target="#top-nav .navbar-collapse">
+            	{{my_task_name}}
+          </a>
+        </div>
+</div>	  
+{% endblock %}
+
+{% block content %}
+
+{% if project_items %}
+
+<ul class="pagination pagination-sm pagination-left pagination-inline">
+    {% view_block 'pagination' 'small' %}
+</ul>
+  
+<form id="changelist-form" action="" method="post">
+{% csrf_token %}
+<div class="results table-responsive">    
+  <table class="table table-bordered table-striped table-hover">  
+    <thead>
+      <tr>
+      	<th scope="col" colspan="11">项目材料申请</th>
+      </tr>
+      
+      <tr>
+        <th scope="col">序号</th>
+        <th scope="col">项目名称</th>
+        <th scope="col">项目材料申请单</th>
+        <th scope="col">状态</th>
+        <th scope="col">审核日志</th>
+      </tr>
+    </thead>
+    
+    <tbody>
+       {% for item in project_items %}
+	      <tr class="grid-item">
+	        <td>{{ item.index  }}</td>
+	        <td>{{ item.project_name  }}</td>
+	        <td><a href='/document/documentlineitem/?_q_={{ item.document_id }}'>{{ item.document_id }}</a></a></td>
+	        <td>
+	        {% if item.status_code == 3 %}
+	        	<a href="/workflow/item/{{item.id}}/reapply" title="重新发起申请">item.status</a>
+	        {% else %}
+	        {{ item.status }}
+	        {% endif %}
+	        </td>
+	        <td><a href='/workflow/audit/{{ item.document_id }}/list/'><i class='fa fa-calendar'></i></a> </td>
+	      </tr>
+	      {% endfor %} 
+    </tbody>
+  </table>
+ </div>
+ 
+</form>
+
+<ul class="pagination">
+    {% view_block 'pagination' %}
+</ul>
+{% endif %}
+
+
+  
+{% if payment_items %}
+<div>
+<ul class="pagination pagination-sm pagination-left pagination-inline">
+    {% view_block 'pagination' 'small' %}
+</ul>
+</div>
+
+<form id="changelist-form" action="" method="post">
+{% csrf_token %}
+<div class="results table-responsive">    
+  <table class="table table-bordered table-striped table-hover">  
+    <thead>
+      <tr>
+      	<th scope="col" colspan="11">付款申请</th>
+      </tr>
+      
+      <tr>
+        <th scope="col">序号</th>
+        <th scope="col">供应商</th>
+        <th scope="col">付款金额</th>
+        <th scope="col">审批金额</th>
+        <th scope="col">付款方式</th>
+        <th scope="col">付款单</th>
+        <th scope="col">状态</th>
+        <th scope="col">审核日志</th>
+      </tr>
+    </thead>
+    
+    <tbody>
+       {% for item in payment_items %}
+	      <tr class="grid-item">
+	        <td>{{ item.index  }}</td>
+	        <td>{{ item.vendor  }}</td>
+	        <td>{{ item.payment_amount  }}</td>
+	        <td>{{ item.applied_amount  }}</td>
+	        <td>{{ item.payment_type  }}</td>
+	        <td><a href='/payment/payment/{{ item.payment_id}}/update/'>{{ item.document_id  }}</a></td>
+	        <td>
+			{% if item.status_code == 3 %}
+	        	<a href="/workflow/item/{{item.id}}/reapply" title="重新发起申请">item.status</a>
+	        {% else %}
+	        {{ item.status }}
+	        {% endif %}
+			</td>
+	        <td><a href='/workflow/audit/{{ item.document_id }}/list/'><i class='fa fa-calendar'></i></a> </td>
+	      </tr>
+	      {% endfor %} 
+    </tbody>
+  </table>
+ </div>
+ 
+</form>
+
+<ul class="pagination">
+    {% view_block 'pagination' %}
+</ul>
+{% endif %}
+
+
+
+{% endblock content %}
+

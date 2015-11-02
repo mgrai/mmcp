@@ -1,0 +1,146 @@
+{% extends 'xadmin/base_site.html' %}
+
+
+
+
+{% block content-nav %}
+      <div class="navbar content-navbar navbar-default navbar-xs" data-toggle="breakpoint"
+        data-class-xs="navbar content-navbar navbar-inverse navbar-xs"
+        data-class-sm="navbar content-navbar navbar-default navbar-xs">
+        
+        <div class="navbar-header">
+          <a class="navbar-brand" data-toggle="collapse" data-target="#top-nav .navbar-collapse">
+            	日期范围:
+          </a>
+        </div>
+        
+        <form class="navbar-form exform" action="" method="post">
+        {% csrf_token %}
+        <div class="navbar-header ">
+				<div class="input-group date bootstrap-datepicker">
+					<input class="date-field admindatewidget form-control" id="start_date" name="start_date" size="10" type="text" placeholder="开始日期" value='{{ result.start_date }}' />
+				</div>
+          </div>
+          <div class="navbar-header">
+          	&nbsp;&nbsp;
+	      </div>
+          <div class="navbar-header ">
+			  <div class="input-group date bootstrap-datepicker">
+				   <input class="date-field admindatewidget form-control" id="end_date" name="end_date" size="10" type="text" placeholder="结束日期" value='{{ result.end_date }}' />
+			  </div>
+          </div>
+          <div class="navbar-header">
+          	&nbsp;&nbsp;
+	      </div>
+          <div class="navbar-header">
+            <select id="id_project" class="form-control" name="project" style="width:250px" placeholder="项目名称">
+             <option value='' ></option>
+            {% for project in projects %}
+             {% if result.project_name ==  project.name %}   
+			 <option value='{{ project.name }}' selected="selected"> {{ project.name }}</option>
+			 {% else %}
+			 <option value='{{ project.name }}' > {{ project.name }}</option>
+			 {% endif %}
+			{% endfor %} 
+		   </select>
+	      </div>
+	       <div class="navbar-header">
+          	&nbsp;&nbsp;
+	      </div>
+	      
+	      <div class="navbar-header">
+            <select id="id_vendor" class="form-control" name="vendor" style="width:300px" placeholder="供应商名称">
+             <option value='' ></option>
+            {% for vendor in vendors %}
+             {% if result.vendor_name ==  vendor.name %}   
+			 <option value='{{ vendor.name }}' selected="selected"> {{ vendor.name }}</option>
+			 {% else %}
+			 <option value='{{ vendor.name }}' > {{ vendor.name }}</option>
+			 {% endif %}
+			{% endfor %} 
+		   </select>
+			
+	      </div>
+	      
+	      <div class="navbar-header">
+          	&nbsp;&nbsp;
+	      </div>
+	      
+	      
+	      <div class="navbar-header">
+          	<button type="submit" class="btn btn-success">查询</button>
+	      </div>
+	      </form>
+	      
+	      <div class="navbar-header">
+          	&nbsp;&nbsp;
+	      </div>
+	    {% if result.lines %}
+	    <form class="navbar-form exform" action="export" method="post">
+	         {% csrf_token %}
+	         <input type="hidden"  name="start_date" value='{{ result.start_date }}'/>
+	         <input type="hidden"  name="end_date" value='{{ result.end_date }}'/>
+	         <input type="hidden"  name="project_name" value='{{ result.project_name }}'/>
+	         <input type="hidden"  name="vendor" value='{{ result.vendor }}'/>
+	        <div class="navbar-header">
+	          	<button type="submit" class="btn btn-success">导出</button>
+		    </div>
+	    </form>
+	    {% endif %}
+          
+        
+        
+    </div>
+ {% endblock %}
+      
+
+{% block content %}
+
+<div class="results table-responsive">    
+  <table class="table table-bordered table-striped table-hover">  
+    {% if result.lines %}
+    <thead>
+      <tr>
+        <th scope="col">序号</th>
+        <th scope="col">材料名称</th>
+        <th scope="col">品牌</th>
+        <th scope="col">规格</th>
+        <th scope="col">单位</th>
+        <th scope="col">数量</th>
+        <th scope="col">单价</th>
+        <th scope="col">金额</th>
+        <th scope="col">送货日期</th>
+        <th scope="col">送货单位</th>
+        <th scope="col">备注</th>
+      </tr>
+    </thead>
+    {% endif %}
+    <tbody>
+    	{% for line in result.lines %}
+	      <tr class="grid-item">
+	        <td>{{ line.index }} </td>
+	        <td>{{ line.projectMaterialName }} </td>
+	        <td>{{ line.brand }} </td>
+	        <td>{{ line.specification }} </td>
+	        <td>{{ line.unit }} </td>
+	        <td>{{ line.receiving_quantity }} </td>
+	        <td>{{ line.price | floatformat:2 }} </td>
+	        <td>{{ line.totalPrice | floatformat:2 }} </td>
+	        <td>{{ line.receiving_date }} </td>
+	        <td>{{ line.vendor }} </td>
+	        <td>{{ line.comments }} </td>
+	      </tr>
+	     {% endfor %} 
+	     {% if result.sum %}
+	     <tr class="grid-item">
+	     	<td colspan="8" align="center"> 合计 </td>
+	     	<td>{{ result.sum | floatformat:2 }} </td>
+	     	<td> </td>
+	     	<td> </td>
+	     </tr>
+	     {% endif %}
+    </tbody>
+  </table>
+ </div>
+
+{% endblock content %}

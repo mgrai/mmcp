@@ -1,0 +1,116 @@
+{% extends 'xadmin/base_site.html' %}
+
+
+{% block extrastyle %}
+<link href="/static/css/bootstrap-table.min.css"  rel="stylesheet">
+{% endblock %}
+
+{% block extrahead %}
+<script src="/static/js/bootstrap-table.min.js"></script>
+{% endblock %}
+
+{% block content-nav %}
+      <div class="navbar content-navbar navbar-default navbar-xs" data-toggle="breakpoint"
+        data-class-xs="navbar content-navbar navbar-inverse navbar-xs"
+        data-class-sm="navbar content-navbar navbar-default navbar-xs">
+        
+        <div class="navbar-header">
+          <a class="navbar-brand" data-toggle="collapse" data-target="#top-nav .navbar-collapse">
+            	选择项目:
+          </a>
+        </div>
+        
+        <form class="navbar-form exform" action="" method="post">
+        {% csrf_token %}
+          <div class="navbar-header">
+          	&nbsp;&nbsp;
+	      </div>
+          <div class="navbar-header">
+            <select id="id_project" class="form-control" name="project" style="width:250px">
+            {% for project in projects %}
+             {% if result.project_name ==  project.name %}   
+			 <option value='{{ project.name }}' selected="selected"> {{ project.name }}</option>
+			 {% else %}
+			 <option value='{{ project.name }}' > {{ project.name }}</option>
+			 {% endif %}
+			{% endfor %} 
+		   </select>
+	      </div>
+	       <div class="navbar-header">
+          	&nbsp;&nbsp;
+	      </div>
+	      <div class="navbar-header">
+            <select id="id_category" class="form-control" name="category" style="width:150px" placeholder="材料类别">
+            <option value='' ></option>
+            {% for category in categories %}
+             {% if result.category_name ==  category.name %}   
+			 <option value='{{ category.name }}' selected="selected"> {{ category.name }}</option>
+			 {% else %}
+			 <option value='{{ category.name }}' > {{ category.name }}</option>
+			 {% endif %}
+			{% endfor %} 
+		   </select>
+	      </div>
+	      
+	       <div class="navbar-header">
+          	&nbsp;&nbsp;
+	      </div>
+	      
+	       <div class="navbar-header ">
+	       		
+			  <div class="input-group">
+				   <input class="date-field admindatewidget form-control" id="material_name" name="material_name" size="10" type="text" placeholder="材料名称" value='{{ result.material_name }}' />
+			  </div>
+          </div>
+           <div class="navbar-header">
+          	&nbsp;&nbsp;
+	      </div>
+	      <div class="navbar-header">
+          	<button type="submit" class="btn btn-success">查询</button>
+	      </div>
+	      </form>
+    </div>
+ {% endblock %}
+      
+
+{% block content %}
+
+  {% if result.message %}
+  	<div class="alert alert-dismissable alert-success">
+          <button type="button" class="close" data-dismiss="alert">×</button>
+           {{ result.message }}
+     </div>    
+  {% endif %}
+
+{% if result.lines %}
+<div>    
+  <table data-toggle="table" data-height="600">  
+  
+    {% if result.lines %}
+    <thead>
+      <tr>
+        <th scope="col">项目名称</th>
+        <th scope="col">材料名称</th>
+        <th scope="col">已申请数量</th>
+        <th scope="col">已审批数量</th>
+        <th scope="col">已采购数量</th>
+        <th scope="col">已到货数量</th>
+      </tr>
+    </thead>
+    {% endif %}
+    <tbody>
+    	{% for line in result.lines %}
+	      <tr class="grid-item">
+	        <td>{{ line.project_name }} </td>
+	        <td>{{ line.material_name }} </td>
+	        <td>{% firstof line.total_expected_quantity  %} </td>
+	        <td>{% firstof line.total_audit_quantity  %} </td>
+	        <td>{% firstof line.total_purchase_quantity  %} </td>
+	        <td>{% firstof line.total_posted_quantity  %} </td>
+	      </tr>
+	     {% endfor %} 
+    </tbody>
+  </table>
+ </div>
+{% endif %}
+{% endblock content %}

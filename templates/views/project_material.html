@@ -1,0 +1,145 @@
+{% extends 'xadmin/base_site.html' %}
+
+{% block breadcrumbs %}
+<ul class="breadcrumb">
+  <li><a href="/">首页</a></li>
+  <li><a href="/project/projectmaterial/">项目材料</a></li>
+  <li>增加 项目材料</li>
+</ul>
+{% endblock %}
+
+{% block content-nav %}
+ <div class="navbar content-navbar navbar-default navbar-xs" data-toggle="breakpoint"
+        data-class-xs="navbar content-navbar navbar-inverse navbar-xs"
+        data-class-sm="navbar content-navbar navbar-default navbar-xs">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle pull-left" onclick="javascript: history.back();"><i class="fa fa-arrow-left"></i></button>
+          <a class="navbar-brand" data-toggle="collapse" data-target="#top-nav .navbar-collapse">
+			增加 项目材料
+          </a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+          </ul>
+          <div class="navbar-btn navbar-right hide-xs">
+          </div>
+        </div>
+      </div>
+ {% endblock %}
+      
+
+{% block content %}
+<form class="exform" enctype="multipart/form-data" action="" method="post" id="projectmaterial_form">
+{% csrf_token %}
+<div  class="form-container row clearfix" >
+<div id="column-0" class="formColumn column form-column full col col-sm-12 form-horizontal"  horizontal="True" span="12">
+<div class="panel panel-default fieldset unsort no_title" id="box-0" >
+<div class="panel-heading">
+ <i class='icon fa fa-chevron-up chevron'></i>
+ <h3 class="panel-title"></h3>
+ </div>
+ <div class="panel-body " >
+ 
+ <div id="div_id_project" class="form-group">
+ <label for="id_project" class="control-label  requiredField">所属项目<span class="asteriskField">*</span></label>
+ <div class="controls ">
+ <select class="adminselectwidget form-control" id="id_project" name="project">
+ {% for project in projects %}
+     {% if result.project_id ==  project.id %}
+     <option value='{{ project.id }}' selected="selected"> {{ project.name }}</option>
+     {% else %}
+ 	 <option value='{{ project.id }}' > {{ project.name }}</option>
+ 	 {% endif %}
+ {% endfor %} 
+ </select>
+ </div>
+ </div>
+ 
+ <div id="div_id_material" class="form-group">
+ <label for="label_id_material" class="control-label  requiredField">材料<span class="asteriskField">*</span></label>
+ <div class="controls ">
+ <a href="/material/material/add/" title="创建新的 材料" class="btn btn-primary btn-sm btn-ajax pull-right" data-for-id="id_material_id" data-refresh-url="/project/projectmaterial/add/?_field=material&material="><i class="fa fa-plus"></i></a>
+ <div class="control-wrap" id="id_material_wrap_container">
+ <select id="id_material" name="material">
+ {% for material in materiales %}
+ 	 <option value='{{ material.id }}' > {{ material.getName }}</option>
+ {% endfor %}  
+ </select>
+ 
+<!--  <a href="/material/material/"  data-for-id="id_material_1" data-refresh-url="/project/projectmaterial/add/?_field=material&material="><i class="fa fa-search"></i></a> -->
+ <a href="javascript:void(0)" onclick="SelectMaterial(this);"><i class="fa fa-search"></i></a>
+ </div>
+ </div>
+ </div>
+
+<input type="hidden" name="_rel_project__id__exact" value={{ result.project_id }} />
+
+
+<div class="modal fade" id="project_material" aria-hidden="true">
+	<div class="modal-dialog">
+	    <div class="modal-content">
+     	<form id="saveDeviceForm" action="saveDevice" method="post">
+            <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">×</button>
+            <h3>修改</h3>
+            </div>
+            <div class="modal-body">
+                <ul>                    
+                    <li><span>性别：</span>
+                        <input id="p_man" type="radio" name="personSex" value="10"/><label for="p_man">男</label>
+                        <input id="p_woman" type="radio" name="personSex" value="8"/><label for="p_woman">女</label>
+                    </li>
+                    
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <a class="button" data-dismiss="modal" aria-hidden="true">取消</a>               
+            </div>
+        </form>
+    </div>
+    </div>
+    </div>
+
+ 
+ </div>
+ </div>
+ </div>
+ </div>
+ 
+<div class="form-actions well well-sm clearfix">
+  <div class="btn-group clearfix show-xs save-group col-xs-12">
+  <button type="submit" class="default btn btn-primary col-xs-10" name="_save" data-loading-text="保存中.."><i class="fa fa-save"></i> 保存</button>
+  <button type="button" class="more btn btn-primary col-xs-2" data-toggle="collapse" data-target=".nav-collapse.more-btns"><i class="fa fa-ellipsis-vertical"></i></button>
+  </div>
+  <button type="submit" class="default btn btn-primary hide-xs" name="_save" data-loading-text="保存中.."><i class="fa fa-save"></i> 保存</button>
+<div class="nav-collapse collapse more-btns">
+<input type="submit" class="btn btn-default" value="保存并增加另一个" name="_addanother">
+<input type="submit" class="btn btn-default" value="保存并继续编辑" name="_continue">
+</div>
+</div>
+
+ </form>
+ 
+ <script>
+	function SelectMaterial(obj){
+		$('#project_material').modal('show');
+	}
+</script>
+
+<script type="text/javascript">
+ $(function(){
+  $(":radio").click(function(){
+   $('#id_material').val($(this).val());
+   $('#project_material').modal('toggle');
+  });
+ });
+</script>
+ 
+{% endblock content %}
+
+
+
+{% block extrabody %}
+
+{% endblock extrabody %}
+

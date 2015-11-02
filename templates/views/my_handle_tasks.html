@@ -1,0 +1,162 @@
+{% extends 'xadmin/base_site.html' %}
+
+{% block content-nav %}
+
+
+<form id="changelist-form" action="" method="post">
+{% csrf_token %}
+
+{% if item_size > 0 %}
+<div class="form-actions well well-sm">
+     <input type="hidden" id="action" name="action" value="combine_approval"/>
+
+  <div class="btn-group clearfix dropup">
+    <a class="dropdown-toggle btn btn-success" data-toggle="dropdown" href="#">
+    <i class="fa fa-wrench"></i> 
+    <span class="action-counter">{{ item_size }} 个中 0 个被选</span>
+    <span class="all" style="display: none;">选中了 {{ item_size }} 个</span>
+    <span class="caret"></span></a>
+    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+      <li><a onclick="$.do_action('combine_approval');"><i class="fa fa-check-square-o"></i> 合并审批</a></li>
+      
+    </ul>
+  </div>
+      <script type="text/javascript">var _actions_icnt="{{ item_size  }}";</script>
+  </div>
+  {% else %}
+  	<div class="navbar content-navbar navbar-default navbar-xs" data-toggle="breakpoint"
+        data-class-xs="navbar content-navbar navbar-inverse navbar-xs"
+        data-class-sm="navbar content-navbar navbar-default navbar-xs">
+	 <div class="navbar-header">
+          <a class="navbar-brand" data-toggle="collapse" data-target="#top-nav .navbar-collapse">
+            	待我处理:
+          </a>
+        </div>
+</div>
+  {% endif %}
+    
+ {% endblock %}
+
+{% block content %}
+
+
+
+{% if project_items %}
+
+<div class="results table-responsive">    
+  <table class="table table-bordered table-striped table-hover">  
+    <thead>
+      <tr>
+      	<th scope="col" colspan="11">项目材料申请</th>
+      </tr>
+      
+      <tr>
+      	 <th scope="col" class="action-checkbox-column">
+            <input type="checkbox" id="action-toggle" />
+        </th>
+        <th scope="col">序号</th>
+        <th scope="col">项目名称</th>
+        <th scope="col">项目材料申请单</th>
+        <th scope="col">申请人</th>
+        <th scope="col">状态</th>
+        <th scope="col">审核日志</th>
+        <th scope="col">审核意见</th>
+      </tr>
+    </thead>
+    
+    <tbody>
+       {% for item in project_items %}
+	      <tr class="grid-item">
+	        <td  class="action-checkbox">
+                <input class="action-select" name="_selected_action" type="checkbox" value={{ item.id }} />
+            </td>
+	        <td>{{ item.index  }}</td>
+	        <td>{{ item.project_name  }}</td>
+	        <td><a href='/document/documentlineitem/?_rel_document__id__exact={{ item.document_id }}&action=approval'>{{ item.document_number }}</a></td>
+	         <td>{{ item.user  }}</td>
+	        <td>
+	        {% if item.status_code == 3 %}
+	        	<a href="/workflow/item/{{item.id}}/reapply" title="重新发起申请">item.status</a>
+	        {% else %}
+	        {{ item.status }}
+	        {% endif %}
+	        </td>
+	        <td><a href='/workflow/audit/{{ item.document_number }}/list/'><i class='fa fa-calendar'></i></a> </td>
+	        <td>{{ item.audit_comments  }}</td>
+	      </tr>
+	      {% endfor %} 
+    </tbody>
+  </table>
+ </div>
+ 
+{% endif %}
+
+
+{% if payment_result.payment_items %}
+
+<div class="results table-responsive">    
+  <table class="table table-bordered table-striped table-hover">  
+    <thead>
+      <tr>
+      	<th scope="col" colspan="10">付款申请</th>
+      </tr>
+      <tr>
+         <th scope="col" class="action-checkbox-column">
+         	{% if not project_items %}
+         	<input type="checkbox" id="action-toggle" />
+         	{% endif %}
+        </th>
+        <th scope="col">序号</th>
+        <th scope="col">供应商</th>
+        <th scope="col">付款金额</th>
+        <th scope="col">审批金额</th>
+        <th scope="col">付款方式</th>
+        <th scope="col">付款单</th>
+        <th scope="col">状态</th>
+        <th scope="col">审核日志</th>
+        <th scope="col">审核意见</th>
+      </tr>
+    </thead>
+    
+    <tbody>
+       {% for item in payment_result.payment_items %}
+	      <tr class="grid-item">
+	        <td  class="action-checkbox">
+                <input class="action-select" name="_selected_action" type="checkbox" value={{ item.id }} />
+            </td>
+	        <td>{{ item.index  }}</td>
+	        <td>{{ item.vendor  }}</td>
+	        <td>{{ item.payment_amount  }}</td>
+	        <td>{{ item.applied_amount  }}</td>
+	        <td>{{ item.payment_type  }}</td>
+	        <td><a href='/payment/payment/{{ item.payment_id}}/update/?action=handle'>{{ item.document_number  }}</a></td>
+	        <td>
+			{% if item.status_code == 3 %}
+	        	<a href="/workflow/item/{{item.id}}/reapply" title="重新发起申请">item.status</a>
+	        {% else %}
+	        {{ item.status }}
+	        {% endif %}
+			</td>
+	        <td><a href='/workflow/audit/{{ item.document_number }}/list/'><i class='fa fa-calendar'></i></a> </td>
+	        <td>{{ item.audit_comments  }}</td>
+	      </tr>
+	    {% endfor %} 
+	      <tr class="grid-item info aggregate">
+	       <td colspan="3" align="center"><strong>合计</strong></td>
+	       <td><strong>{{ payment_result.payment_amount_total  | floatformat:2}}</strong></td>
+	       <td><strong>{{ payment_result.applied_amount_total  | floatformat:2}}</strong></td>
+	       <td></td>
+	       <td></td>
+	       <td></td>
+	       <td></td>
+	       <td></td>
+	      </tr>
+    </tbody>
+  </table>
+ </div>
+
+{% endif %}
+
+</form>
+
+{% endblock content %}

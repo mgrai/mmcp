@@ -1,0 +1,148 @@
+{% extends 'xadmin/base_site.html' %}
+
+{% block extrastyle %}
+<link href="/static/css/bootstrap-table.min.css"  rel="stylesheet">
+{% endblock %}
+
+{% block extrahead %}
+<script src="/static/js/bootstrap-table.min.js"></script>
+{% endblock %}
+
+
+{% block content-nav %}
+      <div class="navbar content-navbar navbar-default navbar-xs" data-toggle="breakpoint"
+        data-class-xs="navbar content-navbar navbar-inverse navbar-xs"
+        data-class-sm="navbar content-navbar navbar-default navbar-xs">
+        
+        <div class="navbar-header">
+          <a class="navbar-brand" data-toggle="collapse" data-target="#top-nav .navbar-collapse">
+            	选择年份:
+          </a>
+        </div>
+        
+        <form class="navbar-form exform" action="" method="post">
+        {% csrf_token %}
+        <div class="navbar-header ">
+		  <select id="id_year" class="form-control" name="year" style="width:100px">
+            {% for year in years %}
+             {% if result.year ==  year %}   
+			 <option value={{ year }} selected="selected"> {{ year }}</option>
+			 {% else %}
+			 <option value={{ year }} > {{ year }}</option>
+			 {% endif %}
+			{% endfor %} 
+		   </select>
+          </div>
+          <div class="navbar-header">
+          	&nbsp;&nbsp;
+	      </div>
+          <div class="navbar-header">
+            <select id="id_company" class="form-control" name="company" style="width:200px" placeholder="公司名称">
+             <option value=''></option>
+            {% for company in companies %}
+             {% if result.company ==  company.name %}   
+			 <option value='{{ company.name }}' selected="selected"> {{ company.short_name }}</option>
+			 {% else %}
+			 <option value='{{ company.name }}' > {{ company.short_name }}</option>
+			 {% endif %}
+			{% endfor %} 
+		   </select>
+		   
+			
+	      </div>
+	       <div class="navbar-header">
+          	&nbsp;&nbsp;
+	      </div>
+	      <div class="navbar-header">
+          	<button type="submit" class="btn btn-success">查询</button>
+	      </div>
+	      </form>
+	      
+	      <div class="navbar-header">
+          	&nbsp;&nbsp;
+	      </div>
+	      
+	    {% if result.lines %}
+	    <form class="navbar-form exform" action="export" method="post">
+	         {% csrf_token %}
+	         <input type="hidden"  name="year" value='{{ result.year }}'/>
+	         <input type="hidden"  name="company" value='{{ result.company }}'/>
+	        <div class="navbar-header">
+	          	<button type="submit" class="btn btn-success">导出</button>
+		    </div>
+	    </form>
+	    {% endif %}
+        
+    </div>
+ {% endblock %}
+      
+
+{% block content %}
+
+{% if result.lines %}
+<div>    
+  <table data-toggle="table" data-height="600">  
+    <thead>
+      <tr>
+        <th scope="col">序号</th>
+        <th scope="col">工程名称</th>
+        <th scope="col">预算成本</th>
+        <th scope="col">本年之前已用量</th>
+        <th scope="col">1月</th>
+        <th scope="col">2月</th>
+        <th scope="col">3月</th>
+        <th scope="col">4月</th>
+        <th scope="col">5月</th>
+        <th scope="col">6月</th>
+        <th scope="col">7月</th>
+        <th scope="col">8月</th>
+        <th scope="col">9月</th>
+        <th scope="col">10月</th>
+        <th scope="col">11月</th>
+        <th scope="col">12月</th>
+        <th scope="col">合计</th>
+        <th scope="col">用量百分比</th>
+        
+      </tr>
+    </thead>
+ 
+    <tbody>
+    	{% for line in result.lines %}
+	      <tr>
+	        <td>{{ line.index }} </td>
+	        <td>{{ line.project_name }} </td>
+	        <td>{{ line.estimate_total | floatformat:2}} </td>
+	        <td>{{ line.before_current_year_amount | floatformat:2}} </td>
+	        <td>{{ line.one_month | floatformat:2}} </td>
+	        <td>{{ line.two_month | floatformat:2}} </td>
+	        <td>{{ line.three_month | floatformat:2}} </td>
+	        <td>{{ line.four_month | floatformat:2}} </td>
+	        <td>{{ line.five_month | floatformat:2}} </td>
+	        <td>{{ line.six_month | floatformat:2}} </td>
+	        <td>{{ line.seven_month | floatformat:2}} </td>
+	        <td>{{ line.eight_month | floatformat:2}} </td>
+	        <td>{{ line.night_month | floatformat:2}} </td>
+	        <td>{{ line.ten_month | floatformat:2}} </td>
+	        <td>{{ line.eleven_month | floatformat:2}} </td>
+	        <td>{{ line.twelve_month | floatformat:2}} </td>
+	        <td>{{ line.total | floatformat:2}} </td>
+	        <td>{{ line.percent | floatformat:2}} % </td>
+	        
+	      </tr>
+	     {% endfor %} 
+	     {% if result.sum_line %}
+	     <tr>
+	     	<td colspan="3" align="center"> 累计 </td>
+	     	{% for data in result.sum_line %}
+	     		<td>{{ data | floatformat:2 }} </td>
+	     	{% endfor %}
+	     	<td> </td>
+	     </tr>
+	     {% endif %}
+    </tbody>
+  </table>
+ </div>
+{% endif %}
+
+{% endblock content %}
+

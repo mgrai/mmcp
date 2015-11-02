@@ -1,0 +1,372 @@
+{% extends 'xadmin/base_site.html' %}
+
+
+
+
+{% block content-nav %}
+      <div class="navbar content-navbar navbar-default navbar-xs" data-toggle="breakpoint"
+        data-class-xs="navbar content-navbar navbar-inverse navbar-xs"
+        data-class-sm="navbar content-navbar navbar-default navbar-xs">
+        
+        <div class="navbar-header">
+          <a class="navbar-brand" data-toggle="collapse" data-target="#top-nav .navbar-collapse">
+            	日期范围:
+          </a>
+        </div>
+        
+        <form class="navbar-form exform" action="" method="post">
+        {% csrf_token %}
+        <div class="navbar-header ">
+				<div class="input-group date bootstrap-datepicker">
+					<input class="date-field admindatewidget form-control" id="start_date" name="start_date" size="10" type="text" placeholder="开始日期" value='{{ result.start_date }}' />
+				</div>
+          </div>
+          <div class="navbar-header">
+          	&nbsp;&nbsp;
+	      </div>
+          <div class="navbar-header ">
+			  <div class="input-group date bootstrap-datepicker">
+				   <input class="date-field admindatewidget form-control" id="end_date" name="end_date" size="10" type="text" placeholder="结束日期" value='{{ result.end_date }}' />
+			  </div>
+          </div>
+          <div class="navbar-header">
+          	&nbsp;&nbsp;
+	      </div>
+          <div class="navbar-header">
+            <select id="id_vendor" class="form-control" name="vendor" style="width:300px" >
+            {% for vendor in vendors %}
+             {% if result.vendor_name ==  vendor.name %}   
+			 <option value='{{ vendor.name }}' selected="selected"> {{ vendor.name }}</option>
+			 {% else %}
+			 <option value='{{ vendor.name }}' > {{ vendor.name }}</option>
+			 {% endif %}
+			{% endfor %} 
+		   </select>
+			
+	      </div>
+	      <div class="navbar-header">
+          	&nbsp;&nbsp;
+	      </div>
+	       <div class="navbar-header">
+            <select id="id_company" class="form-control" name="company" style="width:200px" placeholder="公司名称">
+             <option value='' ></option>
+            {% for company in companies %}
+             {% if result.company ==  company.name %}   
+			 <option value='{{ company.name }}' selected="selected"> {{ company.short_name }}</option>
+			 {% else %}
+			 <option value='{{ company.name }}' > {{ company.short_name }}</option>
+			 {% endif %}
+			{% endfor %} 
+		   </select>
+			
+	      </div>
+	      
+	       <div class="navbar-header">
+          	&nbsp;&nbsp;
+	      </div>
+	      <div class="navbar-header">
+          	<button type="submit" class="btn btn-success">查询</button>
+	      </div>
+          
+        </form>
+
+    </div>
+ {% endblock %}
+      
+
+{% block content %}
+
+{% if result.receiving_list %}
+<div class="results table-responsive"> 
+  <table class="table table-bordered table-striped table-hover">  
+    <thead>
+      <tr>
+        <th scope="col">本期供货金额</th>
+        <th scope="col">本期付款金额</th>
+        <th scope="col">上期欠款金额</th>
+        <th scope="col">累计应付款</th>
+        <th scope="col">本期开票金额</th>
+        <th scope="col">上期欠发票</th>
+        <th scope="col">累计应开票</th>
+      </tr>
+    </thead>
+    
+    <tbody>
+	      <tr class="grid-item">
+	        <td id="current_receive_amount">0.00 </td>
+	        <td id="payments_amount">{{ result.payments_sum | floatformat:2}} </td>
+	        
+	        <td id="last_term_owed_amount">{{ result.last_term_owed_amount | floatformat:2}} </td>
+	        <td id="total_owed_amount">0.00 </td>
+	        
+	        <td id="invoices_amount">{{ result.invoices_sum | floatformat:2}} </td>
+	        <td id="last_term_owed_invoices">{{ result.last_term_owed_invoices | floatformat:2}} </td>
+	        <td id="total_owed_invoices">0.00 </td>
+	        
+	      </tr>
+    </tbody>
+  </table>
+ </div>
+{% endif %}
+
+
+<form id="changelist-form" action="" method="post">
+{% csrf_token %}
+<div class="results table-responsive">    
+  <table class="table table-bordered table-striped table-hover">  
+    {% if result.receiving_list %}
+    <thead>
+      <tr>
+      	<th scope="col" colspan="13">送货清单</th>
+      </tr>
+       
+      
+      <tr>
+        <th scope="col" class="action-checkbox-column">
+            <input type="checkbox" id="action-toggle" onclick = "select_total(this);"/>
+        </th>
+        <th scope="col">序号</th>
+        <th scope="col">已对帐</th>
+        <th scope="col">送货日期</th>
+        <th scope="col">项目名称</th>
+        <th scope="col">材料名称</th>
+        <th scope="col">品牌</th>
+        <th scope="col">规格</th>
+        <th scope="col">单位</th>
+        <th scope="col">数量</th>
+        <th scope="col">单价</th>
+        <th scope="col">金额</th>
+        <th scope="col">备注</th>
+      </tr>
+    </thead>
+    
+    <tbody id="receive">
+    	{% for line in result.receiving_list %}
+	      <tr class="grid-item">
+	        <td  class="action-checkbox">
+	        	{% if not line.isCheckedAccount %}
+                	<input class="action-select" name="_selected_action" type="checkbox" value={{ line.id }} onclick = "select_amount(this);"/>
+                {% endif %}
+            </td>
+	        <td>{{ line.index }} </td>
+	        <td>{% if line.isCheckedAccount %} <i class='fa fa-check-circle text-success' alt='True'></i> 
+	            {% else %} <i class='fa fa-times-circle text-error' alt='False'> {% endif %}</td>
+	        <td>{{ line.receiving_date }} </td>
+	        <td>{{ line.project }} </td>
+	        <td>{{ line.projectMaterialName }} </td>
+	        <td>{{ line.brand }} </td>
+	        <td>{{ line.specification }} </td>
+	        <td>{{ line.unit }} </td>
+	        <td>{{ line.receiving_quantity }} </td>
+	        <td>{{ line.price | floatformat:2}} </td>
+	        <td class ="amount">{{ line.totalPrice | floatformat:2 }} </td>
+	        <td>{{ line.comments }} </td>
+	        
+	      </tr>
+	     {% endfor %} 
+	     {% if result.receiving_sum %}
+	     <tr class="grid-item">
+	     	<td colspan="11" align="center"> 合计 </td>
+	     	<td id="total">0.00 </td>
+	     	<td></td>
+	     </tr>
+	     {% endif %}
+    </tbody>
+  </table>
+ </div>
+ 
+ 
+ <div class="form-actions well well-sm">
+     <input type="hidden"  name="start_date" value='{{ result.start_date }}'/>
+	 <input type="hidden"  name="end_date" value='{{ result.end_date }}'/>
+	 <input type="hidden"  name="vendor" value='{{ result.vendor_name }}'/>
+	 <input type="hidden"  name="company" value='{{ result.company }}'/>
+     <input type="hidden" id="action" name="action" value="check_account"/>
+
+  <div class="btn-group clearfix dropup">
+    <a class="dropdown-toggle btn btn-success" data-toggle="dropdown" href="#">
+    <i class="fa fa-wrench"></i> 
+    <span class="action-counter">{{ result.receiving_list | length }} 个中 0 个被选</span>
+    <span class="all" style="display: none;">选中了 {{ result.receiving_list | length }} 个</span>
+    <span class="caret"></span></a>
+    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+      <li><a onclick="$.do_action('check_account');"><i class="fa fa-check-square-o"></i> 合并对帐</a></li>
+      
+    </ul>
+  </div>
+      <script type="text/javascript">var _actions_icnt="{{ result.receiving_list | length }}";</script>
+  </div>
+ {% endif %}
+ 
+  </form>
+
+{% if result.totals_by_project.rows %} 
+<div class="results table-responsive"> 
+  
+  <table class="table table-bordered table-striped table-hover">  
+    <thead>
+      <tr>
+      	<th scope="col" colspan= {{ result.totals_by_project.companies_length   }}>统计分类</th>
+      </tr>
+      <tr>
+        <th scope="col"></th>
+        {% for company in result.totals_by_project.companies %}
+        <th scope="col">{{ company }}</th>
+        {% endfor %}
+      </tr>
+    </thead>
+    
+    <tbody>
+    	{% for row in result.totals_by_project.rows %}
+    		<tr class="grid-item">
+    		{% for data in row %}
+	        <td>{{ data }} </td>
+	        {% endfor %} 
+	         </tr>
+	     {% endfor %} 
+	     
+    </tbody>
+  </table>
+ </div> 
+ {% endif %} 
+
+{% if result.invoices %}  
+<div class="results table-responsive"> 
+  <table class="table table-bordered table-striped table-hover">  
+    <thead>
+      <tr>
+      	<th scope="col" colspan="4">发票清单</th>
+      </tr>
+      <tr>
+        <th scope="col">发票日期</th>
+        <th scope="col">发票号码</th>
+        <th scope="col">公司</th>
+        <th scope="col">金额</th>
+      </tr>
+    </thead>
+    
+    <tbody>
+    	{% for invoice in result.invoices %}
+	      <tr class="grid-item">
+	        <td>{{ invoice.date }} </td>
+	        <td>{{ invoice.invoice_number }} </td>
+	        <td>{{ invoice.company.name }} </td>
+	        <td>{{ invoice.amount | floatformat:2}} </td>
+	      </tr>
+	     {% endfor %} 
+	     {% if result.invoices_sum %}
+	     <tr class="grid-item">
+	     	<td colspan="3" align="center"> 合计 </td>
+	     	<td>{{ result.invoices_sum | floatformat:2 }} </td>
+	     </tr>
+	     {% endif %}
+    </tbody>
+  </table>
+ </div>
+{% endif %}
+
+{% if result.payments %}  
+<div class="results table-responsive"> 
+  <table class="table table-bordered table-striped table-hover">  
+    <thead>
+      <tr>
+      	<th scope="col" colspan="4">付款明细</th>
+      </tr>
+      <tr>
+<!--         <th scope="col">付款编号</th> -->
+        <th scope="col">付款日期</th>
+        <th scope="col">付款方式</th>
+        <th scope="col">公司</th>
+        <th scope="col">金额</th>
+      </tr>
+    </thead>
+    
+    <tbody>
+    	{% for payment in result.payments %}
+	      <tr class="grid-item">
+<!-- 	        <td>{{ payment.payment_id }} </td> -->
+	        <td>{{ payment.payment_date}} </td>
+	        <td>{{ payment.paymentType.name }} </td>
+	        <td>{{ payment.company.name }} </td>
+	        <td>{% firstof payment.applied_amount payment.payment_amount  %} </td>
+	      </tr>
+	     {% endfor %} 
+	     {% if result.payments_sum %}
+	     <tr class="grid-item">
+	     	<td colspan="3" align="center"> 合计 </td>
+	     	<td>{{ result.payments_sum | floatformat:2 }} </td>
+	     </tr>
+	     {% endif %}
+    </tbody>
+  </table>
+ </div>
+{% endif %}
+ 
+ 
+ 
+{% endblock content %}
+
+{% block extrabody %}
+<script type="text/javascript">
+
+function select_amount(obj){			
+	var amount = parseFloat($(obj.closest(".grid-item")).find(".amount").html());
+	var total = parseFloat($("#total").html());
+	if (obj.checked){	 	 
+	 total += amount;	 	 
+	}else{
+	 total -= amount;	 
+	}
+	$("#total").html(total.toFixed(2));		
+	$("#current_receive_amount").html(total.toFixed(2));	
+	
+	var payments_amount = parseFloat($("#payments_amount").html());
+	var last_term_owed_amount = parseFloat($("#last_term_owed_amount").html());
+	
+	//累计应付款 = 本期供货金额 - 本期付款金额 + 上期欠款金额
+	var total_owed_amount = total - payments_amount + last_term_owed_amount;
+	
+	$("#total_owed_amount").html(total_owed_amount.toFixed(2));	
+	
+	//累计应开票 = 本期供货金额 - 本期开票金额 + 上期欠发票
+	var invoices_amount = parseFloat($("#invoices_amount").html());
+	var last_term_owed_invoices = parseFloat($("#last_term_owed_invoices").html());
+	var total_owed_invoices = total - invoices_amount + last_term_owed_invoices
+	
+	$("#total_owed_invoices").html(total_owed_invoices.toFixed(2));	
+	
+	
+}
+
+function select_total(obj){
+	var total = 0.00;
+	if (obj.checked){
+		$("#receive").find(".amount").each(function(){
+			id = $(this).parent(".grid-item").find(".action-select").val();
+			if (id != undefined){
+				total += parseFloat($(this).html());
+			}
+		  });
+	}
+	$("#total").html(total.toFixed(2));
+	$("#current_receive_amount").html(total.toFixed(2));
+	var payments_amount = parseFloat($("#payments_amount").html());
+	var last_term_owed_amount = parseFloat($("#last_term_owed_amount").html());
+	
+	//累计应付款 = 本期供货金额 - 本期付款金额 + 上期欠款金额
+	var total_owed_amount = total - payments_amount + last_term_owed_amount;
+	
+	$("#total_owed_amount").html(total_owed_amount.toFixed(2));	
+	
+	//累计应开票 = 本期供货金额 - 本期开票金额 + 上期欠发票
+	var invoices_amount = parseFloat($("#invoices_amount").html());
+	var last_term_owed_invoices = parseFloat($("#last_term_owed_invoices").html());
+	var total_owed_invoices = total - invoices_amount + last_term_owed_invoices
+	
+	$("#total_owed_invoices").html(total_owed_invoices.toFixed(2));	
+	
+}
+
+</script>
+
+{% endblock %}

@@ -1,0 +1,76 @@
+{% extends 'xadmin/base_site.html' %}
+
+
+
+{% block nav_title %}
+材料采购周期表
+{% endblock %}
+    
+{% block content %}
+
+<div class="results table-responsive">    
+  <table class="table table-bordered table-striped table-hover">      
+    <thead>
+      <tr>
+        <th scope="col">产品名称</th>
+        <th scope="col">周期1</th>
+        <th scope="col">周期2</th>        
+      </tr>
+    </thead>    
+    <tbody>    	
+	      <tr class="grid-item">
+	        <td>钢材类 </td>
+	        <td>3-5天（常规）</td>
+	        <td>15天（加厚、无缝） </td>	        
+	      </tr>	
+		  <tr class="grid-item">
+	        <td>电线电缆 </td>
+	        <td>4-5天（杂牌）</td>
+	        <td>15天（品牌、打字） </td>	        
+	      </tr>	
+		  <tr class="grid-item">
+	        <td>卡箍配件 </td>
+	        <td>3-5天（常规）</td>
+	        <td>15天（特殊规格） </td>	        
+	      </tr>	  
+		  <tr class="grid-item">
+	        <td>报警设备 </td>
+	        <td>5-7天</td>
+	        <td>10天（主机） </td>	        
+	      </tr>	  
+		  <tr class="grid-item">
+	        <td>阀门 </td>
+	        <td>7-10天</td>
+	        <td>15天（品牌） </td>	        
+	      </tr>	  
+		  <tr class="grid-item">
+	        <td>消防箱 </td>
+	        <td>7-10天</td>
+	        <td>门框20天 </td>	        
+	      </tr>	  
+		  <tr class="grid-item">
+	        <td>风机风阀 </td>
+	        <td>30天</td>
+	        <td> </td>	        
+	      </tr>	
+		  <tr class="grid-item">
+	        <td>水泵 </td>
+	        <td>25-30天</td>
+	        <td> </td>	        
+	      </tr>	 
+		  <tr class="grid-item">
+	        <td>人防设备 </td>
+	        <td>10天</td>
+	        <td> </td>	        
+	      </tr>	 
+		  <tr class="grid-item">
+	        <td>卷帘门 </td>
+	        <td>7-10天</td>
+	        <td> </td>	        
+	      </tr>	 		  
+    </tbody>
+  </table>
+ </div>
+
+{% endblock content %}
+

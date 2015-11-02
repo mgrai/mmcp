@@ -1,0 +1,167 @@
+{% extends 'xadmin/base_site.html' %}
+
+{% block extrastyle %}
+<link href="/static/css/bootstrap-table.min.css"  rel="stylesheet">
+{% endblock %}
+
+{% block extrahead %}
+<script src="/static/js/bootstrap-table.min.js"></script>
+{% endblock %}
+
+{% block content-nav %}
+      <div class="navbar content-navbar navbar-default navbar-xs" data-toggle="breakpoint"
+        data-class-xs="navbar content-navbar navbar-inverse navbar-xs"
+        data-class-sm="navbar content-navbar navbar-default navbar-xs">
+        
+        <div class="navbar-header">
+          <a class="navbar-brand" data-toggle="collapse" data-target="#top-nav .navbar-collapse">
+            	选择年月:
+          </a>
+        </div>
+        
+        <form class="navbar-form exform" action="" method="post">
+        {% csrf_token %}
+        <div class="navbar-header ">
+		  <select id="id_year" class="form-control" name="year" style="width:100px">
+            {% for var_year in years %}
+             {% if var_year ==  year %}   
+			 <option value={{ var_year }} selected="selected"> {{ var_year }}</option>
+			 {% else %}
+			 <option value={{ var_year }} > {{ var_year }}</option>
+			 {% endif %}
+			{% endfor %} 
+		   </select>
+          </div>
+          <div class="navbar-header">
+          	&nbsp;&nbsp;
+	      </div>
+	      <div class="navbar-header ">
+		  <select id="id_month" class="form-control" name="month" style="width:80px">
+            {% for var_month in months %}
+             {% if var_month ==  month %}   
+			 <option value={{ var_month }} selected="selected"> {{ var_month }}月</option>
+			 {% else %}
+			 <option value={{ var_month }} > {{ var_month }}月</option>
+			 {% endif %}
+			{% endfor %} 
+		   </select>
+          </div>
+          <div class="navbar-header">
+          	&nbsp;&nbsp;
+	      </div>
+	       <div class="navbar-header">
+          	&nbsp;&nbsp;
+	      </div>
+	      <div class="navbar-header">
+          	<button type="submit" class="btn btn-success">查询</button>
+	      </div>
+	      </form>
+	      
+	      <div class="navbar-header">
+          	&nbsp;&nbsp;
+	      </div>
+	    {% if result.lines %}
+	    <form class="navbar-form exform" action="export" method="post">
+	         {% csrf_token %}
+	         <input type="hidden"  name="year" value='{{ year }}'/>
+	         <input type="hidden"  name="month" value='{{ month }}'/>
+	         <input type="hidden"  name="exportDetail" value='0'/>
+	        <div class="navbar-header">
+	          	<button type="submit" class="btn btn-success">汇总导出</button>
+		    </div>
+	    </form>
+	    {% endif %}
+	    
+	     <div class="navbar-header">
+          	&nbsp;&nbsp;
+	      </div>
+	    
+	    {% if result.lines %}
+	    <form class="navbar-form exform" action="export" method="post">
+	         {% csrf_token %}
+	         <input type="hidden"  name="year" value='{{ year }}'/>
+	         <input type="hidden"  name="month" value='{{ month }}'/>
+	         <input type="hidden"  name="exportDetail" value='1'/>
+	        <div class="navbar-header">
+	          	<button type="submit" class="btn btn-success">名细导出</button>
+		    </div>
+	    </form>
+	    {% endif %}
+        
+    </div>
+ {% endblock %}
+      
+
+{% block content %}
+ {% if result %}
+ <div>    
+  <table data-toggle="table" data-height="600">  
+    
+    <thead>
+      <tr>
+        <th scope="col">序号</th>
+        <th scope="col">类别</th>
+        <th scope="col">供应商</th>
+        <th scope="col">公司</th>
+        <th scope="col">{{ year|add:"-1" }}年底欠款</th>
+        <th scope="col">{{ year|add:"-1" }}年底欠发票</th>
+        <th scope="col">{{ year }}年发生额</th>
+        <th scope="col">实际未开发票</th>
+        <th scope="col">
+        	{% if month == 1 %}
+        	      截止{{ year|add:"-1" }}年底欠款
+        	{% else %}
+        	      截止{{ year }}年{{ month|add:"-1" }}月底欠款
+        	{% endif %}
+        </th>
+        <th scope="col">实际应付款</th>
+        <th scope="col">送货</th>
+        <th scope="col">开票</th>
+        <th scope="col">付款</th>
+      </tr>
+    </thead>
+    {% endif %}
+    <tbody>
+    	{% for line in result.lines %}
+	      <tr class="grid-item">
+	      	
+	      	{% if line.index == -1 or line.index == -2%}
+	      	<td> </td>
+	      	<td> </td>
+	      	<td><strong> {% firstof line.vendor.short_name line.vendor.name  %}  </strong> </td>
+	      	<td><strong> 总计 </strong> </td>
+	      	{% else %}
+	        <td>{{ line.index }} </td>
+	        <td>{{ line.vendor_category }} </td>
+	        <td>{% firstof line.vendor.short_name line.vendor.name  %} </td>
+	        <td>{{ line.company}} </td>
+	       {% endif %}
+	        
+	        <td>{{ line.owed_amount_before_year | floatformat:2}} </td>
+	        <td>{{ line.owed_invoice_before_year | floatformat:2}} </td>
+	        <td>{{ line.receiving_total | floatformat:2}} </td>
+	        <td>{{ line.unreceiving_invoice | floatformat:2}} </td>
+	        <td>{{ line.owed_amount_before_month | floatformat:2}} </td>
+	        <td>{{ line.owed_amount | floatformat:2}} </td>
+	        <td>{{ line.month_receiving | floatformat:2}} </td>
+	        <td>{{ line.month_invoice | floatformat:2}} </td>
+	        <td>{{ line.month_payment | floatformat:2}} </td>
+	      </tr>
+	     {% endfor %} 
+	     {% if result.lines_total %}
+	     <tr class="grid-item">
+	        <td> </td>
+	      	<td> </td>
+	      	<td> </td>
+	     	<td><strong> 总计 </strong></td>
+	     	{% for data in result.lines_total %}
+	     		<td>{{ data | floatformat:2 }} </td>
+	     	{% endfor %}
+	     </tr>
+	     {% endif %}
+    </tbody>
+  </table>
+ </div>
+ 
+{% endblock content %}
+ 

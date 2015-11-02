@@ -1,0 +1,84 @@
+{% extends 'xadmin/base_site.html' %}
+
+{% block content-nav %}
+      <div class="navbar content-navbar navbar-default navbar-xs" data-toggle="breakpoint"
+        data-class-xs="navbar content-navbar navbar-inverse navbar-xs"
+        data-class-sm="navbar content-navbar navbar-default navbar-xs">
+        
+        <div class="navbar-header">
+          <a class="navbar-brand" data-toggle="collapse" data-target="#top-nav .navbar-collapse">
+            	请输入:
+          </a>
+        </div>
+        
+        <form class="navbar-form exform" action="" method="post">
+        {% csrf_token %}
+        
+        <div class="navbar-header ">
+	        <div class="input-group">
+			  <input class="date-field admindatewidget form-control" id="material_name" name="material_name" size="10" type="text" placeholder="材料名称" value='{{ result.material_name }}' />
+			</div>
+		</div>
+        
+	       <div class="navbar-header">
+          	&nbsp;&nbsp;
+	      </div>
+	      
+	      <div class="navbar-header ">
+	        <div class="input-group">
+			  <input class="date-field admindatewidget form-control" id="specification" name="specification" size="10" type="text" placeholder="规格" value='{{ result.specification }}' />
+			</div>
+		  </div>
+		
+		  <div class="navbar-header">
+          	&nbsp;&nbsp;
+	      </div>
+	      
+	      <div class="navbar-header">
+          	<button type="submit" class="btn btn-success">查询</button>
+	      </div>
+	      </form>
+	      
+	      <div class="navbar-header">
+          	&nbsp;&nbsp;
+	      </div>
+        
+    </div>
+ {% endblock %}
+      
+
+{% block content %}
+
+<div class="results table-responsive">    
+  <table class="table table-bordered table-striped table-hover">
+  {% if result.message %}
+  	<div class="alert alert-dismissable alert-success">
+          <button type="button" class="close" data-dismiss="alert">×</button>
+           {{ result.message }}
+     </div>    
+  {% endif %}
+      
+   {% if result.lines %}
+    <thead>
+      <tr>
+        <th scope="col">供应商</th>
+        <th scope="col">工程名称</th>
+        <th scope="col">材料名称</th>
+        <th scope="col">价格</th>
+      </tr>
+    </thead>
+    {% endif %}
+    <tbody>
+    	{% for line in result.lines %}
+	      <tr class="grid-item">
+	        <td>{{ line.vendor }} </td>
+	        <td>{{ line.project }} </td>
+	        <td>{{ line.material }} </td>
+	        <td>{{ line.price | floatformat:2}} </td>
+	      </tr>
+	     {% endfor %} 
+    </tbody>
+  </table>
+ </div>
+
+{% endblock content %}
