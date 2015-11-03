@@ -9,6 +9,7 @@ encoding//material/adminx.py=utf-8
 encoding//material/models.py=utf-8
 encoding//mmcp/actions.py=utf-8
 encoding//mmcp/util.py=utf-8
+encoding//mmcp/utils.py=utf-8
 encoding//project/adminx.py=utf-8
 encoding//project/adminx_old.py=utf-8
 encoding//project/models.py=utf-8
