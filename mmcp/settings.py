@@ -58,6 +58,7 @@ INSTALLED_APPS = (
     'company',
     'material',
     'project',
+    'document',
 )
 
 MIDDLEWARE_CLASSES = (

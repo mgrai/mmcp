@@ -17,6 +17,7 @@ from django.contrib.auth.models import Group, Permission
 from company.models import *
 from material.models import *
 from project.models import *
+from document.models import *
 
 
 class BaseSetting(object):
@@ -43,6 +44,13 @@ class GlobalSetting(object):
                 {'title': Brand._meta.verbose_name, 'icon': 'fa fa-sun-o', 'url': self.get_model_url(Brand, 'changelist'), 'perm': self.get_model_perm(Brand, 'view')},
                 {'title': Material._meta.verbose_name, 'icon': 'fa fa-tasks', 'url': self.get_model_url(Material, 'changelist'), 'perm': self.get_model_perm(Material, 'view')},
                 {'title': Vendor._meta.verbose_name, 'icon': 'fa fa-user', 'url': self.get_model_url(Vendor, 'changelist'), 'perm': self.get_model_perm(Vendor, 'change')},
+            )},
+                
+            {'title': '项目申请', 'icon': 'fa fa-file-text-o', 'perm': self.get_model_perm(Document, 'view'), 'menus':(
+                {'title': '材料选择', 'icon': 'fa fa-list-alt', 'url': self.get_model_url(SelectedLineItem, 'changelist'), 'perm': self.get_model_perm(SelectedLineItem, 'change')},                                                                                                   
+                {'title': '项目申请单', 'icon': 'fa fa-file-text-o', 'url': self.get_model_url(Document, 'changelist'), 'perm': self.get_model_perm(Document, 'change')},
+#                 {'title': '项目申请单名细', 'icon': 'fa fa-align-justify', 'url': self.get_model_url(DocumentLineItem, 'changelist'), 'perm': self.get_model_perm(DocumentLineItem, 'change')},
+                {'title': '项目申请单统计', 'icon': 'fa fa-list-alt', 'url': '/project/apply/list'},
             )},
                 
             {'title': '系统管理', 'icon': 'fa fa-wrench',  'menus':(
