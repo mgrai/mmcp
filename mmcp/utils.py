@@ -15,5 +15,9 @@ ESTIMATE_GROUP = u'预算部门'
 def isGroup(self, GROUP_NAME):
     result = False
     if len(self.user.groups.all()) > 0:
-        result = GROUP_NAME == self.user.groups.all()[0].name
+        for group in self.user.groups.all():
+            if GROUP_NAME == group.name:
+                result = True
+                break
+            
     return result 
