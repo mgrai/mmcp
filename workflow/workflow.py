@@ -3,7 +3,7 @@ import time
 from models import Route, Actor, ActorUser, Item, TaskList,TaskHistory,ITEM_REJECTED, ITEM_START,ITEM_APPROVING, APPROVED,REJECTED,REAPPLY, ITEM_APPROVED, ITEM_STATUS
 from payment.models import Payment
 from django.conf import settings
-from hehe.weixin import send_message
+from mmcp.weixin import send_message
 
 
 def send_message_to_next_approval(actor, item): 

@@ -1,38 +1,54 @@
 # coding=utf-8
-import xadmin
-from xadmin.plugins.batch import BatchChangeAction
-from xadmin.views.list import ResultRow
+import re
+
+from django import forms
 from django.http import  HttpResponseRedirect
 from django.template import loader
-from xadmin.views import ListAdminView, ModelFormAdminView, UpdateAdminView
-from xadmin.sites import site
-from xadmin.plugins.actions import ActionPlugin
-from django import forms
-from models import Route, Actor, ActorUser, Item, TaskList, TaskHistory, AUDIT_STATUS, APPROVED, ITEM_START,ITEM_REJECTED, ITEM_APPROVING, PAYMENT_ROUTE, PROJECT_ROUTE
-from workflow import Workflow, getMyApplayItems,getMyHandleItems,getMyHandledItems, handlePayment
-from document.models import PAYMENT_TYPE
-from payment.models import Payment
-from hehe.actions import AuditSelectedAction
-from hehe.util import handle_audit, has_audit_comment_by_item_id, get_audit_comments_by_item_id, getAuditComments, buildPaymentItems, buildProjectItems
-from xplugin.views.list import MyListAdminView
-from xplugin.views.pagination import MyPaginationView
-from xadmin.views.base import CommAdminView , ModelAdminView, inclusion_tag
 from django.template.response import TemplateResponse
 from django.utils.translation import ugettext_lazy as _
 
-import re
+from document.models import PAYMENT_TYPE
+from mmcp.actions import AuditSelectedAction
+from mmcp.util import handle_audit, has_audit_comment_by_item_id, get_audit_comments_by_item_id, getAuditComments, buildPaymentItems, buildProjectItems
+from models import Route, Actor, ActorUser, Item, TaskList, TaskHistory, AUDIT_STATUS, APPROVED, ITEM_START, ITEM_REJECTED, ITEM_APPROVING, PAYMENT_ROUTE, PROJECT_ROUTE
+from payment.models import Payment
+from workflow import Workflow, getMyApplayItems, getMyHandleItems, getMyHandledItems, handlePayment
+import xadmin
+from xadmin.adminx import AbstractObjectAdmin
+from xadmin.models import CompanyGroup
+from xadmin.plugins.actions import ActionPlugin
+from xadmin.plugins.batch import BatchChangeAction
+from xadmin.sites import site
+from xadmin.views import ListAdminView, ModelFormAdminView, UpdateAdminView
+from xadmin.views.base import CommAdminView , ModelAdminView, inclusion_tag
+from xadmin.views.list import ResultRow
+from xplugin.views.list import MyListAdminView
+from xplugin.views.pagination import MyPaginationView
+from company.models import *
 
 
-class RouteAdmin(object):
-    show_bookmarks = False
+class RouteAdmin(AbstractObjectAdmin):
     use_related_menu = False
     list_display = ('route_name', 'group')
     list_display_links = ('route_name',)
 
     search_fields = ['route_name']
+    
+    exclude = ['company',]
+    
 
     actions = [BatchChangeAction, ]
     batch_fields = ('route_name',)
+    
+    def formfield_for_dbfield(self, db_field, **kwargs):
+        if db_field.name == 'group':
+            kwargs['queryset'] = CompanyGroup.objects.filter(company=self.user.company)
+        field = super(RouteAdmin, self).formfield_for_dbfield(db_field, **kwargs)
+        return field
+    
+    def queryset(self):
+        return super(RouteAdmin, self).queryset().filter(company=self.user.company)
+
 
 
 class ActorAdmin(object):
@@ -45,6 +61,16 @@ class ActorAdmin(object):
 
     actions = [BatchChangeAction, ]
     batch_fields = ('actor_name',)
+    
+    def formfield_for_dbfield(self, db_field, **kwargs):
+        if db_field.name == 'route':
+            kwargs['queryset'] = Route.objects.filter(company=self.user.company)
+        field = super(ActorAdmin, self).formfield_for_dbfield(db_field, **kwargs)
+        return field
+    
+    def queryset(self):
+        return super(ActorAdmin, self).queryset().filter(route__company=self.user.company)
+
 
 class ActorUserAdmin(object):
     show_bookmarks = False
@@ -55,6 +81,20 @@ class ActorUserAdmin(object):
 
     actions = [BatchChangeAction, ]
     batch_fields = ('actor',) 
+    
+    def formfield_for_dbfield(self, db_field, **kwargs):
+        if db_field.name == 'actor':
+            kwargs['queryset'] = Actor.objects.filter(route__company=self.user.company)
+            
+        if db_field.name == 'user':
+            kwargs['queryset'] = Employee.objects.filter(company=self.user.company)
+            
+        field = super(ActorUserAdmin, self).formfield_for_dbfield(db_field, **kwargs)
+        return field
+    
+    def queryset(self):
+        return super(ActorUserAdmin, self).queryset().filter(actor__route__company=self.user.company)
+
 
 class ReAppalyForm (forms.ModelForm):
     comments = forms.CharField(label=u'意见', widget=forms.Textarea,required=False )

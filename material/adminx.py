@@ -152,8 +152,13 @@ class MaterialAdmin(object):
             actions.append(MaterialSelectedAction)
         return actions
     
+    
     def get_context(self):
         context = super(MaterialAdmin, self).get_context()
+        
+        if not self.user.is_superuser:
+            context['has_delete_permission']= False
+        
         if 'project_id' in self.request.GET:
             project_id = self.request.GET['project_id']
             context['add_url']= '/material/material/add/?project_id=%s' %project_id

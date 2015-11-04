@@ -44,6 +44,7 @@ class Route(models.Model):
     route_name  = models.CharField(u'流程描述',max_length=20)
     group = models.ForeignKey(Group,verbose_name=u'所属部门',blank=True,null=True)
     
+    company = models.ForeignKey(Company, verbose_name= u'公司', blank=True, null=True)
     
     def __unicode__(self):
         return self.route_name 

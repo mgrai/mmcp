@@ -36,13 +36,6 @@ class ProjectAdmin(object):
     batch_fields = ('name',) 
     style_fields = {'users': 'checkbox-inline',}
     
-    def get_model_form(self, **kwargs):
-        form = super(ProjectAdmin, self).get_model_form(**kwargs)
-        #过滤company
-        if 'company' in form.base_fields:
-            form.base_fields['company'].queryset = form.base_fields['company'].queryset.filter(name=self.user.company.name)
-        return form
-    
     def formfield_for_dbfield(self, db_field, **kwargs):
         if db_field.name == 'company':
             kwargs['queryset'] = Company.objects.filter(name=self.user.company.name)
@@ -75,7 +68,7 @@ class ProjectAdmin(object):
         if isGroup(self, PROJECT_GROUP):
             return super(ProjectAdmin, self).queryset().filter(users__in = [self.user])
         else:
-            return super(ProjectAdmin, self).queryset()
+            return super(ProjectAdmin, self).queryset().filter(company = self.user.company)
    
 
 class ProjectMaterialAdmin(object):
@@ -194,7 +187,6 @@ class ProjectMaterialAdmin(object):
     get_quantity.allow_tags = True
     get_quantity.is_column = True
     
-    show_bookmarks = False
     use_related_menu = False
     hidden_menu = True
     list_display = ('project', 'material', 'quantity', 'price', 'max_price', 'total', 'get_applied_quantity_lable')
@@ -207,7 +199,15 @@ class ProjectMaterialAdmin(object):
 
 
 class SelectedLineItemAdmin(object):
-    list_display = ('getProject', 'getMaterial',)
+    
+    def get_applied_quantity_lable(self, instance):
+        return 0
+    get_applied_quantity_lable.short_description = "已申请量"
+    get_applied_quantity_lable.allow_tags = True
+    get_applied_quantity_lable.is_column = True
+    
+    
+    list_display = ('getProject', 'getMaterial', 'getEstimateQuantity', 'get_applied_quantity_lable')
     exclude = ('user',)
     actions = [ApplyProjectMaterialSelectedAction, DeleteSelectedAction]
     

@@ -1,31 +1,32 @@
 # coding=utf-8
-import xadmin
 import datetime
-from django.template.response import TemplateResponse
+import datetime 
+
+from django.db.models import Q
+from django.db.models import Sum
 from django.http import HttpResponse
-from xadmin.views.base import CommAdminView , ModelAdminView
-from xadmin.plugins.batch import BatchChangeAction
-from xadmin.plugins.actions import DeleteSelectedAction
-from xadmin.views.list import ResultRow
+from django.template.response import TemplateResponse
 from django.utils.datastructures import SortedDict
-from models import Document, DocumentLineItem
+
+from document.models import *
 from document.models import Document, DocumentLineItem, PROJECT_TYPE
-from workflow.models import Route, Item, ITEM_START, ITEM_APPROVED, ITEM_REJECTED
-from workflow.workflow import Workflow
-from mmcp.util import get_audit_comments_by_document_id, has_audit_comment_by_document_id, doAudit, handle_audit, handle_audit, getItem, canSubmitToApproveForDocument, isGroup,PROJECT_GROUP, PURCHASE_GROUP, canEditAuditQty, canDeleteOrAddDocumentLine, is_closed, isClosedByDocument, getProjects, getPurchasedQuantity, isPurchCompleted
+from material.models import *
 from mmcp.actions import PROJECT_MATERIAL_APPLY, PurchaseOrderSelectedAction
-from django.utils.datastructures import SortedDict
-from order.models import OrderLine
+from mmcp.constant import *
+from mmcp.util import get_audit_comments_by_document_id, has_audit_comment_by_document_id, doAudit, handle_audit, handle_audit, getItem, canSubmitToApproveForDocument, isGroup, PROJECT_GROUP, PURCHASE_GROUP, canEditAuditQty, canDeleteOrAddDocumentLine, is_closed, isClosedByDocument, getProjects, getPurchasedQuantity, isPurchCompleted
+from models import Document, DocumentLineItem
+from payment.models import *
 from project.models import Project
 from report.project_apply import get_project_apply_list
-from django.db.models import Sum
-from django.db.models import Q
-import datetime 
+from workflow.models import Route, Item, ITEM_START, ITEM_APPROVED, ITEM_REJECTED
+from workflow.workflow import Workflow
+import xadmin
+from xadmin.plugins.actions import DeleteSelectedAction
+from xadmin.plugins.batch import BatchChangeAction
+from xadmin.views.base import CommAdminView , ModelAdminView
+from xadmin.views.list import ResultRow
 from xplugin.views.list import MyListAdminView
-from document.models import PAYMENT_TYPE
-from payment.models import Payment
-from material.models import Category
-from mmcp.constant import APPROVAL_FORM_HTML
+
 
 class DocumentAdmin(object):
     
@@ -106,7 +107,6 @@ class DocumentAdmin(object):
         if len(queryset) > 0:
             super(DocumentAdmin, self).delete_models(queryset)
              
-    show_bookmarks = False
     use_related_menu = False
     list_display = ('project', 'getDocumentLines', 'document_type', 'user', 'create_date', 'submitToApprove')
     search_fields = ['document_id', 'project__name']
@@ -339,7 +339,7 @@ class DocumentLineItemAdmin(object):
             return ['posted_quantity', 'audit_quantity']                    
         
         
-    show_bookmarks = False
+    hidden_menu = True
     use_related_menu = False
     context_object_name = "files"
     list_display = ['document', 'getProjectName', 'getProjectMaterial', 'material', 'expected_date','getQuantity', 'expected_quantity', 'audit_quantity', 'getTotalPurchasedQuantity', 'posted_quantity', 'brand', 'comments', 'getFileUrl', 'approval_comments']

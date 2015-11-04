@@ -92,6 +92,10 @@ class SelectedLineItem(models.Model):
         return self.projectMaterial.getMaterialName()
     getMaterial.short_description = "材料"
     
+    def getEstimateQuantity(self):
+        return self.projectMaterial.quantity
+    getEstimateQuantity.short_description = "预算量"
+    
     def __unicode__(self):
         return self.getProject() + "   " +self.getMaterial()   
     
