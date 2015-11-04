@@ -16,8 +16,9 @@ class Project(models.Model):
     construct_unit = models.CharField(u'建设单位',max_length=50, blank=True,null=True)
     property = models.CharField(u'项目性质',max_length=50, blank=True,null=True)
     scale = models.CharField(u'项目规模',max_length=50, blank=True,null=True)
-    estimate_user = models.ForeignKey(Employee, related_name='estimateGroup', verbose_name=u'预算负责人', limit_choices_to = Q( groups__name = u'预算部门') | Q( groups__name = u'预算部门经理'))
-    users = models.ManyToManyField(Employee, related_name='projectGroup', verbose_name=u'项目负责人', blank=True, limit_choices_to = Q( groups__name = u'工程部门'))
+#     estimate_user = models.ForeignKey(Employee, related_name='estimateGroup', verbose_name=u'预算负责人', limit_choices_to = Q( groups__name = u'预算部门') | Q( groups__name = u'预算部门经理'))
+    estimate_user = models.ForeignKey(Employee, related_name='estimateGroup', verbose_name=u'预算负责人', blank=True, limit_choices_to = Q( groups__name = u'预算部门'))
+    users = models.ManyToManyField(Employee, related_name='projectGroup', verbose_name=u'项目负责人', limit_choices_to = Q( groups__name = u'工程部门'))
     
     amount = models.DecimalField(u'合同金额',max_digits = 15, decimal_places=2, blank=True, null=True)
     material_amount = models.DecimalField(u'主材费用',max_digits = 15, decimal_places=2, blank=True, null=True)
