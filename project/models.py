@@ -56,8 +56,8 @@ class ProjectMaterial(models.Model):
 #         verbose_name=u'材料'
 #     )
     quantity = models.IntegerField(u'预算量', default=0)
-#     received_quantity = models.IntegerField(u'到货数量', default=0)
     price = models.DecimalField(u'单价',max_digits = 15, decimal_places=2, blank=True, null=True)
+    max_price = models.DecimalField(u'最大限价',max_digits = 15, decimal_places=2, blank=True, null=True)
     total = models.DecimalField(u'金额',max_digits = 15, decimal_places=2, blank=True, null=True)
    
     def save(self, *args, **kwargs):
@@ -91,6 +91,10 @@ class SelectedLineItem(models.Model):
     def getMaterial(self):
         return self.projectMaterial.getMaterialName()
     getMaterial.short_description = "材料"
+    
+    def getEstimateQuantity(self):
+        return self.projectMaterial.quantity
+    getEstimateQuantity.short_description = "预算量"
     
     def __unicode__(self):
         return self.getProject() + "   " +self.getMaterial()   

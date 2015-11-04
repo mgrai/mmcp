@@ -58,6 +58,9 @@ INSTALLED_APPS = (
     'company',
     'material',
     'project',
+    'document',
+    'order',
+    'workflow',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -138,6 +141,8 @@ THOUSAND_SEPARATOR=','
 NUMBER_GROUPING=3
 
 XADMIN_EXCLUDE_PLUGINS = ('bookmark', 'comments')
+
+ENABLE_WEIXIN_MESSAGE = False
 
 
 # A sample logging configuration. The only tangible logging

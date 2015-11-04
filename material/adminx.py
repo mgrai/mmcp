@@ -8,6 +8,8 @@ from django.template.response import TemplateResponse
 from django.http import HttpResponse, HttpResponseRedirect
 from django.db.models import Q
 from material.models import *
+from mmcp.util import *
+from mmcp.actions import *
 
 class CategoryAdmin(object):
     show_bookmarks = False
@@ -123,7 +125,7 @@ class MaterialAdmin(object):
                 #分配该材料到项目中
                 if 'project_id' in self.request.GET and material[1]:
                     project_id = self.request.GET['project_id']
-#                     assign_material_to_project(self, project_id, material[0])
+                    assign_material_to_project(self, project_id, material[0])
                      
                      
                      
@@ -143,15 +145,20 @@ class MaterialAdmin(object):
         
                 
         
-#     @property
-#     def actions(self):
-#         actions = [DeleteSelectedAction]
-#         if "project_id" in self.request.GET:
-#             actions.append(MaterialSelectedAction)
-#         return actions
+    @property
+    def actions(self):
+        actions = [DeleteSelectedAction]
+        if "project_id" in self.request.GET:
+            actions.append(MaterialSelectedAction)
+        return actions
+    
     
     def get_context(self):
         context = super(MaterialAdmin, self).get_context()
+        
+        if not self.user.is_superuser:
+            context['has_delete_permission']= False
+        
         if 'project_id' in self.request.GET:
             project_id = self.request.GET['project_id']
             context['add_url']= '/material/material/add/?project_id=%s' %project_id

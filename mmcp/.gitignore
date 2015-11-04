@@ -3,3 +3,6 @@
 /urls.pyc
 /utils.pyc
 /wsgi.pyc
+/actions.pyc
+/constant.pyc
+/util.pyc
