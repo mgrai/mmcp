@@ -34,6 +34,12 @@ class GlobalSetting(object):
     def get_site_menu(self):
         return (
             
+            {'title': '与我相关', 'icon': 'fa fa-user',  'menus':(
+                {'title': '我的申请', 'icon': 'fa fa-plus-square', 'url': '/workflow/my/apply/tasks', 'perm': self.get_model_perm(Item, 'view'),},
+                {'title': '待我处理', 'icon': 'fa fa-question-circle', 'url': '/workflow/my/handle/tasks', 'perm': self.get_model_perm(Item, 'handle')},
+                {'title': '已处理', 'icon': 'fa fa-suitcase', 'url': '/workflow/my/handled/tasks', 'perm': self.get_model_perm(Item, 'handled')},
+            )},
+                
             {'title': '项目管理', 'icon': 'fa fa-briefcase',  'menus':(
                 {'title': Project._meta.verbose_name, 'icon': 'fa fa-briefcase', 'url': self.get_model_url(Project, 'changelist'), 'perm': self.get_model_perm(Project, 'view')},
                 {'title': '价格查询', 'icon': 'fa fa-search', 'url': '/material/price', 'perm': self.get_model_perm(OrderLine, 'search_price')},
