@@ -97,8 +97,10 @@ class OrderAdmin(object):
             
         return item
     
-        
-    show_bookmarks = False
+    def queryset(self):
+        return super(OrderAdmin, self).queryset().filter(company = self.user.company)
+   
+    
     hidden_menu = True
     use_related_menu = False
     list_display = ('getOrderId', 'getDocumentId','project', 'vendor', 'note', 'user', 'exportOrder', 'closeOrder')
@@ -184,10 +186,10 @@ class OrderLineAdmin(object):
             actions = None
         return  actions
     
+    def queryset(self):
+        return super(OrderLineAdmin, self).queryset().filter(order__company = self.user.company)
     
-        
     
-    show_bookmarks = False
     use_related_menu = False
     hidden_menu = True
     list_display = ['getOrderId', 'getProjectName', 'getProjectMaterial',  'brand', 'getQuantity', 'getExpectedQuantity', 'getAuditQuantity', 'getTotalPurchasedQuantity', 'expected_date','purchase_quantity','getPostedQuantity', 'price', 'total',  'getComments']
@@ -196,8 +198,6 @@ class OrderLineAdmin(object):
     batch_fields = ('expected_date', 'brand') 
     search_fields = ['order__order_id', 'order__project__name', 'order__vendor__name']
     list_filter = ['order__project__name', 'order__vendor__name']
-#     list_editable = ['brand','expected_date','purchase_quantity','price']
-#     actions = [OrderLineSelectedAction, BatchChangeAction,]
     
 
 class ReceivingLineAdmin(object):
@@ -281,7 +281,10 @@ class ReceivingLineAdmin(object):
         
         return  actions
     
-    show_bookmarks = False
+    def queryset(self):
+        return super(ReceivingLineAdmin, self).queryset().filter(orderLine__order__company = self.user.company)
+    
+    
     list_display = ('getOrderId', 'getProjectName','getProjectMaterialName', 'getPurchaseQuantity', 'receiving_quantity', 'receiving_date', 'getPrice', 'comments')
     list_editable = ['receiving_quantity', 'receiving_date', 'comments']
     list_filter = ['receiving_date', 'orderLine__order__project__name', 'orderLine__order__vendor__name']
@@ -293,7 +296,6 @@ class ReceivingLineAdmin(object):
                      'orderLine__documentLineItem__material',
                      'orderLine__order__vendor__name',
                      'orderLine__documentLineItem__projectMaterial__material__specification']
-#     actions = [DeleteSelectedAction, BatchChangeAction]
     
     
 class CheckAccountAdmin(object):
@@ -312,8 +314,11 @@ class CheckAccountAdmin(object):
                 receiving.orderLine.order.is_closed = False
                 receiving.orderLine.order.save(update_fields=['is_closed'])
         super(CheckAccountAdmin, self).delete_models(queryset)
+        
+    def queryset(self):
+        return super(CheckAccountAdmin, self).queryset().filter(company = self.user.company)
     
-    show_bookmarks = False
+    
     use_related_menu = False
     list_display = ('vendor','check_account_id', 'create_time', 'exportExcel')
     list_display_links = ('none',)
@@ -381,8 +386,9 @@ class InvoiceAdmin(object):
         if  isGroup(self, ACCOUNT_GROUP_MANAGER) or isGroup(self, ACCOUNT_GROUP):  
             return ['receive_date',]    
         
+    def queryset(self):
+        return super(InvoiceAdmin, self).queryset().filter(company = self.user.company)
     
-    show_bookmarks = False
     
     list_display = ('invoice_number', 'company', 'invoice_type', 'amount',  'date', 'receive_date', 'user', 'vendor', 'checkAccounts', 'confirmReceived')
     list_display_links = ('invoice_number',)
@@ -393,7 +399,6 @@ class InvoiceAdmin(object):
     actions = [DeleteSelectedAction,]
     
 class CheckAccountDetailAdmin(object):
-    show_bookmarks = False
     use_related_menu = False
     
     def get_comments(self, instance):
@@ -412,7 +417,7 @@ class CheckAccountDetailAdmin(object):
     global_actions = [] 
     
     def queryset(self):
-        return super(CheckAccountDetailAdmin, self).queryset().filter(checkAccount__isnull=False)   
+        return super(CheckAccountDetailAdmin, self).queryset().filter(orderLine__order__company = self.user.company, checkAccount__isnull=False)   
         
 xadmin.site.register(Order, OrderAdmin)      
 xadmin.site.register(OrderLine, OrderLineAdmin) 
