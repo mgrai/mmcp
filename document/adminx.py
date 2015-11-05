@@ -85,7 +85,7 @@ class DocumentAdmin(object):
             #包括其他项目负责人申请的要料单
             return super(DocumentAdmin, self).get_list_queryset().filter(project__users__in = [self.user])
         else:
-            return super(DocumentAdmin, self).get_list_queryset().filter(document_id__startswith ='PM')  
+            return super(DocumentAdmin, self).get_list_queryset().filter(project__company = self.user.company, document_id__startswith ='PM')  
     
     #审批没有通过可以被删除, 且只能删除自己申请的单据       
     def filter_queryset(self, queryset):
@@ -188,11 +188,11 @@ class DocumentLineItemAdmin(object):
                                                                                                                     "projectMaterial__material__name",
                                                                                                                     "projectMaterial__material__specification")  
         else:
-            return super(DocumentLineItemAdmin, self).get_list_queryset().order_by('-document__id',
-                                                                                   "projectMaterial__project__id", 
-                                                                                   "projectMaterial__material__category__name", 
-                                                                                   "projectMaterial__material__name",
-                                                                                   "projectMaterial__material__specification")
+            return super(DocumentLineItemAdmin, self).get_list_queryset().filter(document__project__company = self.user.company).order_by('-document__id',
+                                                                                                                       "projectMaterial__project__id", 
+                                                                                                                       "projectMaterial__material__category__name", 
+                                                                                                                       "projectMaterial__material__name",
+                                                                                                                       "projectMaterial__material__specification")
             
            
     @property
@@ -252,6 +252,7 @@ class DocumentLineItemAdmin(object):
                         list_display.remove('audit_quantity')
                     if 'approval_comments' in list_display:
                         list_display.remove('approval_comments')
+                        
         return list_display
         
     def get_context(self):
@@ -420,12 +421,6 @@ class RequestOrder(MyListAdminView):
     getAuditComments.allow_tags = True
     getAuditComments.is_column = True     
      
-#     def isClosed(self, instance):
-#         url = '/order/order/?_q_=%s' % instance.document_id
-#         return "<a href='%s'><i class='fa fa-check-circle text-success' alt='True' ></i></a>" % url if isClosedByDocument(instance.document_id) else "<a href='%s'><i class='fa fa-times-circle text-error' alt='False'></i></a>" % url
-#     isClosed.short_description = u"已闭合"
-#     isClosed.allow_tags = True
-#     isClosed.is_column = True
      
     def getDocumentLines(self, instance):
         #项目申请URL
@@ -451,7 +446,7 @@ class RequestOrder(MyListAdminView):
         return list_display
      
     def queryset(self):
-        items = Item.objects.filter(document__document_id__startswith = 'PM', status = ITEM_APPROVED)
+        items = Item.objects.filter(document__project__company = self.user.company, document__document_id__startswith = 'PM', status = ITEM_APPROVED)
         document_ids= []
         for item in items:
             document_ids.append(item.document.id)

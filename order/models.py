@@ -183,9 +183,15 @@ class OrderLine(models.Model):
 #         return self.documentLineItem.expected_date
 #     getExpectedDate.short_description = u"交货日期"
     
+    def getMaxPrice(self):
+        max_price = self.documentLineItem.projectMaterial.price or 0
+        if self.documentLineItem.projectMaterial.max_price > 0:
+            max_price = self.documentLineItem.projectMaterial.max_price
+        return max_price
+    getExpectedQuantity.short_description = u"最大限价"
+    
     
     def clean(self):
-        try:
             #要求数量
             available_quantity = self.getExpectedQuantity()
             
@@ -204,8 +210,13 @@ class OrderLine(models.Model):
             #退货排除
             if available_quantity > 0 and self.purchase_quantity > available_quantity:
                 raise ValidationError('采购数量不能大于  %s' %available_quantity)
-        except ObjectDoesNotExist:
-            pass
+            
+            #限价检查
+            max_price = self.getMaxPrice()
+            if self.price > max_price:
+                raise ValidationError('单价不能大于最大限价')
+            
+            
             
         
 class CheckAccount(models.Model):
@@ -235,7 +246,7 @@ class ReceivingLine(models.Model):
     receiving_quantity = models.DecimalField(u'到货数量', max_digits = 15, decimal_places=2)  
     #只作更新用不作其他用途
     original_receiving_quantity = models.DecimalField(u'前次到货数量', max_digits = 15, decimal_places=2, blank=True,null=True)  
-    receiving_date = models.DateField(u'到货日期')
+    receiving_date = models.DateField(u'到货日期',blank=True,null=True)
     total = models.DecimalField(u'金额',max_digits = 15, decimal_places=2, blank=True, null=True)
     checkAccount = models.ForeignKey(CheckAccount,verbose_name=u'对账单', blank=True, null=True, on_delete=models.SET_NULL)
     

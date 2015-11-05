@@ -39,6 +39,7 @@ class Company(MPTTModel):
 
 class Employee(AbstractUser):
     company = models.ForeignKey(Company, verbose_name= u'公司', blank=True, null=True)
+    phone = models.CharField(u'电话',max_length=20,blank=True,null=True)
     
     def __unicode__(self):
         return self.last_name + self.first_name

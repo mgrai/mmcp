@@ -7,19 +7,18 @@ from models import PaymentType, PaymentProperty, Payment, DoPayemnt
 from xadmin.layout import Main, TabHolder, Tab, Fieldset, Row, Col, AppendedText, Side
 from xadmin.views import ListAdminView
 from django import forms
-from xplugin.user.models import UserInfo
 from workflow.models import Route, Actor, ActorUser, Item, TaskList, TaskHistory, AUDIT_STATUS, APPROVED, ITEM_START,ITEM_REJECTED, ITEM_APPROVING, ITEM_APPROVED
 from document.models import Document, PAYMENT_TYPE
 from workflow.models import ITEM_STATUS
 from workflow.workflow import Workflow
 from workflow.adminx import MyTask
-from hehe.actions import PAYMENT_APPLY
-from hehe.util import doAudit, close_payment, isGroup,hasTaskHistory, PURCHASE_GROUP, ACCOUNT_GROUP_MANAGER, ACCOUNT_GROUP, paymentAuditStatus, getOwedAmountByYear, getOwedAmount, getPaymentAuditStatus, getItemByDocumentId
+from mmcp.actions import PAYMENT_APPLY
+from mmcp.util import doAudit, close_payment, isGroup,hasTaskHistory, PURCHASE_GROUP, ACCOUNT_GROUP_MANAGER, ACCOUNT_GROUP, paymentAuditStatus, getPaymentAuditStatus, getItemByDocumentId
 from django.utils.translation import ugettext as _
 from django.db.models.query import QuerySet
 from django.template import loader
 from django.http import HttpResponseRedirect
-from hehe.constant import APPROVAL_NO_FORM_HTML
+from mmcp.constant import APPROVAL_NO_FORM_HTML
 from .export import ExportPaymentView
 
 class PaymentTypeAdmin(object):

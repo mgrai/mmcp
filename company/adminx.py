@@ -20,6 +20,7 @@ from project.models import *
 from document.models import *
 from order.models import *
 from workflow.models import *
+from payment.models import *
 
 
 class BaseSetting(object):
@@ -57,13 +58,28 @@ class GlobalSetting(object):
             {'title': '材料申请', 'icon': 'fa fa-file-text-o', 'perm': self.get_model_perm(Document, 'view'), 'menus':(
                 {'title': '材料选择', 'icon': 'fa fa-list-alt', 'url': self.get_model_url(SelectedLineItem, 'changelist'), 'perm': self.get_model_perm(SelectedLineItem, 'change')},                                                                                                   
                 {'title': '材料申请单', 'icon': 'fa fa-file-text-o', 'url': self.get_model_url(Document, 'changelist'), 'perm': self.get_model_perm(Document, 'change')},
-#                 {'title': '项目申请单名细', 'icon': 'fa fa-align-justify', 'url': self.get_model_url(DocumentLineItem, 'changelist'), 'perm': self.get_model_perm(DocumentLineItem, 'change')},
                 {'title': '申请单查询', 'icon': 'fa fa-list-alt', 'url': '/project/apply/list'},
             )},
                 
+            {'title': '采购管理', 'icon': 'fa fa-truck', 'perm': self.get_model_perm(Order, 'view'), 'menus':(
+                {'title': '要料单', 'icon': 'fa fa-file-text-o', 'url': '/document/request/order', 'perm': self.get_model_perm(DocumentLineItem, 'change')},
+                {'title': '采购单', 'icon': 'fa fa-align-justify', 'url': self.get_model_url(Order, 'changelist'), 'perm': self.get_model_perm(Order, 'change')},
+                {'title': '采购名细', 'icon': 'fa fa-align-justify', 'url': self.get_model_url(OrderLine, 'changelist'), 'perm': self.get_model_perm(OrderLine, 'change')},
+                {'title': '到货单', 'icon': 'fa fa-align-justify', 'url': self.get_model_url(ReceivingLine, 'changelist'), 'perm': self.get_model_perm(ReceivingLine, 'view')},
+                {'title': '对帐', 'icon': 'fa fa-check-square-o', 'url': '/report/vendor/account/list', 'perm': self.get_model_perm(ReceivingLine, 'change')},
+                {'title': '发票', 'icon': 'fa fa-money', 'url': self.get_model_url(Invoice, 'changelist'), 'perm': self.get_model_perm(Invoice, 'view')},
+            )},
+                
+            {'title': '付款管理', 'icon': 'fa fa-cny',  'menus':(
+                {'title': '付款申请', 'icon': 'fa fa-money', 'url': self.get_model_url(Payment, 'changelist'), 'perm': self.get_model_perm(Payment, 'view')},
+                {'title': '付款单', 'icon': 'fa fa-money', 'url': self.get_model_url(DoPayemnt, 'changelist'), 'perm': self.get_model_perm(DoPayemnt, 'view')},
+                {'title': '支付方式', 'icon': 'fa fa-th-large', 'url': self.get_model_url(PaymentType, 'changelist'), 'perm': self.get_model_perm(PaymentType, 'change')},
+                {'title': '款项属性', 'icon': 'fa fa-th-large', 'url': self.get_model_url(PaymentProperty, 'changelist'), 'perm': self.get_model_perm(PaymentProperty, 'change')},
+            )}, 
+                
             {'title': '系统管理', 'icon': 'fa fa-wrench',  'menus':(
                 {'title': '公司管理', 'icon': 'fa fa-home', 'url': self.get_model_url(Company, 'changelist'), 'perm': self.get_model_perm(Company, 'change')},
-                {'title': '部门管理', 'icon': 'fa fa-users', 'url': self.get_model_url(CompanyGroup, 'changelist'), 'perm': self.get_model_perm(CompanyGroup, 'change')},
+                {'title': '部门管理', 'icon': 'fa fa-users', 'url': self.get_model_url(CompanyGroup, 'changelist'), 'perm': self.get_model_perm(Group, 'change')},
                 {'title': '用户管理', 'icon': 'fa fa-user', 'url': self.get_model_url(Employee, 'changelist'), 'perm': self.get_model_perm(Employee, 'change')},
                 {'title': '权限管理', 'icon': 'fa fa-lock', 'url': self.get_model_url(Permission, 'changelist'), 'perm': self.get_model_perm(Permission, 'view')},
             )},
