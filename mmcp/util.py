@@ -318,10 +318,16 @@ def getMateriales(self):
 
 def getCompany(companies, company_name):
     result = None
+    #如果当前用户没有选择公司 返回当前公司
+    if company_name == '':
+        return companies[0]
+    
     for company in companies:
         if company_name == company.name:
             result = company
             break
+        
+    
     return result
             
 def getPurchasedQuantity(self, documentLineItem):

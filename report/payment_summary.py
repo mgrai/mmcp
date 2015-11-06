@@ -8,7 +8,7 @@ from xplugin.excel.excel_util import write_details, getNewBorder, write_line, wr
 from vendor_account import get_payment_details, get_invoices, get_last_term_receiving_lines
 from material.models import Vendor
 from project.models import Company
-from hehe.util import *
+from mmcp.util import *
 
     
 def get_payment_summary(year, month):

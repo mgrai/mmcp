@@ -18,7 +18,7 @@
         {% csrf_token %}
         <div class="navbar-header ">
 				<div class="input-group date bootstrap-datepicker">
-					<input class="date-field admindatewidget form-control" id="start_date" name="start_date" size="10" type="text" placeholder="开始日期" value='{{ result.start_date }}' />
+					<input class="date-field admindatewidget form-control" id="start_date" name="start_date" size="10" type="text" placeholder="开始日期" value='{{ result.start_date }}' required/>
 				</div>
           </div>
           <div class="navbar-header">
@@ -26,7 +26,7 @@
 	      </div>
           <div class="navbar-header ">
 			  <div class="input-group date bootstrap-datepicker">
-				   <input class="date-field admindatewidget form-control" id="end_date" name="end_date" size="10" type="text" placeholder="结束日期" value='{{ result.end_date }}' />
+				   <input class="date-field admindatewidget form-control" id="end_date" name="end_date" size="10" type="text" placeholder="结束日期" value='{{ result.end_date }}' required/>
 			  </div>
           </div>
           <div class="navbar-header">

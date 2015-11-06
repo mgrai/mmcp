@@ -62,6 +62,8 @@ INSTALLED_APPS = (
     'order',
     'workflow',
     'payment',
+    'report',
+    'setting',
 )
 
 MIDDLEWARE_CLASSES = (

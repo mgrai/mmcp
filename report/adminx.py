@@ -1,5 +1,6 @@
 # coding=utf-8
 import xlwt
+import xadmin
 import StringIO
 import datetime
 from django.template.response import TemplateResponse
@@ -12,7 +13,7 @@ from project_used import get_project_used_list, generate_project_used_list
 from project.models import Project, Company
 from material.models import Vendor
 from order.models import Order, OrderLine, ReceivingLine, CheckAccount
-from hehe.util import checkAccount, getYears, getMonths, getProjects, getCompany
+from mmcp.util import checkAccount, getYears, getMonths, getProjects, getCompany
 from django.utils.translation import ugettext_lazy as _
 
 class ProjectReceivingListView(CommAdminView):
@@ -103,8 +104,8 @@ class VendorAccountListView(CommAdminView):
     
     def get(self, request, *args, **kwargs):
         context = super(VendorAccountListView, self).get_context()
-        vendors = Vendor.objects.filter(parent__isnull=True)
-        companies = Company.objects.all()
+        vendors = Vendor.objects.filter(parent__isnull=True, company = self.user.company)
+        companies = Company.objects.filter(name = self.user.company.name)
         context['vendors'] = vendors
         context['companies'] = companies
         return TemplateResponse(request, self.vendor_account_template, context,
@@ -300,3 +301,12 @@ class PaymentSummaryExportExcelView(CommAdminView):
 
             
             
+xadmin.site.register_view(r"^report/project/receiving/list$", ProjectReceivingListView, name='report/project/receiving/list')        
+xadmin.site.register_view(r"^report/project/receiving/export$", ProjectReceivingExportExcelView, name='report/project/receiving/export')        
+xadmin.site.register_view(r"^report/vendor/account/list$", VendorAccountListView, name='report/vendor/account/list')        
+xadmin.site.register_view(r"^report/vendor/account/export$", VendorAccountExportExcelView, name='report/vendor/account/export')        
+xadmin.site.register_view(r"^report/project/used/list$", ProjectUsedListView, name='report/project/used/list')        
+xadmin.site.register_view(r"^report/project/used/export$", ProjectUsedExportExcelView, name='report/project/used/export')        
+xadmin.site.register_view(r"^report/payment/summary/$", PaymentSummaryView, name='report/payment/summary')        
+xadmin.site.register_view(r"^report/payment/summary/export$", PaymentSummaryExportExcelView, name='report/payment/summary/export')        
+        

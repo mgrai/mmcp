@@ -21,6 +21,7 @@ from document.models import *
 from order.models import *
 from workflow.models import *
 from payment.models import *
+from setting.models import *
 
 
 class BaseSetting(object):
@@ -75,7 +76,23 @@ class GlobalSetting(object):
                 {'title': '付款单', 'icon': 'fa fa-money', 'url': self.get_model_url(DoPayemnt, 'changelist'), 'perm': self.get_model_perm(DoPayemnt, 'view')},
                 {'title': '支付方式', 'icon': 'fa fa-th-large', 'url': self.get_model_url(PaymentType, 'changelist'), 'perm': self.get_model_perm(PaymentType, 'change')},
                 {'title': '款项属性', 'icon': 'fa fa-th-large', 'url': self.get_model_url(PaymentProperty, 'changelist'), 'perm': self.get_model_perm(PaymentProperty, 'change')},
-            )}, 
+            )},
+                
+            {'title': '报表', 'icon': 'fa fa-file-text-o', 'menus':(
+                {'title': '到货单', 'icon': 'fa fa-truck', 'url': '/report/project/receiving/list', 'perm': self.get_model_perm(Order, 'view')},
+                {'title': '对帐单', 'icon': 'fa fa-align-justify', 'url': self.get_model_url(CheckAccount, 'changelist'), 'perm': self.get_model_perm(CheckAccount, 'view')},
+                {'title': '对账单名细', 'icon': 'fa fa-align-justify', 'url': self.get_model_url(CheckAccountDetail, 'changelist'), 'perm': self.get_model_perm(CheckAccountDetail, 'view')},
+                {'title': '工程用量', 'icon': 'fa fa-indent', 'url': '/report/project/used/list', 'perm': self.get_model_perm(Order, 'view'),},
+                {'title': '付款汇总', 'icon': 'fa fa-list-alt', 'url': '/report/payment/summary', 'perm': self.get_model_perm(Order, 'view'),},
+                
+            )},  
+                
+            {'title': '基础值设置', 'icon': 'fa fa-file-text-o', 'perm': self.get_model_perm(ProjectSetting, 'view'), 'menus':(
+                {'title': '项目设置', 'icon': 'fa fa-file-text-o', 'url': self.get_model_url(ProjectSetting, 'changelist'), 'perm': self.get_model_perm(ProjectSetting, 'view')},
+                {'title': '供应商设置', 'icon': 'fa fa-file-text-o', 'url': self.get_model_url(VendorSetting, 'changelist'), 'perm': self.get_model_perm(VendorSetting, 'view')},
+                {'title': '采购单注意事项', 'icon': 'fa fa-file-text-o', 'url': self.get_model_url(OrderNote, 'changelist'), 'perm': self.get_model_perm(OrderNote, 'view')},
+                
+            )},        
                 
             {'title': '系统管理', 'icon': 'fa fa-wrench',  'menus':(
                 {'title': '公司管理', 'icon': 'fa fa-home', 'url': self.get_model_url(Company, 'changelist'), 'perm': self.get_model_perm(Company, 'change')},

@@ -16,6 +16,7 @@ class OrderNote(models.Model):
         verbose_name_plural = verbose_name
     name = models.CharField(u'名称',max_length=50)   
     note = models.TextField(u'内容')
+    company = models.ForeignKey(Company,verbose_name=u'公司')
     
     def __unicode__(self):
         return self.name
@@ -336,7 +337,7 @@ class Invoice(models.Model):
     user = models.ForeignKey(Employee,verbose_name=u'经手人', limit_choices_to = {'groups__name' : u'采购部门'})
     date = models.DateField(u'发票日期')
     receive_date = models.DateField(u'收票日期', blank=True,null=True)
-    checkAccounts = models.ManyToManyField(CheckAccount,verbose_name=u'对帐单', blank=True, null=True)
+#     checkAccounts = models.ManyToManyField(CheckAccount,verbose_name=u'对帐单', blank=True, null=True)
     # for account to receive
     is_received = models.BooleanField(u'确认收票', default=False)
     

@@ -390,11 +390,12 @@ class InvoiceAdmin(object):
         return super(InvoiceAdmin, self).queryset().filter(company = self.user.company)
     
     
-    list_display = ('invoice_number', 'company', 'invoice_type', 'amount',  'date', 'receive_date', 'user', 'vendor', 'checkAccounts', 'confirmReceived')
+#     list_display = ('invoice_number', 'company', 'invoice_type', 'amount',  'date', 'receive_date', 'user', 'vendor', 'checkAccounts', 'confirmReceived')
+    list_display = ('invoice_number', 'company', 'invoice_type', 'amount',  'date', 'receive_date', 'user', 'vendor', 'confirmReceived')
     list_display_links = ('invoice_number',)
     list_filter = ['company__name', 'vendor__name', 'date', 'receive_date']
     search_fields = ['invoice_number', 'vendor__name', 'company__name']
-    style_fields = {'checkAccounts': 'm2m_dropdown',}
+#     style_fields = {'checkAccounts': 'm2m_dropdown',}
     aggregate_fields = {"amount": "sum",}
     actions = [DeleteSelectedAction,]
     

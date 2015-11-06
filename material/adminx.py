@@ -229,47 +229,48 @@ class MaterialPriceView(CommAdminView):
         response = self.get(request)
         context = response.context_data
         
-# #         result = get_material_price(material_name, specification) 
-#         if len(result['lines']) == 0:
-#             result['message'] ='没有查询到结果！' 
-        
-#         context['result'] = result
+        result = get_material_price(material_name, specification) 
+        if len(result['lines']) == 0:
+            result['message'] ='没有查询到结果！' 
+         
+        context['result'] = result
         return response         
 
-# def get_material_price(material_name, specification):
-#     args_list = [] 
-#     
-#     if material_name:
-#         args_list.append(Q(documentLineItem__projectMaterial__material__name__contains = material_name)) 
-#     if specification:
-#         args_list.append(Q(documentLineItem__projectMaterial__material__specification__contains = specification))
-#         
-#     args = Q() 
-#     for each_args in args_list :
-#         args = args & each_args
-#         
-#     queryset = OrderLine.objects.filter(*(args,)) \
-#                                         .order_by('documentLineItem__projectMaterial__material__category__id',
-#                                                   'documentLineItem__projectMaterial__material__name',
-#                                                   'documentLineItem__projectMaterial__material__specification')
-#     lines = []
-#     for orderLine in queryset:
-#         line = {}
-#         line['price'] = orderLine.price
-#         line['vendor'] = orderLine.order.vendor.name if orderLine.order.vendor else ''
-#         line['project'] = orderLine.getProjectName()
-#         line['material'] = orderLine.getProjectMaterial()
-#         lines.append(line)
-#     
-#     result = {}
-#     result["lines"] =  lines
-#     result["material_name"] =  material_name
-#     result["specification"] =  specification
-#     return result
+def get_material_price(material_name, specification):
+    args_list = [] 
+     
+    if material_name:
+        args_list.append(Q(documentLineItem__projectMaterial__material__name__contains = material_name)) 
+    if specification:
+        args_list.append(Q(documentLineItem__projectMaterial__material__specification__contains = specification))
+         
+    args = Q() 
+    for each_args in args_list :
+        args = args & each_args
+         
+    queryset = OrderLine.objects.filter(*(args,)) \
+                                        .order_by('documentLineItem__projectMaterial__material__category__id',
+                                                  'documentLineItem__projectMaterial__material__name',
+                                                  'documentLineItem__projectMaterial__material__specification')
+    lines = []
+    for orderLine in queryset:
+        line = {}
+        line['price'] = orderLine.price
+        line['vendor'] = orderLine.order.vendor.name if orderLine.order.vendor else ''
+        line['project'] = orderLine.getProjectName()
+        line['material'] = orderLine.getProjectMaterial()
+        lines.append(line)
+     
+    result = {}
+    result["lines"] =  lines
+    result["material_name"] =  material_name
+    result["specification"] =  specification
+    return result
     
 xadmin.site.register(Category, CategoryAdmin)  
 xadmin.site.register(Specification, SpecificationAdmin)  
 xadmin.site.register(Unit, UnitAdmin)            
 xadmin.site.register(Material, MaterialAdmin)            
 xadmin.site.register(Brand, BrandAdmin)            
-xadmin.site.register(Vendor, VendorAdmin)            
+xadmin.site.register(Vendor, VendorAdmin)     
+xadmin.site.register_view(r"^material/price/$", MaterialPriceView, name='material/price')       
