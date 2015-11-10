@@ -3,13 +3,14 @@ import xadmin
 from xadmin.plugins.batch import BatchChangeAction
 from xadmin.plugins.actions import DeleteSelectedAction
 from xadmin.views.base import CommAdminView 
-from xadmin.adminx import AbstractObjectAdmin
+from base.adminx import AbstractObjectAdmin
 from django.template.response import TemplateResponse
 from django.http import HttpResponse, HttpResponseRedirect
 from django.db.models import Q
 from material.models import *
 from mmcp.util import *
 from mmcp.actions import *
+from report.vendor_account import getAllCompanyIds
 
 class CategoryAdmin(object):
     show_bookmarks = False
@@ -229,16 +230,21 @@ class MaterialPriceView(CommAdminView):
         response = self.get(request)
         context = response.context_data
         
-        result = get_material_price(material_name, specification) 
+        result = get_material_price(self, material_name, specification) 
         if len(result['lines']) == 0:
             result['message'] ='没有查询到结果！' 
          
         context['result'] = result
         return response         
 
-def get_material_price(material_name, specification):
+def get_material_price(self, material_name, specification):
     args_list = [] 
-     
+    
+    company_ids = getAllCompanyIds(self)
+    
+    args_list.append(Q(order__company__id__in = company_ids)) 
+    
+    
     if material_name:
         args_list.append(Q(documentLineItem__projectMaterial__material__name__contains = material_name)) 
     if specification:

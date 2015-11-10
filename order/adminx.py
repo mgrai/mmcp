@@ -10,6 +10,8 @@ from mmcp.actions import OrderLineSelectedAction
 from django.http import  HttpResponseRedirect
 from django.db.models import Sum
 from order_util import update_document_purch_status
+from report.vendor_account import getAllCompany, getAllVendor, getAllUsers
+from mmcp.util import PURCHASE_GROUP
 
 class OrderAdmin(object):
     
@@ -389,6 +391,19 @@ class InvoiceAdmin(object):
     def queryset(self):
         return super(InvoiceAdmin, self).queryset().filter(company = self.user.company)
     
+    
+    def formfield_for_dbfield(self, db_field, **kwargs):
+        if db_field.name == 'company':
+            kwargs['queryset'] = getAllCompany(self)
+            
+        if db_field.name == 'vendor':
+            kwargs['queryset'] = getAllVendor(self)
+            
+        if db_field.name == 'user':
+            kwargs['queryset'] = getAllUsers(self, PURCHASE_GROUP)
+        
+        field = super(InvoiceAdmin, self).formfield_for_dbfield(db_field, **kwargs)
+        return field
     
 #     list_display = ('invoice_number', 'company', 'invoice_type', 'amount',  'date', 'receive_date', 'user', 'vendor', 'checkAccounts', 'confirmReceived')
     list_display = ('invoice_number', 'company', 'invoice_type', 'amount',  'date', 'receive_date', 'user', 'vendor', 'confirmReceived')

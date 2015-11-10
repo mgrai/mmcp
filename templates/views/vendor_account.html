@@ -309,31 +309,58 @@
 {% block extrabody %}
 <script type="text/javascript">
 
-function select_amount(obj){			
-	var amount = parseFloat($(obj.closest(".grid-item")).find(".amount").html());
-	var total = parseFloat($("#total").html());
+function number_format(number,fix,fh,jg)//number传进来的数,fix保留的小数位,默认保留两位小数,fh为整数位间隔符号,默认为空格,jg为整数位每几位间隔,默认为3位一隔
+{
+   var fix = arguments[1] ? arguments[1] : 2 ;
+   var fh = arguments[2] ? arguments[2] : ' ' ;
+   var jg = arguments[3] ? arguments[3] : 3 ;
+   var str = '' ;
+   number = number.toFixed(fix);
+   zsw = number.split('.')[0];//整数位
+   xsw = number.split('.')[1];//小数位
+   zswarr = zsw.split('');//将整数位逐位放进数组
+   for(var i=1;i<=zswarr.length;i++)
+   {
+      str = zswarr[zswarr.length-i] + str ;
+      if(i%jg == 0)
+      {
+        str = fh+str;//每隔jg位前面加指定符号
+      }
+   }
+   str = (zsw.length%jg==0) ? str.substr(1) : str;//如果整数位长度是jg的的倍数,去掉最左边的fh
+   zsw = str+'.'+xsw;//重新连接整数和小数位
+   return zsw;
+}
+
+function select_amount(obj){
+	
+	var amount = parseFloat($(obj.closest(".grid-item")).find(".amount").html().replace("," , ""));
+	var total = parseFloat($("#total").html().replace("," , ""));
+	
+	
 	if (obj.checked){	 	 
 	 total += amount;	 	 
 	}else{
 	 total -= amount;	 
 	}
-	$("#total").html(total.toFixed(2));		
-	$("#current_receive_amount").html(total.toFixed(2));	
+	$("#total").html(number_format(total, 2, ',' , 3));		
+	$("#current_receive_amount").html(number_format(total, 2, ',' , 3));	
 	
-	var payments_amount = parseFloat($("#payments_amount").html());
-	var last_term_owed_amount = parseFloat($("#last_term_owed_amount").html());
+	var payments_amount = parseFloat($("#payments_amount").html().replace("," , ""));
+	var last_term_owed_amount = parseFloat($("#last_term_owed_amount").html().replace("," , ""));
 	
 	//累计应付款 = 本期供货金额 - 本期付款金额 + 上期欠款金额
 	var total_owed_amount = total - payments_amount + last_term_owed_amount;
 	
-	$("#total_owed_amount").html(total_owed_amount.toFixed(2));	
+	$("#total_owed_amount").html(number_format(total_owed_amount, 2, ',' , 3));	
 	
 	//累计应开票 = 本期供货金额 - 本期开票金额 + 上期欠发票
-	var invoices_amount = parseFloat($("#invoices_amount").html());
-	var last_term_owed_invoices = parseFloat($("#last_term_owed_invoices").html());
+	var invoices_amount = parseFloat($("#invoices_amount").html().replace("," , ""));
+	var last_term_owed_invoices = parseFloat($("#last_term_owed_invoices").html().replace("," , ""));
 	var total_owed_invoices = total - invoices_amount + last_term_owed_invoices
 	
-	$("#total_owed_invoices").html(total_owed_invoices.toFixed(2));	
+	$("#total_owed_invoices").html(number_format(total_owed_invoices, 2, ',' , 3)); 
+	
 	
 	
 }
@@ -344,28 +371,31 @@ function select_total(obj){
 		$("#receive").find(".amount").each(function(){
 			id = $(this).parent(".grid-item").find(".action-select").val();
 			if (id != undefined){
-				total += parseFloat($(this).html());
+				total += parseFloat($(this).html().replace("," , ""));
 			}
 		  });
 	}
-	$("#total").html(total.toFixed(2));
-	$("#current_receive_amount").html(total.toFixed(2));
-	var payments_amount = parseFloat($("#payments_amount").html());
-	var last_term_owed_amount = parseFloat($("#last_term_owed_amount").html());
+	$("#total").html(number_format(total, 2, ',' , 3));
+	$("#current_receive_amount").html(number_format(total, 2, ',' , 3));
+	var payments_amount = parseFloat($("#payments_amount").html().replace("," , ""));
+	var last_term_owed_amount = parseFloat($("#last_term_owed_amount").html().replace("," , ""));
 	
 	//累计应付款 = 本期供货金额 - 本期付款金额 + 上期欠款金额
 	var total_owed_amount = total - payments_amount + last_term_owed_amount;
 	
-	$("#total_owed_amount").html(total_owed_amount.toFixed(2));	
+	$("#total_owed_amount").html(number_format(total_owed_amount, 2, ',' , 3));	
 	
 	//累计应开票 = 本期供货金额 - 本期开票金额 + 上期欠发票
-	var invoices_amount = parseFloat($("#invoices_amount").html());
-	var last_term_owed_invoices = parseFloat($("#last_term_owed_invoices").html());
+	var invoices_amount = parseFloat($("#invoices_amount").html().replace("," , ""));
+	var last_term_owed_invoices = parseFloat($("#last_term_owed_invoices").html().replace("," , ""));
 	var total_owed_invoices = total - invoices_amount + last_term_owed_invoices
 	
-	$("#total_owed_invoices").html(total_owed_invoices.toFixed(2));	
+	$("#total_owed_invoices").html(number_format(total_owed_invoices, 2, ',' , 3));	
 	
 }
+
+
+
 
 </script>
 

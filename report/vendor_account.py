@@ -10,12 +10,13 @@ from django.db import connection
 import StringIO
 import xlwt
 import datetime
-from project.models import Company
+from company.models import Company
 ezxf = xlwt.easyxf
 from xlwt import *
 from xplugin.excel.excel_util import write_details, getNewBorder, write_line, write_two_lines
 from monthdelta import MonthDelta
 from setting.models import VendorSetting 
+from company.models import *
 
 def combine_lines(receivingLines):
     lines = []
@@ -310,7 +311,7 @@ def get_sum_by_project_and_company_by_receiving_lines(receivingLines):
                orderline.order_id = orders.id
                JOIN project_project project ON
                orders.project_id = project.id
-               JOIN project_company company ON
+               JOIN company_company company ON
                project.company_id = company.id
                WHERE receiving.id in  %s """ % str(ids).replace("[", "(").replace("]", ")")
      
@@ -735,17 +736,18 @@ def generate_account_details(result):
     if hasBrandName:
         max_column = 10
     
-    hehe_company = Company.objects.filter(short_name = '合和')[0]
-    nanxiao_company = Company.objects.filter(short_name = '南消')[0]
+    
+    
+    company_name = result['company'].name if result['company'] else '' 
     
     rowx = 0
-    report_title = hehe_company.name
+    report_title = company_name
     report_title_xf = ezxf('font: bold on, height 300; align: wrap on, vert centre, horiz left')
     sheet.write_merge(rowx, rowx+1, 0, max_column, report_title, report_title_xf)
     
-    rowx += 2    
-    report_title = nanxiao_company.name
-    sheet.write_merge(rowx, rowx+1, 0, max_column, report_title, report_title_xf)
+#     rowx += 2    
+#     report_title = nanxiao_company.name
+#     sheet.write_merge(rowx, rowx+1, 0, max_column, report_title, report_title_xf)
     
     rowx += 2    
     report_title = u'对帐单'
@@ -961,42 +963,88 @@ def getReceivedAmountBeforeOnline(vendors, company):
             
     return received_amount 
 
-#本年已欠款
+#已欠款 按月份
 def getOwedAmountByYear(year, month, vendor, company):
     #上线前欠款
     owed_amount = getOwedAmountBeforeOnline(vendor, company)
-    #今年已送货
+    #已送货
     receiving_total = getTotalReceivingByMonth(year, month, vendor, company)
     
+    #已送货款 + 上线前欠款
     owed_amount += receiving_total
     
-    #今年已付款
+    #已付款
     payment_amount = getTotalPaymentByMonth(year, month, vendor, company)
     
     owed_amount -= payment_amount       
     
     return owed_amount
 
-#本年已欠发票
+#已欠发票  按月份
 def getOwedInvoiceByYear(year, month, vendor, company):
     #上线前欠发票
     owed_invoice = getOwedInvoiceBeforeOnline(vendor, company)
     
-    #今年已送货
+    #已送货
     receiving_total = getTotalReceivingByMonth(year, month, vendor, company)
     
     owed_invoice += receiving_total 
     
-    #今年已付发票
+    #已付发票
     invoice_total = getTotalInvoiceByMonth(year, month, vendor, company)
     
     owed_invoice -= invoice_total      
     
     return owed_invoice
 
-#南消 合和 总欠款
-def getOwedAmount(year, month, vendor):
-    companies = Company.objects.all()
+def getAllCompany(self):
+    #parent
+    company_queryset = Company.objects.filter(name = self.user.company.name)
+    
+    all_company = None
+    
+    if bool(company_queryset):
+        company = company_queryset[0]
+        
+        if company.parent is None:
+            
+            childs = Company.objects.filter(parent__name = company.name)
+            all_company = company_queryset | childs
+        else:
+            parent = Company.objects.filter(name = company.parent.name)
+            childs = Company.objects.filter(parent__name = company.parent.name)
+            
+            all_company = parent | childs
+    
+    return all_company
+
+def getAllCompanyIds(self):
+    
+    all_company = getAllCompany(self)
+    
+    company_ids = []
+    for company in all_company:
+        company_ids.append(str(company.id))
+    
+    return company_ids
+
+def getAllVendor(self):
+    company_ids = getAllCompanyIds(self)
+    return Vendor.objects.filter(company__id__in = company_ids).order_by('category__id', 'tree_id', 'lft')
+
+def getAllParentVendor(self):
+    company_ids = getAllCompanyIds(self)
+    return Vendor.objects.filter(company__id__in = company_ids, parent__isnull=True).order_by('category__id', 'tree_id', 'lft')
+
+def getAllUsers(self, GROUP_NAME):
+    company_ids = getAllCompanyIds(self)
+    return Employee.objects.filter(company__id__in = company_ids, groups__name = GROUP_NAME)
+        
+
+#公司（包括所有子公司） 总欠款
+def getOwedAmount(self, year, month, vendor):
+    
+    companies = getAllCompany(self)
     total = 0
     for company in companies:
         total += getOwedAmountByYear(year, month, vendor, company)

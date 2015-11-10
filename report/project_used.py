@@ -5,7 +5,7 @@ from payment.models import Payment
 from django.db.models import Q, Sum
 from django.http import HttpResponse
 from django.db import connection
-from report.vendor_account import dictfetchall
+from report.vendor_account import dictfetchall, getAllCompanyIds
 from decimal import *
 import xlwt
 import datetime
@@ -13,19 +13,17 @@ ezxf = xlwt.easyxf
 from xlwt import *
 from xplugin.excel.excel_util import write_details, getNewBorder, write_line, write_two_lines
 
-def build_query(year, company):
+
+def build_query(self, year, company):
     ##for mysql
     query = """SELECT company.name AS company_name, 
        project.name AS project_name, 
        project.material_amount AS estimate_total,
         
-      IFNULL(setting.before_2015_amount,0) as 'before_current_year_amount',
+      IFNULL(setting.online_before_amount,0) as 'online_before_amount',
       
-      (case when 2015 = {0}  then project.one_month_amount
-               when YEAR(checkaccount.end_date) = {0} and MONTH(checkaccount.end_date)='01' then sum( receiving.total) else 0 end) as 'one_month',
-           
-      (case when 2015 = {0}  then project.two_month_amount
-               when YEAR(checkaccount.end_date) = {0} and MONTH(checkaccount.end_date)='02' then sum(receiving.total) else 0 end) as 'two_month',
+      sum(case when YEAR(checkaccount.end_date) = {0} and MONTH(checkaccount.end_date)='01' then receiving.total else 0 end) as 'one_month',
+      sum(case when YEAR(checkaccount.end_date) = {0} and MONTH(checkaccount.end_date)='02' then receiving.total else 0 end) as 'two_month',
       
       sum(case when YEAR(checkaccount.end_date) = {0} and MONTH(checkaccount.end_date)='03' then receiving.total else 0 end) as 'three_month',
       sum(case when YEAR(checkaccount.end_date) = {0} and MONTH(checkaccount.end_date)='04' then receiving.total else 0 end) as 'four_month',
@@ -41,7 +39,7 @@ def build_query(year, company):
         FROM project_project project
         LEFT JOIN setting_projectsetting setting ON
         project.id = setting.project_id
-        LEFT JOIN project_company company ON
+        LEFT JOIN company_company company ON
         project.company_id = company.id
         LEFT JOIN order_order orders ON
         project.id = orders.project_id
@@ -58,12 +56,15 @@ def build_query(year, company):
          
     if len(company)>0:
             query += " WHERE company.name = '%s'" % company
+    else:
+        company_ids = getAllCompanyIds(self)
+        query += " WHERE company.id in %s " % str(company_ids).replace("[", "(").replace("]", ")")    
         
     query += " GROUP BY company.id, project.id ORDER BY project.id DESC"
     return query
     
-def get_project_used_list(year, company):
-    query = build_query(year, company)
+def get_project_used_list(self, year, company):
+    query = build_query(self, year, company)
     
     rows= []
     c = connection.cursor()
@@ -79,7 +80,7 @@ def get_project_used_list(year, company):
     for line in rows:
         index += 1
         line['index'] = index
-        sum_line[0] += (line['before_current_year_amount'] or 0)
+        sum_line[0] += (line['online_before_amount'] or 0)
         sum_line[1] += line['one_month'] or 0
         sum_line[2] += line['two_month'] or 0
         sum_line[3] += line['three_month']
@@ -93,7 +94,7 @@ def get_project_used_list(year, company):
         sum_line[11] += line['eleven_month']
         sum_line[12] += line['twelve_month']
         
-        line['total'] = (line['before_current_year_amount'] or 0) + (line['one_month'] or 0) + (line['two_month'] or 0)+  \
+        line['total'] = (line['online_before_amount'] or 0) + (line['one_month'] or 0) + (line['two_month'] or 0)+  \
                         line['three_month'] + line['four_month'] + line['five_month'] + line['six_month'] +  \
                         line['seven_month'] + line['eight_month'] + line['night_month'] + line['ten_month'] + \
                         line['eleven_month'] + line['twelve_month']
@@ -110,13 +111,13 @@ def get_project_used_list(year, company):
     if len(rows) > 0:
         result['sum_line'] = sum_line
     
-    result['year'] = year
+    result['year'] = str(year)
     result['company'] = company
     return result
 
 
 def write_project_used_list(sheet, result, rowx):
-    detail_head = [u'序号', u'工程名称', u'预算成本',   u'本年之前已用量',  u'1月', u'2月', u'3月', u'4月', u'5月', u'6月', u'7月', u'8月', u'9月', u'10月', u'11月', u'12月', u'合计', u'用量百分比']
+    detail_head = [u'序号', u'工程名称', u'预算成本',   u'上线之前已用量',  u'1月', u'2月', u'3月', u'4月', u'5月', u'6月', u'7月', u'8月', u'9月', u'10月', u'11月', u'12月', u'合计', u'用量百分比']
     head_width =  [0x0d00,   0x0d00,  5000,  5000,  4000, 4000,  4000,   4000,   4000, 4000,  4000,   4000, 4000, 4000,  4000,   4000,   5000,   4000,]
     merge_col =   [1,         1,          1,       1,     1,         1,     1,       1,      1,   1,   1,   1,   1,      1,  1,  1,  1,  1]
     kinds =       'int       text      price    price     price     price   price   price    price  price  price  price   price   price    price  price  price  price'.split()
@@ -160,7 +161,7 @@ def write_project_used_list(sheet, result, rowx):
             row.append(line['index'])
             row.append(line['project_name'])
             row.append(line['estimate_total'])
-            row.append(line['before_current_year_amount'])
+            row.append(line['online_before_amount'])
             row.append(line['one_month'])
             row.append(line['two_month'])
             row.append(line['three_month'])

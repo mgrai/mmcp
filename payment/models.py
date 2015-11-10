@@ -8,6 +8,7 @@ from django.db.models import Q
 
 class PaymentType(models.Model):
     name = models.CharField(u'支付方式',max_length=50)
+    company = models.ForeignKey(Company,verbose_name=u'公司')
  
     def __unicode__(self):
         return self.name
@@ -19,7 +20,8 @@ class PaymentType(models.Model):
 
 class PaymentProperty(models.Model):
     name = models.CharField(u'款项属性',max_length=50)
- 
+    company = models.ForeignKey(Company,verbose_name=u'公司')
+    
     def __unicode__(self):
         return self.name
  
@@ -40,8 +42,8 @@ class Payment(models.Model):
     owed_amount = models.DecimalField(u'现欠款额',max_digits = 15, decimal_places=2, blank=True, null=True)
     owed_amount_after_payment = models.DecimalField(u'本期支付后欠款额',max_digits = 15, decimal_places=2, blank=True, null=True)
     
-    payment_user = models.ForeignKey(Employee, related_name='paymentGroup', verbose_name=u'付款经办人', limit_choices_to = Q( groups__name = u'采购部门'))
-    purchase_user = models.ForeignKey(Employee, related_name='purchaseGroup', verbose_name=u'采购经手人', limit_choices_to = Q( groups__name = u'采购部门'), blank=True, null=True)
+    payment_user = models.ForeignKey(Employee, related_name='paymentGroup', verbose_name=u'付款经办人')
+    purchase_user = models.ForeignKey(Employee, related_name='purchaseGroup', verbose_name=u'采购经手人', blank=True, null=True)
     create_time = models.DateField(u'付款申请日期', blank=True,null=True)
     payment_date = models.DateField(u'实际付款日期',  blank=True,null=True)
     

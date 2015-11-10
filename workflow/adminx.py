@@ -7,6 +7,8 @@ from django.template import loader
 from django.template.response import TemplateResponse
 from django.utils.translation import ugettext_lazy as _
 
+from base.adminx import AbstractObjectAdmin
+from company.models import *
 from document.models import PAYMENT_TYPE
 from mmcp.actions import AuditSelectedAction
 from mmcp.util import handle_audit, has_audit_comment_by_item_id, get_audit_comments_by_item_id, getAuditComments, buildPaymentItems, buildProjectItems
@@ -14,7 +16,6 @@ from models import Route, Actor, ActorUser, Item, TaskList, TaskHistory, AUDIT_S
 from payment.models import Payment
 from workflow import Workflow, getMyApplayItems, getMyHandleItems, getMyHandledItems, handlePayment
 import xadmin
-from xadmin.adminx import AbstractObjectAdmin
 from xadmin.models import CompanyGroup
 from xadmin.plugins.actions import ActionPlugin
 from xadmin.plugins.batch import BatchChangeAction
@@ -24,7 +25,6 @@ from xadmin.views.base import CommAdminView , ModelAdminView, inclusion_tag
 from xadmin.views.list import ResultRow
 from xplugin.views.list import MyListAdminView
 from xplugin.views.pagination import MyPaginationView
-from company.models import *
 
 
 class RouteAdmin(AbstractObjectAdmin):

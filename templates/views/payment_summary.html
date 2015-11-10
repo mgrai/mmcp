@@ -103,8 +103,8 @@
         <th scope="col">类别</th>
         <th scope="col">供应商</th>
         <th scope="col">公司</th>
-        <th scope="col">{{ year|add:"-1" }}年底欠款</th>
-        <th scope="col">{{ year|add:"-1" }}年底欠发票</th>
+        <th scope="col">{{ year|add:"-1"|safe }}年底欠款</th>
+        <th scope="col">{{ year|add:"-1"|safe }}年底欠发票</th>
         <th scope="col">{{ year }}年发生额</th>
         <th scope="col">实际未开发票</th>
         <th scope="col">

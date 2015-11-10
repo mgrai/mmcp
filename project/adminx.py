@@ -3,11 +3,12 @@ import xadmin
 from xadmin.plugins.batch import BatchChangeAction
 from xadmin.plugins.actions import DeleteSelectedAction
 from xadmin.views.base import CommAdminView 
-from xadmin.adminx import AbstractObjectAdmin
+from base.adminx import AbstractObjectAdmin
 from django.template.response import TemplateResponse
 from django.http import HttpResponse, HttpResponseRedirect
 from django.utils.safestring import mark_safe
 from django.db.models import Q
+from report.vendor_account import getAllCompany
 from models import *
 from mmcp.util import *
 from mmcp.constant import *
@@ -38,7 +39,7 @@ class ProjectAdmin(object):
     
     def formfield_for_dbfield(self, db_field, **kwargs):
         if db_field.name == 'company':
-            kwargs['queryset'] = Company.objects.filter(name=self.user.company.name)
+            kwargs['queryset'] = getAllCompany(self)
         field = super(ProjectAdmin, self).formfield_for_dbfield(db_field, **kwargs)
         return field
     

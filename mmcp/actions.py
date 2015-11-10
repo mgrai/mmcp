@@ -88,7 +88,9 @@ class ApplyProjectMaterialSelectedAction(BaseActionView):
             now = datetime.datetime.now()
             now = now.strftime("%Y%m%d%H%M%S")
             
-            document_id = "PM" + now
+            company_id = str(self.user.company.id).zfill(4)
+            
+            document_id = "PM" + company_id + now
             document_type = PROJECT_TYPE
             
             document = Document.objects.create(document_id = document_id, 
@@ -120,8 +122,10 @@ class PurchaseOrderSelectedAction(BaseActionView):
          
         now = datetime.datetime.now()
         now = now.strftime("%Y%m%d%H%M%S")
+        
+        company_id = str(self.user.company.id).zfill(4)
          
-        order_id = "PO" + now
+        order_id = "PO" + company_id + now
         documentLine = queryset[0]
         document = documentLine.document
         project = documentLine.projectMaterial.project

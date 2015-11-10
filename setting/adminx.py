@@ -4,8 +4,9 @@ from xadmin.plugins.batch import BatchChangeAction
 from xadmin.plugins.actions import DeleteSelectedAction
 from models import ProjectSetting, VendorSetting
 from order.models import OrderNote
-from xadmin.adminx import *
+from base.adminx import *
 from project.models import *
+from report.vendor_account import getAllCompanyIds, getAllVendor
 
 class ProjectSettingAdmin(object):
     list_display = ('project', 'online_before_amount')
@@ -17,7 +18,8 @@ class ProjectSettingAdmin(object):
     
     def formfield_for_dbfield(self, db_field, **kwargs):
         if db_field.name == 'project':
-            kwargs['queryset'] = Project.objects.filter(company=self.user.company)
+            company_ids = getAllCompanyIds(self)
+            kwargs['queryset'] = Project.objects.filter(company_id__in=company_ids)
         field = super(ProjectSettingAdmin, self).formfield_for_dbfield(db_field, **kwargs)
         return field
 
@@ -33,7 +35,7 @@ class VendorSettingAdmin(object):
     
     def formfield_for_dbfield(self, db_field, **kwargs):
         if db_field.name == 'vendor':
-            kwargs['queryset'] = Vendor.objects.filter(company=self.user.company)
+            kwargs['queryset'] = getAllVendor(self)
         field = super(VendorSettingAdmin, self).formfield_for_dbfield(db_field, **kwargs)
         return field
     

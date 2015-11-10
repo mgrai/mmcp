@@ -4,20 +4,32 @@ import xlwt
 import datetime
 ezxf = xlwt.easyxf
 from xlwt import *
+from django.db.models import Count
 from xplugin.excel.excel_util import write_details, getNewBorder, write_line, write_two_lines
-from vendor_account import get_payment_details, get_invoices, get_last_term_receiving_lines
+from vendor_account import *
 from material.models import Vendor
 from project.models import Company
 from mmcp.util import *
+from order.models import *
 
+
+def get_check_account_vendors(self):
+    company_ids = getAllCompanyIds(self)
+    vendors = CheckAccount.objects.filter(company__id__in = company_ids).values('vendor__id').annotate(vendor_count=Count('vendor__id'))
     
-def get_payment_summary(year, month):
+    ids = []
+    for vendor in vendors:
+        ids.append(vendor['vendor__id'])
+        
+    return Vendor.objects.filter(id__in = ids).order_by('category__id', 'tree_id', 'lft')
+    
+def get_payment_summary(self, year, month):
     
     start_date = get_first_date_of_month(year, month)
     end_date = get_last_date_of_month(year, month)
-    vendors = Vendor.objects.all().order_by('category__id', 'tree_id', 'lft')
+    vendors = get_check_account_vendors(self)
     
-    companies = Company.objects.all()
+    companies = getAllCompany(self)
     
     rows = []
     index = 0
@@ -36,20 +48,12 @@ def get_payment_summary(year, month):
                 
                 #2015年发生额(本年当月底已收货金额)
                 receiving_total = getTotalReceivingByMonth(year, month, vendor, company) 
-                if year == 2015:
-                    #2015年发生额   需要加上 2月底前的发生额
-                    receiving_total += getReceivedAmountBy2015Year2Month(vendor, company)
                     
                 #本年 当月底已欠票（未开发票）
-                    unreceiving_invoice = getOwedInvoiceByYear(year, month, vendor, company)
+                unreceiving_invoice = getOwedInvoiceByYear(year, month, vendor, company)
                 
-                if month == 3:
-                    #2015年2月底欠款
-                    owed_amount_before_month = getOwedAmountBy2015Year2Month(vendor, company)
-                else:
-                    #本年 前一个月底已欠款
-                    owed_amount_before_month = getOwedAmountByYear(year, (month - 1), vendor, company)
-                    
+                #本年 前一个月底已欠款
+                owed_amount_before_month = getOwedAmountByYear(year, (month - 1), vendor, company)
                 
                 #当月送货        
                 receivings = get_last_term_receiving_lines(start_date, end_date, vendor, company)
@@ -127,7 +131,7 @@ def get_payment_summary(year, month):
                 totals[8] += subtotals[8]
         
     #供应商子公司统计
-    parent_vendors = Vendor.objects.filter(parent__isnull=True).order_by('category__id', 'tree_id', 'lft')
+    parent_vendors = getAllParentVendor(self)
     parent_rows = []
     for parent_vendor in parent_vendors:
         new_row = {}

@@ -7,13 +7,14 @@ from django.template.response import TemplateResponse
 from django.http import HttpResponse
 from xadmin.views.base import CommAdminView , ModelAdminView
 from receiving_list import get_project_receiving_list, generate_project_receiving_list
-from vendor_account import get_account_details, generate_account_details, exportCheckAccountExcel
+from vendor_account import get_account_details, generate_account_details, exportCheckAccountExcel, getAllCompany, getAllParentVendor
 from payment_summary import get_payment_summary, generate_payment_summary
 from project_used import get_project_used_list, generate_project_used_list
 from project.models import Project, Company
 from material.models import Vendor
 from order.models import Order, OrderLine, ReceivingLine, CheckAccount
 from mmcp.util import checkAccount, getYears, getMonths, getProjects, getCompany
+
 from django.utils.translation import ugettext_lazy as _
 
 class ProjectReceivingListView(CommAdminView):
@@ -31,7 +32,7 @@ class ProjectReceivingListView(CommAdminView):
         projects = getProjects(self)
         context['projects'] = projects
         
-        vendors = Vendor.objects.filter(parent__isnull=True)
+        vendors = getAllParentVendor(self)
         context['vendors'] = vendors
         
         return TemplateResponse(request, self.receiving_list_template, context,
@@ -104,8 +105,9 @@ class VendorAccountListView(CommAdminView):
     
     def get(self, request, *args, **kwargs):
         context = super(VendorAccountListView, self).get_context()
-        vendors = Vendor.objects.filter(parent__isnull=True, company = self.user.company)
-        companies = Company.objects.filter(name = self.user.company.name)
+        
+        companies = getAllCompany(self)
+        vendors = getAllParentVendor(self)
         context['vendors'] = vendors
         context['companies'] = companies
         return TemplateResponse(request, self.vendor_account_template, context,
@@ -126,7 +128,7 @@ class VendorAccountListView(CommAdminView):
                             "actions on them. No items have been changed.")
             self.message_user(msg)
         else:
-            return checkAccount(selected, request)
+            return checkAccount(self, selected, request)
                     
         return self.search(request)
                
@@ -177,7 +179,7 @@ class ProjectUsedListView(CommAdminView):
     
     def get(self, request, *args, **kwargs):
         context = super(ProjectUsedListView, self).get_context()
-        companies = Company.objects.all()
+        companies = getAllCompany(self)
         years = getYears()
         context['companies'] = companies
         context['years'] = years['years']
@@ -196,7 +198,7 @@ class ProjectUsedListView(CommAdminView):
         
         response = self.get(request)
         context = response.context_data
-        result = get_project_used_list(int(year), company)  
+        result = get_project_used_list(self, int(year), company)  
         context['result'] = result
         return response 
 
@@ -223,7 +225,7 @@ class ProjectUsedExportExcelView(CommAdminView):
         output = StringIO.StringIO()
         year = context['year']
         company = context['company']
-        result = get_project_used_list(int(year), company)  
+        result = get_project_used_list(self, int(year), company)  
         book = generate_project_used_list(result)   
         book.save(output)
         output.seek(0)
@@ -244,7 +246,7 @@ class PaymentSummaryView(CommAdminView):
         months = getMonths()
         context['years'] = years['years']
         context['months'] = months['months']
-        context['year'] = years['year']
+        context['year'] = str(years['year'])
         context['month'] = months['month']
         return TemplateResponse(request, self.payment_summary_template, context,
                                 current_app=self.admin_site.name)
@@ -259,9 +261,9 @@ class PaymentSummaryView(CommAdminView):
         
         response = self.get(request)
         context = response.context_data
-        result = get_payment_summary(int(year), int(month))  
+        result = get_payment_summary(self, int(year), int(month))  
         context['result'] = result
-        context['year'] = int(year)
+        context['year'] = str(year)
         context['month'] = int(month)
         return response  
 
@@ -292,7 +294,7 @@ class PaymentSummaryExportExcelView(CommAdminView):
         month = context['month']
         exportDetail = context['exportDetail']
         
-        result = get_payment_summary(int(year), int(month))   
+        result = get_payment_summary(self, int(year), int(month))   
         book = generate_payment_summary(result, bool(int(exportDetail)))   
         book.save(output)
         output.seek(0)

@@ -87,7 +87,7 @@
         <th scope="col">序号</th>
         <th scope="col">工程名称</th>
         <th scope="col">预算成本</th>
-        <th scope="col">本年之前已用量</th>
+        <th scope="col">上线之前已用量</th>
         <th scope="col">1月</th>
         <th scope="col">2月</th>
         <th scope="col">3月</th>
@@ -112,7 +112,7 @@
 	        <td>{{ line.index }} </td>
 	        <td>{{ line.project_name }} </td>
 	        <td>{{ line.estimate_total | floatformat:2}} </td>
-	        <td>{{ line.before_current_year_amount | floatformat:2}} </td>
+	        <td>{{ line.online_before_amount | floatformat:2}} </td>
 	        <td>{{ line.one_month | floatformat:2}} </td>
 	        <td>{{ line.two_month | floatformat:2}} </td>
 	        <td>{{ line.three_month | floatformat:2}} </td>
@@ -133,6 +133,8 @@
 	     {% if result.sum_line %}
 	     <tr>
 	     	<td colspan="3" align="center"> 累计 </td>
+	     	<td> </td>
+	     	<td> </td>
 	     	{% for data in result.sum_line %}
 	     		<td>{{ data | floatformat:2 }} </td>
 	     	{% endfor %}

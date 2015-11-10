@@ -196,7 +196,7 @@ def is_closed_by_order_line_id(self):
                     result = True
         return result    
     
-def checkAccount(ids, request):
+def checkAccount(self, ids, request):
     if 'start_date' in request.POST:
         start_date = request.POST['start_date']
     if 'end_date' in request.POST:
@@ -225,7 +225,10 @@ def checkAccount(ids, request):
             
     now = datetime.datetime.now()
     now = now.strftime("%Y%m%d%H%M%S")
-    check_account_id = "CA" + now
+    
+    company_id = str(self.user.company.id).zfill(4)
+    
+    check_account_id = "CA" + company_id + now
     checkAccount.check_account_id = check_account_id
     
     checkAccount.save()
@@ -288,9 +291,9 @@ def getYears():
         
     years = []
     for i in range(2014, year):
-        years.append(i)
+        years.append(str(i))
         
-    current_year = int(now.strftime("%Y"))  
+    current_year = str(now.strftime("%Y"))  
     result = {'years':years, 'year':current_year} 
     return result
 
@@ -309,7 +312,8 @@ def getProjects(self):
     if isGroup(self, PROJECT_GROUP):
         projects = Project.objects.filter(users__in = [self.user]).order_by('-id')
     else:
-        projects = Project.objects.all().order_by('-id')
+        company_ids = getAllCompanyIds(self)
+        projects = Project.objects.filter(company__id__in = company_ids).order_by('-id')
     return projects   
 
 def getMateriales(self):
@@ -489,4 +493,6 @@ def GetMaterial(request):
         
         serialized_results = serialize_results(queryset)
         results_json = json.dumps(serialized_results)
-        return HttpResponse(results_json, content_type='application/json')            
+        return HttpResponse(results_json, content_type='application/json') 
+    
+ 

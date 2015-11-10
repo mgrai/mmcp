@@ -6,6 +6,7 @@ from xadmin.plugins.actions import DeleteSelectedAction
 from models import PaymentType, PaymentProperty, Payment, DoPayemnt
 from xadmin.layout import Main, TabHolder, Tab, Fieldset, Row, Col, AppendedText, Side
 from xadmin.views import ListAdminView
+from base.adminx import AbstractObjectAdmin
 from django import forms
 from workflow.models import Route, Actor, ActorUser, Item, TaskList, TaskHistory, AUDIT_STATUS, APPROVED, ITEM_START,ITEM_REJECTED, ITEM_APPROVING, ITEM_APPROVED
 from document.models import Document, PAYMENT_TYPE
@@ -20,8 +21,10 @@ from django.template import loader
 from django.http import HttpResponseRedirect
 from mmcp.constant import APPROVAL_NO_FORM_HTML
 from .export import ExportPaymentView
+from report.vendor_account import getAllCompany, getAllVendor, getAllUsers, getOwedAmount
 
-class PaymentTypeAdmin(object):
+
+class PaymentTypeAdmin(AbstractObjectAdmin):
     show_bookmarks = False
     list_display = ('name',)
     list_display_links = ('name',)
@@ -30,7 +33,7 @@ class PaymentTypeAdmin(object):
     actions = [DeleteSelectedAction,]
 
 
-class PaymentPropertyAdmin(object):
+class PaymentPropertyAdmin(AbstractObjectAdmin):
     show_bookmarks = False
     list_display = ('name',)
     list_display_links = ('name',)
@@ -62,16 +65,17 @@ class PaymentAdmin(object):
             #新增加
             now = datetime.datetime.now()
             now_str = now.strftime("%Y%m%d%H%M%S")
-            payment_id = "PT" + now_str
+            company_id = str(self.user.company.id).zfill(4)
+            payment_id = "PT" + company_id + now_str
             self.new_obj.payment_id = payment_id
-            self.new_obj.owed_amount = getOwedAmount(int(now.strftime("%Y")), int(now.strftime("%m")) -1,  self.new_obj.vendor)
+            self.new_obj.owed_amount = getOwedAmount(self, int(now.strftime("%Y")), int(now.strftime("%m")) -1,  self.new_obj.vendor)
             self.new_obj.owed_amount_after_payment = self.new_obj.owed_amount - self.new_obj.payment_amount
         else:
             #更新
             payment_id = self.new_obj.payment_id
             now = datetime.datetime.strptime(payment_id[2:], "%Y%m%d%H%M%S").date()
             
-            self.new_obj.owed_amount = getOwedAmount(int(now.strftime("%Y")), int(now.strftime("%m")) -1,  self.new_obj.vendor)
+            self.new_obj.owed_amount = getOwedAmount(self, int(now.strftime("%Y")), int(now.strftime("%m")) -1,  self.new_obj.vendor)
             payment_amount = self.new_obj.applied_amount if bool(self.new_obj.applied_amount) else  self.new_obj.payment_amount
             self.new_obj.owed_amount_after_payment = self.new_obj.owed_amount - payment_amount
         
@@ -235,8 +239,23 @@ class PaymentAdmin(object):
         return result
             
         
+    def formfield_for_dbfield(self, db_field, **kwargs):
+        if db_field.name == 'company':
+            kwargs['queryset'] = getAllCompany(self)
         
-    show_bookmarks = False
+        if db_field.name == 'vendor':
+            kwargs['queryset'] = getAllVendor(self)
+        
+        if db_field.name == 'payment_user':
+            kwargs['queryset'] = getAllUsers(self, PURCHASE_GROUP)
+            
+        if db_field.name == 'purchase_user':
+            kwargs['queryset'] = getAllUsers(self, PURCHASE_GROUP)
+            
+        field = super(PaymentAdmin, self).formfield_for_dbfield(db_field, **kwargs)
+        return field
+    
+        
     list_display = ('payment_id', 'company', 'vendor', 'content', 'payment_amount', 'getAppliedAmount', 'getStatus', 'getAuditList', 'is_closed', 'doAction')
     list_display_links = ('payment_id',)
     exclude = ('payment_id', 'payment_date', 'is_applied', 'create_time', 'is_closed' )
