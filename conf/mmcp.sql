@@ -27,9 +27,8 @@ DROP TABLE IF EXISTS `auth_group`;
 CREATE TABLE `auth_group` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(80) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=192 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -38,7 +37,7 @@ CREATE TABLE `auth_group` (
 
 LOCK TABLES `auth_group` WRITE;
 /*!40000 ALTER TABLE `auth_group` DISABLE KEYS */;
-INSERT INTO `auth_group` VALUES (3,'副总经理'),(8,'工程部门'),(2,'总经理'),(7,'财务部门'),(4,'财务部门经理'),(9,'采购部门'),(5,'采购部门经理'),(10,'预算部门'),(6,'预算部门经理');
+INSERT INTO `auth_group` VALUES (1,'财务部门'),(183,'预算部门经理1'),(184,'采购部门经理1'),(185,'财务部门经理1'),(186,'副总经理1'),(187,'总经理1'),(188,'财务部门1'),(189,'工程部门1'),(190,'采购部门1'),(191,'预算部门1');
 /*!40000 ALTER TABLE `auth_group` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -59,7 +58,7 @@ CREATE TABLE `auth_group_permissions` (
   KEY `auth_group_permissions_83d7f98b` (`permission_id`),
   CONSTRAINT `group_id_refs_id_f4b32aac` FOREIGN KEY (`group_id`) REFERENCES `auth_group` (`id`),
   CONSTRAINT `permission_id_refs_id_6ba0f519` FOREIGN KEY (`permission_id`) REFERENCES `auth_permission` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=713 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=711 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -68,7 +67,7 @@ CREATE TABLE `auth_group_permissions` (
 
 LOCK TABLES `auth_group_permissions` WRITE;
 /*!40000 ALTER TABLE `auth_group_permissions` DISABLE KEYS */;
-INSERT INTO `auth_group_permissions` VALUES (163,2,52),(164,2,53),(165,2,54),(166,2,55),(167,2,56),(168,2,57),(169,2,58),(170,2,59),(171,2,61),(172,2,62),(173,2,63),(174,2,64),(175,2,65),(176,2,66),(177,2,71),(178,2,72),(179,2,106),(180,2,107),(181,2,108),(182,2,120),(160,2,153),(161,2,154),(162,2,171),(140,3,52),(141,3,53),(142,3,54),(143,3,55),(144,3,56),(145,3,57),(146,3,58),(147,3,59),(148,3,61),(149,3,62),(150,3,63),(151,3,64),(152,3,65),(153,3,66),(154,3,71),(155,3,72),(156,3,106),(157,3,107),(158,3,108),(159,3,120),(138,3,153),(139,3,154),(47,6,52),(48,6,53),(49,6,54),(50,6,55),(51,6,56),(52,6,57),(53,6,58),(54,6,59),(55,6,61),(56,6,62),(57,6,63),(58,6,64),(59,6,65),(60,6,66),(61,6,71),(62,6,72),(63,6,95),(64,6,96),(65,6,106),(66,6,107),(67,6,108),(68,6,120),(45,6,153),(46,6,154),(462,7,52),(463,7,53),(464,7,54),(465,7,55),(466,7,58),(467,7,71),(468,7,72),(469,7,90),(470,7,93),(471,7,121),(472,7,122),(473,7,123),(474,7,124),(475,7,125),(476,7,126),(477,7,127),(430,7,128),(431,7,129),(432,7,133),(433,7,134),(434,7,135),(435,7,136),(436,7,137),(437,7,138),(438,7,139),(439,7,140),(440,7,141),(441,7,142),(442,7,143),(443,7,146),(444,7,147),(445,7,148),(446,7,155),(447,7,156),(448,7,157),(449,7,158),(450,7,159),(451,7,160),(452,7,161),(453,7,162),(454,7,163),(455,7,164),(456,7,165),(457,7,166),(458,7,167),(459,7,168),(460,7,169),(461,7,170),(83,8,67),(84,8,68),(85,8,69),(86,8,70),(87,8,71),(88,8,72),(90,8,89),(96,8,90),(94,8,91),(95,8,92),(89,8,93),(97,8,94),(98,8,95),(82,8,96),(91,8,120),(92,8,153),(93,8,154),(696,9,52),(697,9,53),(698,9,54),(699,9,55),(700,9,58),(701,9,71),(702,9,90),(703,9,93),(704,9,96),(705,9,116),(706,9,121),(707,9,122),(708,9,123),(709,9,124),(710,9,125),(711,9,126),(712,9,127),(664,9,128),(665,9,129),(666,9,133),(667,9,134),(668,9,135),(669,9,136),(670,9,137),(671,9,138),(672,9,139),(673,9,140),(674,9,141),(675,9,142),(676,9,143),(677,9,146),(678,9,147),(679,9,148),(680,9,155),(681,9,156),(682,9,157),(683,9,158),(684,9,159),(685,9,160),(686,9,161),(687,9,162),(688,9,163),(689,9,164),(690,9,165),(691,9,166),(692,9,167),(693,9,168),(694,9,169),(695,9,170),(75,10,56),(76,10,57),(77,10,58),(78,10,59),(79,10,61),(80,10,62),(81,10,63),(69,10,64),(70,10,65),(71,10,66),(72,10,71),(73,10,72),(74,10,171);
+INSERT INTO `auth_group_permissions` VALUES (1,1,49),(2,47,61),(3,47,62),(4,47,63),(7,47,64),(8,47,65),(9,47,66),(5,47,71),(10,47,72),(11,47,106),(6,47,300),(21,56,58),(12,56,61),(13,56,62),(14,56,63),(17,56,64),(18,56,65),(19,56,66),(15,56,71),(20,56,72),(22,56,106),(16,56,300),(32,57,58),(23,57,61),(24,57,62),(25,57,63),(28,57,64),(29,57,65),(30,57,66),(26,57,71),(31,57,72),(33,57,104),(34,57,105),(35,57,106),(79,57,110),(78,57,131),(38,57,146),(27,57,2000),(36,57,2001),(37,57,2002),(48,65,58),(39,65,61),(40,65,62),(41,65,63),(44,65,64),(45,65,65),(46,65,66),(42,65,71),(47,65,72),(49,65,106),(43,65,300),(59,66,58),(50,66,61),(51,66,62),(52,66,63),(55,66,64),(56,66,65),(57,66,66),(53,66,71),(58,66,72),(60,66,104),(61,66,105),(62,66,106),(63,66,119),(66,66,146),(54,66,2000),(64,66,2001),(65,66,2002),(76,74,58),(67,74,61),(68,74,62),(69,74,63),(72,74,64),(73,74,65),(74,74,66),(70,74,71),(75,74,72),(77,74,106),(71,74,300),(89,75,58),(80,75,61),(81,75,62),(82,75,63),(85,75,64),(86,75,65),(87,75,66),(83,75,71),(88,75,72),(90,75,104),(91,75,105),(92,75,106),(93,75,119),(94,75,131),(97,75,146),(84,75,2000),(95,75,2001),(96,75,2002),(107,83,58),(98,83,61),(99,83,62),(100,83,63),(103,83,64),(104,83,65),(105,83,66),(101,83,71),(106,83,72),(108,83,106),(102,83,300),(118,84,58),(109,84,61),(110,84,62),(111,84,63),(114,84,64),(115,84,65),(116,84,66),(112,84,71),(117,84,72),(119,84,104),(120,84,105),(121,84,106),(124,84,110),(122,84,119),(123,84,131),(127,84,146),(113,84,2000),(125,84,2001),(126,84,2002),(137,92,58),(128,92,61),(129,92,62),(130,92,63),(133,92,64),(134,92,65),(135,92,66),(131,92,71),(136,92,72),(138,92,106),(132,92,300),(148,93,58),(139,93,61),(140,93,62),(141,93,63),(144,93,64),(145,93,65),(146,93,66),(142,93,71),(147,93,72),(149,93,104),(150,93,105),(151,93,106),(152,93,119),(155,93,146),(143,93,2000),(153,93,2001),(154,93,2002),(165,101,58),(156,101,61),(157,101,62),(158,101,63),(161,101,64),(162,101,65),(163,101,66),(159,101,71),(164,101,72),(166,101,106),(160,101,300),(177,102,53),(176,102,58),(167,102,61),(168,102,62),(169,102,63),(172,102,64),(173,102,65),(174,102,66),(170,102,71),(175,102,72),(178,102,104),(179,102,105),(180,102,106),(181,102,119),(184,102,146),(171,102,2000),(182,102,2001),(183,102,2002),(194,110,58),(185,110,61),(186,110,62),(187,110,63),(190,110,64),(191,110,65),(192,110,66),(188,110,71),(193,110,72),(195,110,106),(189,110,300),(206,111,53),(205,111,58),(196,111,61),(197,111,62),(198,111,63),(201,111,64),(202,111,65),(203,111,66),(199,111,71),(204,111,72),(210,111,102),(207,111,104),(208,111,105),(209,111,106),(211,111,119),(214,111,146),(200,111,2000),(212,111,2001),(213,111,2002),(218,117,68),(216,117,71),(217,117,72),(219,117,74),(220,117,79),(221,117,102),(215,117,132),(231,119,58),(222,119,61),(223,119,62),(224,119,63),(227,119,64),(228,119,65),(229,119,66),(225,119,71),(230,119,72),(233,119,102),(232,119,106),(226,119,300),(244,120,53),(243,120,58),(234,120,61),(235,120,62),(236,120,63),(239,120,64),(240,120,65),(241,120,66),(237,120,71),(242,120,72),(248,120,102),(245,120,104),(246,120,105),(247,120,106),(249,120,119),(252,120,146),(238,120,2000),(250,120,2001),(251,120,2002),(256,126,68),(254,126,71),(255,126,72),(257,126,74),(259,126,75),(260,126,77),(261,126,78),(258,126,79),(262,126,102),(253,126,132),(272,128,58),(263,128,61),(264,128,62),(265,128,63),(268,128,64),(269,128,65),(270,128,66),(266,128,71),(271,128,72),(274,128,102),(273,128,106),(267,128,300),(285,129,53),(284,129,58),(275,129,61),(276,129,62),(277,129,63),(280,129,64),(281,129,65),(282,129,66),(278,129,71),(283,129,72),(289,129,102),(286,129,104),(287,129,105),(288,129,106),(290,129,119),(293,129,146),(279,129,2000),(291,129,2001),(292,129,2002),(298,135,68),(299,135,69),(296,135,71),(297,135,72),(300,135,74),(302,135,75),(303,135,77),(304,135,78),(301,135,79),(305,135,102),(295,135,128),(294,135,132),(315,137,58),(306,137,61),(307,137,62),(308,137,63),(311,137,64),(312,137,65),(313,137,66),(309,137,71),(314,137,72),(317,137,102),(316,137,106),(310,137,300),(328,138,53),(327,138,58),(318,138,61),(319,138,62),(320,138,63),(323,138,64),(324,138,65),(325,138,66),(321,138,71),(326,138,72),(332,138,102),(329,138,104),(330,138,105),(331,138,106),(333,138,119),(336,138,146),(322,138,2000),(334,138,2001),(335,138,2002),(341,144,68),(342,144,69),(339,144,71),(340,144,72),(343,144,74),(345,144,75),(346,144,77),(347,144,78),(344,144,79),(348,144,102),(338,144,128),(337,144,132),(353,145,52),(354,145,53),(355,145,54),(356,145,55),(351,145,71),(352,145,72),(357,145,77),(358,145,79),(359,145,85),(360,145,86),(361,145,88),(362,145,89),(364,145,94),(365,145,95),(366,145,99),(367,145,100),(368,145,101),(363,145,102),(369,145,103),(350,145,128),(349,145,132),(379,146,58),(370,146,61),(371,146,62),(372,146,63),(375,146,64),(376,146,65),(377,146,66),(373,146,71),(378,146,72),(381,146,102),(380,146,106),(374,146,300),(392,147,53),(391,147,58),(382,147,61),(383,147,62),(384,147,63),(387,147,64),(388,147,65),(389,147,66),(385,147,71),(390,147,72),(396,147,102),(393,147,104),(394,147,105),(395,147,106),(397,147,119),(400,147,146),(386,147,2000),(398,147,2001),(399,147,2002),(405,153,68),(406,153,69),(403,153,71),(404,153,72),(407,153,74),(409,153,75),(410,153,77),(411,153,78),(408,153,79),(412,153,102),(402,153,128),(401,153,132),(417,154,52),(418,154,53),(419,154,54),(420,154,55),(415,154,71),(416,154,72),(422,154,77),(423,154,85),(424,154,86),(425,154,88),(426,154,89),(428,154,94),(429,154,95),(430,154,99),(431,154,100),(432,154,101),(427,154,102),(433,154,103),(421,154,106),(414,154,128),(413,154,132),(443,155,58),(434,155,61),(435,155,62),(436,155,63),(439,155,64),(440,155,65),(441,155,66),(437,155,71),(442,155,72),(445,155,102),(444,155,106),(438,155,300),(456,156,53),(455,156,58),(446,156,61),(447,156,62),(448,156,63),(451,156,64),(452,156,65),(453,156,66),(449,156,71),(454,156,72),(460,156,102),(457,156,104),(458,156,105),(459,156,106),(461,156,119),(464,156,146),(450,156,2000),(462,156,2001),(463,156,2002),(469,162,68),(470,162,69),(467,162,71),(468,162,72),(471,162,74),(473,162,75),(474,162,77),(475,162,78),(472,162,79),(476,162,102),(466,162,128),(465,162,132),(481,163,52),(482,163,53),(483,163,54),(484,163,55),(479,163,71),(480,163,72),(487,163,74),(486,163,77),(488,163,85),(489,163,86),(490,163,88),(491,163,89),(493,163,94),(494,163,95),(495,163,99),(496,163,100),(497,163,101),(492,163,102),(498,163,103),(485,163,106),(478,163,128),(477,163,132),(508,164,58),(499,164,61),(500,164,62),(501,164,63),(504,164,64),(505,164,65),(506,164,66),(502,164,71),(507,164,72),(510,164,102),(509,164,106),(503,164,300),(521,165,53),(520,165,58),(511,165,61),(512,165,62),(513,165,63),(516,165,64),(517,165,65),(518,165,66),(514,165,71),(519,165,72),(529,165,77),(525,165,102),(522,165,104),(523,165,105),(524,165,106),(526,165,119),(530,165,146),(515,165,2000),(527,165,2001),(528,165,2002),(535,171,68),(536,171,69),(533,171,71),(534,171,72),(537,171,74),(539,171,75),(540,171,77),(541,171,78),(538,171,79),(542,171,102),(532,171,128),(531,171,132),(547,172,52),(548,172,53),(549,172,54),(550,172,55),(545,172,71),(546,172,72),(553,172,74),(552,172,77),(554,172,85),(555,172,86),(556,172,88),(557,172,89),(559,172,94),(560,172,95),(561,172,99),(562,172,100),(563,172,101),(558,172,102),(564,172,103),(551,172,106),(544,172,128),(543,172,132),(574,173,58),(565,173,61),(566,173,62),(567,173,63),(570,173,64),(571,173,65),(572,173,66),(568,173,71),(573,173,72),(576,173,102),(575,173,106),(569,173,300),(587,174,53),(586,174,58),(577,174,61),(578,174,62),(579,174,63),(582,174,64),(583,174,65),(584,174,66),(580,174,71),(585,174,72),(595,174,80),(591,174,102),(588,174,104),(589,174,105),(590,174,106),(592,174,119),(596,174,128),(597,174,146),(581,174,2000),(593,174,2001),(594,174,2002),(602,180,68),(603,180,69),(600,180,71),(601,180,72),(604,180,74),(606,180,75),(607,180,77),(608,180,78),(605,180,79),(609,180,102),(599,180,128),(598,180,132),(614,181,52),(615,181,53),(616,181,54),(617,181,55),(612,181,71),(613,181,72),(620,181,74),(619,181,77),(621,181,85),(622,181,86),(623,181,88),(624,181,89),(626,181,94),(627,181,95),(628,181,99),(629,181,100),(630,181,101),(625,181,102),(631,181,103),(618,181,106),(611,181,128),(610,181,132),(641,182,58),(632,182,61),(633,182,62),(634,182,63),(637,182,64),(638,182,65),(639,182,66),(635,182,71),(640,182,72),(643,182,102),(642,182,106),(636,182,300),(654,183,53),(653,183,58),(644,183,61),(645,183,62),(646,183,63),(649,183,64),(650,183,65),(651,183,66),(647,183,71),(652,183,72),(662,183,77),(658,183,102),(655,183,104),(656,183,105),(657,183,106),(659,183,119),(663,183,128),(664,183,146),(648,183,2000),(660,183,2001),(661,183,2002),(669,189,68),(670,189,69),(667,189,71),(668,189,72),(671,189,74),(673,189,75),(674,189,77),(675,189,78),(672,189,79),(676,189,102),(666,189,128),(665,189,132),(681,190,52),(682,190,53),(683,190,54),(684,190,55),(679,190,71),(680,190,72),(687,190,74),(686,190,77),(688,190,85),(689,190,86),(690,190,88),(691,190,89),(693,190,94),(694,190,95),(695,190,99),(696,190,100),(697,190,101),(692,190,102),(698,190,103),(685,190,106),(678,190,128),(677,190,132),(708,191,58),(699,191,61),(700,191,62),(701,191,63),(704,191,64),(705,191,65),(706,191,66),(702,191,71),(707,191,72),(710,191,102),(709,191,106),(703,191,300);
 /*!40000 ALTER TABLE `auth_group_permissions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -88,7 +87,7 @@ CREATE TABLE `auth_permission` (
   UNIQUE KEY `content_type_id` (`content_type_id`,`codename`),
   KEY `auth_permission_37ef4eb4` (`content_type_id`),
   CONSTRAINT `content_type_id_refs_id_d043b34a` FOREIGN KEY (`content_type_id`) REFERENCES `django_content_type` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=172 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2003 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -97,7 +96,7 @@ CREATE TABLE `auth_permission` (
 
 LOCK TABLES `auth_permission` WRITE;
 /*!40000 ALTER TABLE `auth_permission` DISABLE KEYS */;
-INSERT INTO `auth_permission` VALUES (1,'Can add permission',1,'add_permission'),(2,'Can change permission',1,'change_permission'),(3,'Can delete permission',1,'delete_permission'),(4,'Can add group',2,'add_group'),(5,'Can change group',2,'change_group'),(6,'Can delete group',2,'delete_group'),(7,'Can view group',2,'view_group'),(8,'Can view permission',1,'view_permission'),(9,'Can add content type',3,'add_contenttype'),(10,'Can change content type',3,'change_contenttype'),(11,'Can delete content type',3,'delete_contenttype'),(12,'Can view content type',3,'view_contenttype'),(13,'Can add session',4,'add_session'),(14,'Can change session',4,'change_session'),(15,'Can delete session',4,'delete_session'),(16,'Can view session',4,'view_session'),(17,'Can add site',5,'add_site'),(18,'Can change site',5,'change_site'),(19,'Can delete site',5,'delete_site'),(20,'Can view site',5,'view_site'),(21,'Can add revision',6,'add_revision'),(22,'Can change revision',6,'change_revision'),(23,'Can delete revision',6,'delete_revision'),(24,'Can add version',7,'add_version'),(25,'Can change version',7,'change_version'),(26,'Can delete version',7,'delete_version'),(27,'Can view revision',6,'view_revision'),(28,'Can view version',7,'view_version'),(29,'Can add 公司',8,'add_company'),(30,'Can change 公司',8,'change_company'),(31,'Can delete 公司',8,'delete_company'),(32,'Can add user',9,'add_employee'),(33,'Can change user',9,'change_employee'),(34,'Can delete user',9,'delete_employee'),(35,'Can view user',9,'view_employee'),(36,'Can view 公司',8,'view_company'),(37,'Can add 类别',10,'add_category'),(38,'Can change 类别',10,'change_category'),(39,'Can delete 类别',10,'delete_category'),(40,'Can add 规格',11,'add_specification'),(41,'Can change 规格',11,'change_specification'),(42,'Can delete 规格',11,'delete_specification'),(43,'Can add 单位',12,'add_unit'),(44,'Can change 单位',12,'change_unit'),(45,'Can delete 单位',12,'delete_unit'),(46,'Can add 材料',13,'add_material'),(47,'Can change 材料',13,'change_material'),(48,'Can delete 材料',13,'delete_material'),(49,'Can add 品牌',14,'add_brand'),(50,'Can change 品牌',14,'change_brand'),(51,'Can delete 品牌',14,'delete_brand'),(52,'Can add 供应商',15,'add_vendor'),(53,'Can change 供应商',15,'change_vendor'),(54,'Can delete 供应商',15,'delete_vendor'),(55,'Can view 供应商',15,'view_vendor'),(56,'Can view 单位',12,'view_unit'),(57,'Can view 品牌',14,'view_brand'),(58,'Can view 材料',13,'view_material'),(59,'Can view 类别',10,'view_category'),(60,'Can view 规格',11,'view_specification'),(61,'Can add 项目',16,'add_project'),(62,'Can change 项目',16,'change_project'),(63,'Can delete 项目',16,'delete_project'),(64,'Can add 项目材料',17,'add_projectmaterial'),(65,'Can change 项目材料',17,'change_projectmaterial'),(66,'Can delete 项目材料',17,'delete_projectmaterial'),(67,'Can add 材料选择',18,'add_selectedlineitem'),(68,'Can change 材料选择',18,'change_selectedlineitem'),(69,'Can delete 材料选择',18,'delete_selectedlineitem'),(70,'Can view 材料选择',18,'view_selectedlineitem'),(71,'Can view 项目',16,'view_project'),(72,'Can view 项目材料',17,'view_projectmaterial'),(73,'Can add Bookmark',19,'add_bookmark'),(74,'Can change Bookmark',19,'change_bookmark'),(75,'Can delete Bookmark',19,'delete_bookmark'),(76,'Can add User Setting',20,'add_usersettings'),(77,'Can change User Setting',20,'change_usersettings'),(78,'Can delete User Setting',20,'delete_usersettings'),(79,'Can add User Widget',21,'add_userwidget'),(80,'Can change User Widget',21,'change_userwidget'),(81,'Can delete User Widget',21,'delete_userwidget'),(85,'Can view Bookmark',19,'view_bookmark'),(86,'Can view User Setting',20,'view_usersettings'),(87,'Can view User Widget',21,'view_userwidget'),(89,'Can add 单据',23,'add_document'),(90,'Can change 单据',23,'change_document'),(91,'Can delete 单据',23,'delete_document'),(92,'Can add 单据名细',24,'add_documentlineitem'),(93,'Can change 单据名细',24,'change_documentlineitem'),(94,'Can delete 单据名细',24,'delete_documentlineitem'),(95,'Can view 单据',23,'view_document'),(96,'Can view 单据名细',24,'view_documentlineitem'),(97,'Can add 流程',25,'add_route'),(98,'Can change 流程',25,'change_route'),(99,'Can delete 流程',25,'delete_route'),(100,'Can add 步骤',26,'add_actor'),(101,'Can change 步骤',26,'change_actor'),(102,'Can delete 步骤',26,'delete_actor'),(103,'Can add 步骤处理人',27,'add_actoruser'),(104,'Can change 步骤处理人',27,'change_actoruser'),(105,'Can delete 步骤处理人',27,'delete_actoruser'),(106,'Can add 项目申请',28,'add_item'),(107,'Can change 项目申请',28,'change_item'),(108,'Can delete 项目申请',28,'delete_item'),(109,'Can add 任务列表',29,'add_tasklist'),(110,'Can change 任务列表',29,'change_tasklist'),(111,'Can delete 任务列表',29,'delete_tasklist'),(112,'Can add 审核日志',30,'add_taskhistory'),(113,'Can change 审核日志',30,'change_taskhistory'),(114,'Can delete 审核日志',30,'delete_taskhistory'),(115,'Can view 任务列表',29,'view_tasklist'),(116,'Can view 审核日志',30,'view_taskhistory'),(117,'Can view 步骤',26,'view_actor'),(118,'Can view 步骤处理人',27,'view_actoruser'),(119,'Can view 流程',25,'view_route'),(120,'Can view 项目申请',28,'view_item'),(121,'Can add 采购单注意事项',31,'add_ordernote'),(122,'Can change 采购单注意事项',31,'change_ordernote'),(123,'Can delete 采购单注意事项',31,'delete_ordernote'),(124,'Can add 采购单',32,'add_order'),(125,'Can change 采购单',32,'change_order'),(126,'Can delete 采购单',32,'delete_order'),(127,'Can add 采购单名细',33,'add_orderline'),(128,'Can change 采购单名细',33,'change_orderline'),(129,'Can delete 采购单名细',33,'delete_orderline'),(130,'Can add 对账单',34,'add_checkaccount'),(131,'Can change 对账单',34,'change_checkaccount'),(132,'Can delete 对账单',34,'delete_checkaccount'),(133,'Can add 到货单名细',35,'add_receivingline'),(134,'Can change 到货单名细',35,'change_receivingline'),(135,'Can delete 到货单名细',35,'delete_receivingline'),(136,'Can add 对账单名细',35,'add_checkaccountdetail'),(137,'Can change 对账单名细',35,'change_checkaccountdetail'),(138,'Can delete 对账单名细',35,'delete_checkaccountdetail'),(139,'Can add 发票',36,'add_invoice'),(140,'Can change 发票',36,'change_invoice'),(141,'Can delete 发票',36,'delete_invoice'),(142,'Can view 到货单名细',35,'view_receivingline'),(143,'Can view 发票',36,'view_invoice'),(144,'Can view 对账单',34,'view_checkaccount'),(145,'Can view 对账单名细',37,'view_checkaccountdetail'),(146,'Can view 采购单',32,'view_order'),(147,'Can view 采购单名细',33,'view_orderline'),(148,'Can view 采购单注意事项',31,'view_ordernote'),(149,'can change group',38,'change_companygroup'),(150,'can add group',38,'add_companygroup'),(151,'can view group',38,'view_companygroup'),(152,'can delete group',38,'delete_companygroup'),(153,'can handle item',28,'handle_item'),(154,'can handled item',28,'handled_item'),(155,'Can add 支付方式',39,'add_paymenttype'),(156,'Can change 支付方式',39,'change_paymenttype'),(157,'Can delete 支付方式',39,'delete_paymenttype'),(158,'Can add 款项属性',40,'add_paymentproperty'),(159,'Can change 款项属性',40,'change_paymentproperty'),(160,'Can delete 款项属性',40,'delete_paymentproperty'),(161,'Can add 付款',41,'add_payment'),(162,'Can change 付款',41,'change_payment'),(163,'Can delete 付款',41,'delete_payment'),(164,'Can add 付款',41,'add_dopayemnt'),(165,'Can change 付款',41,'change_dopayemnt'),(166,'Can delete 付款',41,'delete_dopayemnt'),(167,'Can view 付款',41,'view_payment'),(168,'Can view 付款',42,'view_dopayemnt'),(169,'Can view 支付方式',39,'view_paymenttype'),(170,'Can view 款项属性',40,'view_paymentproperty'),(171,'can search_price',33,'search_price_orderline');
+INSERT INTO `auth_permission` VALUES (1,'Can add permission',1,'add_permission'),(2,'Can change permission',1,'change_permission'),(3,'Can delete permission',1,'delete_permission'),(4,'Can add group',2,'add_group'),(5,'Can change group',2,'change_group'),(6,'Can delete group',2,'delete_group'),(7,'Can view group',2,'view_group'),(8,'Can view permission',1,'view_permission'),(9,'Can add content type',3,'add_contenttype'),(10,'Can change content type',3,'change_contenttype'),(11,'Can delete content type',3,'delete_contenttype'),(12,'Can view content type',3,'view_contenttype'),(13,'Can add session',4,'add_session'),(14,'Can change session',4,'change_session'),(15,'Can delete session',4,'delete_session'),(16,'Can view session',4,'view_session'),(17,'Can add site',5,'add_site'),(18,'Can change site',5,'change_site'),(19,'Can delete site',5,'delete_site'),(20,'Can view site',5,'view_site'),(21,'Can add revision',6,'add_revision'),(22,'Can change revision',6,'change_revision'),(23,'Can delete revision',6,'delete_revision'),(24,'Can add version',7,'add_version'),(25,'Can change version',7,'change_version'),(26,'Can delete version',7,'delete_version'),(27,'Can view revision',6,'view_revision'),(28,'Can view version',7,'view_version'),(29,'Can add 公司',8,'add_company'),(30,'Can change 公司',8,'change_company'),(31,'Can delete 公司',8,'delete_company'),(32,'Can add user',9,'add_employee'),(33,'Can change user',9,'change_employee'),(34,'Can delete user',9,'delete_employee'),(35,'Can view user',9,'view_employee'),(36,'Can view 公司',8,'view_company'),(37,'Can add 类别',10,'add_category'),(38,'Can change 类别',10,'change_category'),(39,'Can delete 类别',10,'delete_category'),(40,'Can add 规格',11,'add_specification'),(41,'Can change 规格',11,'change_specification'),(42,'Can delete 规格',11,'delete_specification'),(43,'Can add 单位',12,'add_unit'),(44,'Can change 单位',12,'change_unit'),(45,'Can delete 单位',12,'delete_unit'),(46,'Can add 材料',13,'add_material'),(47,'Can change 材料',13,'change_material'),(48,'Can delete 材料',13,'delete_material'),(49,'Can add 品牌',14,'add_brand'),(50,'Can change 品牌',14,'change_brand'),(51,'Can delete 品牌',14,'delete_brand'),(52,'Can add 供应商',15,'add_vendor'),(53,'Can change 供应商',15,'change_vendor'),(54,'Can delete 供应商',15,'delete_vendor'),(55,'Can view 供应商',15,'view_vendor'),(56,'Can view 单位',12,'view_unit'),(57,'Can view 品牌',14,'view_brand'),(58,'Can view 材料',13,'view_material'),(59,'Can view 类别',10,'view_category'),(60,'Can view 规格',11,'view_specification'),(61,'Can add 项目',16,'add_project'),(62,'Can change 项目',16,'change_project'),(63,'Can delete 项目',16,'delete_project'),(64,'Can add 项目材料',17,'add_projectmaterial'),(65,'Can change 项目材料',17,'change_projectmaterial'),(66,'Can delete 项目材料',17,'delete_projectmaterial'),(67,'Can add 材料选择',18,'add_selectedlineitem'),(68,'Can change 材料选择',18,'change_selectedlineitem'),(69,'Can delete 材料选择',18,'delete_selectedlineitem'),(70,'Can view 材料选择',18,'view_selectedlineitem'),(71,'Can view 项目',16,'view_project'),(72,'Can view 项目材料',17,'view_projectmaterial'),(73,'Can add 单据',19,'add_document'),(74,'Can change 单据',19,'change_document'),(75,'Can delete 单据',19,'delete_document'),(76,'Can add 单据名细',20,'add_documentlineitem'),(77,'Can change 单据名细',20,'change_documentlineitem'),(78,'Can delete 单据名细',20,'delete_documentlineitem'),(79,'Can view 单据',19,'view_document'),(80,'Can view 单据名细',20,'view_documentlineitem'),(81,'Can add 采购单注意事项',21,'add_ordernote'),(82,'Can change 采购单注意事项',21,'change_ordernote'),(83,'Can delete 采购单注意事项',21,'delete_ordernote'),(84,'Can add 采购单',22,'add_order'),(85,'Can change 采购单',22,'change_order'),(86,'Can delete 采购单',22,'delete_order'),(87,'Can add 采购单名细',23,'add_orderline'),(88,'Can change 采购单名细',23,'change_orderline'),(89,'Can delete 采购单名细',23,'delete_orderline'),(90,'Can add 对账单',24,'add_checkaccount'),(91,'Can change 对账单',24,'change_checkaccount'),(92,'Can delete 对账单',24,'delete_checkaccount'),(93,'Can add 到货单名细',25,'add_receivingline'),(94,'Can change 到货单名细',25,'change_receivingline'),(95,'Can delete 到货单名细',25,'delete_receivingline'),(96,'Can add 对账单名细',25,'add_checkaccountdetail'),(97,'Can change 对账单名细',25,'change_checkaccountdetail'),(98,'Can delete 对账单名细',25,'delete_checkaccountdetail'),(99,'Can add 发票',26,'add_invoice'),(100,'Can change 发票',26,'change_invoice'),(101,'Can delete 发票',26,'delete_invoice'),(102,'Can view 到货单名细',25,'view_receivingline'),(103,'Can view 发票',26,'view_invoice'),(104,'Can view 对账单',24,'view_checkaccount'),(105,'Can view 对账单名细',27,'view_checkaccountdetail'),(106,'Can view 采购单',22,'view_order'),(107,'Can view 采购单名细',23,'view_orderline'),(108,'Can view 采购单注意事项',21,'view_ordernote'),(109,'Can add 流程',28,'add_route'),(110,'Can change 流程',28,'change_route'),(111,'Can delete 流程',28,'delete_route'),(112,'Can add 步骤',29,'add_actor'),(113,'Can change 步骤',29,'change_actor'),(114,'Can delete 步骤',29,'delete_actor'),(115,'Can add 步骤处理人',30,'add_actoruser'),(116,'Can change 步骤处理人',30,'change_actoruser'),(117,'Can delete 步骤处理人',30,'delete_actoruser'),(118,'Can add 项目申请',31,'add_item'),(119,'Can change 项目申请',31,'change_item'),(120,'Can delete 项目申请',31,'delete_item'),(121,'Can add 任务列表',32,'add_tasklist'),(122,'Can change 任务列表',32,'change_tasklist'),(123,'Can delete 任务列表',32,'delete_tasklist'),(124,'Can add 审核日志',33,'add_taskhistory'),(125,'Can change 审核日志',33,'change_taskhistory'),(126,'Can delete 审核日志',33,'delete_taskhistory'),(127,'Can view 任务列表',32,'view_tasklist'),(128,'Can view 审核日志',33,'view_taskhistory'),(129,'Can view 步骤',29,'view_actor'),(130,'Can view 步骤处理人',30,'view_actoruser'),(131,'Can view 流程',28,'view_route'),(132,'Can view 项目申请',31,'view_item'),(133,'Can add 支付方式',34,'add_paymenttype'),(134,'Can change 支付方式',34,'change_paymenttype'),(135,'Can delete 支付方式',34,'delete_paymenttype'),(136,'Can add 款项属性',35,'add_paymentproperty'),(137,'Can change 款项属性',35,'change_paymentproperty'),(138,'Can delete 款项属性',35,'delete_paymentproperty'),(139,'Can add 付款',36,'add_payment'),(140,'Can change 付款',36,'change_payment'),(141,'Can delete 付款',36,'delete_payment'),(142,'Can add 付款',36,'add_dopayemnt'),(143,'Can change 付款',36,'change_dopayemnt'),(144,'Can delete 付款',36,'delete_dopayemnt'),(145,'Can view 付款',36,'view_payment'),(146,'Can view 付款',37,'view_dopayemnt'),(147,'Can view 支付方式',34,'view_paymenttype'),(148,'Can view 款项属性',35,'view_paymentproperty'),(149,'Can add 项目设置',38,'add_projectsetting'),(150,'Can change 项目设置',38,'change_projectsetting'),(151,'Can delete 项目设置',38,'delete_projectsetting'),(152,'Can add 供应商设置',39,'add_vendorsetting'),(153,'Can change 供应商设置',39,'change_vendorsetting'),(154,'Can delete 供应商设置',39,'delete_vendorsetting'),(155,'Can view 供应商设置',39,'view_vendorsetting'),(156,'Can view 项目设置',38,'view_projectsetting'),(157,'Can add Bookmark',40,'add_bookmark'),(158,'Can change Bookmark',40,'change_bookmark'),(159,'Can delete Bookmark',40,'delete_bookmark'),(160,'Can add User Setting',41,'add_usersettings'),(161,'Can change User Setting',41,'change_usersettings'),(162,'Can delete User Setting',41,'delete_usersettings'),(163,'Can add User Widget',42,'add_userwidget'),(164,'Can change User Widget',42,'change_userwidget'),(165,'Can delete User Widget',42,'delete_userwidget'),(166,'Can add 部门',43,'add_companygroup'),(167,'Can change 部门',43,'change_companygroup'),(168,'Can delete 部门',43,'delete_companygroup'),(2000,'can search_price',23,'search_price_orderline'),(2001,'can handle item',31,'handle_item'),(2002,'can handled item',31,'handled_item');
 /*!40000 ALTER TABLE `auth_permission` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -159,7 +158,7 @@ CREATE TABLE `company_company` (
   KEY `company_company_ba470c4a` (`tree_id`),
   KEY `company_company_20e079f4` (`level`),
   CONSTRAINT `parent_id_refs_id_d95e7d2a` FOREIGN KEY (`parent_id`) REFERENCES `company_company` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -168,7 +167,7 @@ CREATE TABLE `company_company` (
 
 LOCK TABLES `company_company` WRITE;
 /*!40000 ALTER TABLE `company_company` DISABLE KEYS */;
-INSERT INTO `company_company` VALUES (1,NULL,'合和','合和','合和','13800000','13800000','552100',1,4,1,0),(2,NULL,'南消','南消','南消','138000','138000','521000',1,2,2,0);
+INSERT INTO `company_company` VALUES (1,NULL,'合和','合和','合和','13773524511','13773524511','225012',1,2,1,0),(2,NULL,'南消','南消','南消','13773524511','13773524511','225012',1,2,2,0);
 /*!40000 ALTER TABLE `company_company` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -206,7 +205,7 @@ CREATE TABLE `company_employee` (
 
 LOCK TABLES `company_employee` WRITE;
 /*!40000 ALTER TABLE `company_employee` DISABLE KEYS */;
-INSERT INTO `company_employee` VALUES (1,'pbkdf2_sha256$12000$5hSphBuKoqMD$517+Ql4k3FImY54W+9eJlm2W85h7kF6B+S+kEf5WRLA=','2015-11-05 02:27:54',1,'admin','','','admin@mgrai.com',1,1,'2015-11-02 12:32:12',NULL,NULL),(2,'pbkdf2_sha256$12000$ib4eGFViMHGW$lpMxjxt6ZeOIqAyu88J/a7YLmHwZ/x/hDwYRizU9HyE=','2015-11-05 09:30:35',0,'bob','','bob','',1,1,'2015-11-02 13:25:56',1,NULL),(3,'pbkdf2_sha256$12000$FjH3AqEwnwtH$z7GD/Trk1CWz0hVP/5zRFRB2G+Y1fmVbJD6YiqmR1Ag=','2015-11-02 13:26:20',0,'jason','','','',1,1,'2015-11-02 13:26:20',2,NULL),(4,'pbkdf2_sha256$12000$BRoVyLO1iR2c$S5iLd1QucWo2IzG7+aoOTbhPsZcjkBW2VuBjCF5VOUo=','2015-11-05 04:02:36',0,'alex','','alex','',1,1,'2015-11-02 13:39:51',1,NULL),(5,'pbkdf2_sha256$12000$ymdPl4xxaWZh$mXCqHxFbU/5RGXzVQl5dQ3wSLQe4Kyy4qLg6tf8kj3Y=','2015-11-05 06:06:21',0,'ray','','ray','',1,1,'2015-11-02 13:40:23',1,NULL),(6,'pbkdf2_sha256$12000$57mVq6OiGAos$klJogc7+8unpiP6CMGuTV95A3kxO10j3/Df4TllL4wU=','2015-11-05 09:31:04',0,'zeal','','zeal','',1,1,'2015-11-02 13:40:34',1,NULL),(7,'pbkdf2_sha256$12000$SoTaXqoRRQ7n$J3YOTgbSApJN6jSN9ORheJxRAWmNf0DZTShIQDLV3vA=','2015-11-05 07:06:28',0,'jack','','jack','',1,1,'2015-11-02 13:40:45',1,NULL),(8,'pbkdf2_sha256$12000$J5tnLW7moh0j$okx4j/NGHF0kto0xUsFucrNc2tlbSwnQPmjR+52lGA4=','2015-11-05 06:34:28',0,'tom','','tom','',1,1,'2015-11-02 13:40:53',1,NULL),(9,'pbkdf2_sha256$12000$Dg5kH65nmZIL$rSGHyvBOr5VnWdFGqC4Kbjzze2Jq61n5QlENFqzo3wQ=','2015-11-05 06:33:24',0,'jeff','','jeff','',1,1,'2015-11-02 13:41:03',1,NULL);
+INSERT INTO `company_employee` VALUES (1,'pbkdf2_sha256$12000$kwpl4l1AAl2n$RX91VpPy/9sbBRQSlHA3Ua9qr0mvamfsPmxPnhFlvVo=','2015-11-11 09:10:56',1,'admin','','','admin@mgrai.com',1,1,'2015-11-10 08:53:18',NULL,NULL),(2,'pbkdf2_sha256$12000$h9wHEtQj5Rft$8bv5pXh/o+sK+r+As/0jAfQEd8VJX5z4rDaLPV25zeU=','2015-11-11 09:34:43',0,'bob','Xiao','Dewen','',1,1,'2015-11-10 08:58:20',1,'13773524511'),(3,'pbkdf2_sha256$12000$wmMHni0JHUm7$N8cnD/pNs6OM9JddOLYgQOfWXuviJfT3OPE8SQe5X7g=','2015-11-11 07:05:59',0,'ray','Xiao','ray','',1,1,'2015-11-11 02:55:27',1,'13773524511'),(4,'pbkdf2_sha256$12000$SaEDhfNhGtOi$cORaAITeBoQ6eBWvCU3631nolU27yn7W0CdJc9A+3dc=','2015-11-11 09:18:15',0,'zeal','Xiao','zeal','',1,1,'2015-11-11 02:55:44',1,'13773524511'),(5,'pbkdf2_sha256$12000$xSDQZ3GbPgIb$Zz7SGrmPSUr5wn2IWSlFu/lk8WxYFV5oVs4eqSJ7NGM=','2015-11-11 09:26:38',0,'alex','','alex','',1,1,'2015-11-11 02:55:51',1,'13773524511'),(6,'pbkdf2_sha256$12000$FioATZ0gwXDm$u9/Khc8t8jiKZmtpS40CSXb3qRe9ekLotXsUkCbJkEo=','2015-11-11 02:56:09',0,'jack','Xiao','jack','',1,1,'2015-11-11 02:56:09',1,'13773524511'),(7,'pbkdf2_sha256$12000$oWnjpeyTfEyR$i5CxQPpPhB/cdR37WrSdrMCqKbxoDRGBuMlr1rECHoA=','2015-11-11 02:56:21',0,'tom','Xiao','tom','',1,1,'2015-11-11 02:56:21',1,'13773524511'),(8,'pbkdf2_sha256$12000$CdLHrRKIPdaD$dRuKLC0Z2bnYVHcLM9yInKkM+CqVyA5YcKtnVZEoQyg=','2015-11-11 02:56:32',0,'jeff','Xiao','jeff','',1,1,'2015-11-11 02:56:32',1,'13773524511'),(9,'pbkdf2_sha256$12000$84V1RESYMksy$uS9qxrPpMYEFumfvhk7tzyjFYkeKUHgZFl46LtcHIjI=','2015-11-11 09:35:24',0,'jason','Xiao','jason','',1,1,'2015-11-11 03:00:30',1,'13773524511');
 /*!40000 ALTER TABLE `company_employee` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -227,7 +226,7 @@ CREATE TABLE `company_employee_groups` (
   KEY `company_employee_groups_5f412f9a` (`group_id`),
   CONSTRAINT `employee_id_refs_id_da54842a` FOREIGN KEY (`employee_id`) REFERENCES `company_employee` (`id`),
   CONSTRAINT `group_id_refs_id_f88d5df1` FOREIGN KEY (`group_id`) REFERENCES `auth_group` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -236,7 +235,7 @@ CREATE TABLE `company_employee_groups` (
 
 LOCK TABLES `company_employee_groups` WRITE;
 /*!40000 ALTER TABLE `company_employee_groups` DISABLE KEYS */;
-INSERT INTO `company_employee_groups` VALUES (16,4,8),(19,5,6),(18,5,10),(15,6,9),(11,7,7),(14,8,2),(10,9,3);
+INSERT INTO `company_employee_groups` VALUES (20,3,110),(26,4,163),(30,5,180),(2,6,44),(5,7,43),(3,8,42),(31,9,183);
 /*!40000 ALTER TABLE `company_employee_groups` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -257,7 +256,7 @@ CREATE TABLE `company_employee_user_permissions` (
   KEY `company_employee_user_permissions_83d7f98b` (`permission_id`),
   CONSTRAINT `employee_id_refs_id_1364f6f6` FOREIGN KEY (`employee_id`) REFERENCES `company_employee` (`id`),
   CONSTRAINT `permission_id_refs_id_e45c7e40` FOREIGN KEY (`permission_id`) REFERENCES `auth_permission` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=770 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=729 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -266,7 +265,7 @@ CREATE TABLE `company_employee_user_permissions` (
 
 LOCK TABLES `company_employee_user_permissions` WRITE;
 /*!40000 ALTER TABLE `company_employee_user_permissions` DISABLE KEYS */;
-INSERT INTO `company_employee_user_permissions` VALUES (693,2,1),(694,2,4),(695,2,5),(696,2,6),(697,2,7),(698,2,8),(699,2,9),(700,2,10),(701,2,11),(702,2,12),(703,2,13),(704,2,14),(705,2,15),(706,2,16),(707,2,17),(708,2,18),(709,2,19),(710,2,20),(711,2,21),(712,2,22),(713,2,23),(714,2,24),(715,2,25),(716,2,26),(717,2,27),(718,2,28),(720,2,32),(721,2,33),(722,2,34),(723,2,35),(725,2,52),(726,2,53),(727,2,54),(728,2,55),(729,2,56),(730,2,57),(731,2,58),(732,2,59),(764,2,60),(734,2,61),(735,2,62),(736,2,63),(737,2,64),(738,2,65),(739,2,66),(740,2,67),(741,2,68),(742,2,69),(743,2,70),(744,2,71),(745,2,72),(746,2,73),(747,2,74),(748,2,75),(749,2,76),(750,2,77),(751,2,78),(752,2,79),(753,2,80),(754,2,81),(756,2,97),(757,2,98),(758,2,99),(759,2,100),(760,2,101),(761,2,102),(762,2,103),(763,2,104),(767,2,105),(765,2,117),(766,2,118),(768,2,119),(769,2,149),(719,2,150),(733,2,151),(755,2,152),(724,2,171);
+INSERT INTO `company_employee_user_permissions` VALUES (704,2,8),(705,2,32),(706,2,33),(707,2,34),(708,2,35),(721,2,61),(722,2,62),(723,2,63),(725,2,64),(726,2,65),(727,2,66),(724,2,71),(728,2,72),(709,2,109),(710,2,110),(711,2,111),(713,2,112),(714,2,113),(715,2,114),(717,2,115),(718,2,116),(719,2,117),(716,2,129),(720,2,130),(712,2,131),(701,2,166),(702,2,167),(703,2,168);
 /*!40000 ALTER TABLE `company_employee_user_permissions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -284,7 +283,7 @@ CREATE TABLE `django_content_type` (
   `model` varchar(100) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `app_label` (`app_label`,`model`)
-) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -293,7 +292,7 @@ CREATE TABLE `django_content_type` (
 
 LOCK TABLES `django_content_type` WRITE;
 /*!40000 ALTER TABLE `django_content_type` DISABLE KEYS */;
-INSERT INTO `django_content_type` VALUES (1,'permission','auth','permission'),(2,'group','auth','group'),(3,'content type','contenttypes','contenttype'),(4,'session','sessions','session'),(5,'site','sites','site'),(6,'revision','reversion','revision'),(7,'version','reversion','version'),(8,'公司','company','company'),(9,'user','company','employee'),(10,'类别','material','category'),(11,'规格','material','specification'),(12,'单位','material','unit'),(13,'材料','material','material'),(14,'品牌','material','brand'),(15,'供应商','material','vendor'),(16,'项目','project','project'),(17,'项目材料','project','projectmaterial'),(18,'材料选择','project','selectedlineitem'),(19,'Bookmark','xadmin','bookmark'),(20,'User Setting','xadmin','usersettings'),(21,'User Widget','xadmin','userwidget'),(23,'单据','document','document'),(24,'单据名细','document','documentlineitem'),(25,'流程','workflow','route'),(26,'步骤','workflow','actor'),(27,'步骤处理人','workflow','actoruser'),(28,'项目申请','workflow','item'),(29,'任务列表','workflow','tasklist'),(30,'审核日志','workflow','taskhistory'),(31,'采购单注意事项','order','ordernote'),(32,'采购单','order','order'),(33,'采购单名细','order','orderline'),(34,'对账单','order','checkaccount'),(35,'到货单名细','order','receivingline'),(36,'发票','order','invoice'),(37,'对账单名细','order','checkaccountdetail'),(38,'部门','xadmin','companygroup'),(39,'支付方式','payment','paymenttype'),(40,'款项属性','payment','paymentproperty'),(41,'付款','payment','payment'),(42,'付款','payment','dopayemnt');
+INSERT INTO `django_content_type` VALUES (1,'permission','auth','permission'),(2,'group','auth','group'),(3,'content type','contenttypes','contenttype'),(4,'session','sessions','session'),(5,'site','sites','site'),(6,'revision','reversion','revision'),(7,'version','reversion','version'),(8,'公司','company','company'),(9,'user','company','employee'),(10,'类别','material','category'),(11,'规格','material','specification'),(12,'单位','material','unit'),(13,'材料','material','material'),(14,'品牌','material','brand'),(15,'供应商','material','vendor'),(16,'项目','project','project'),(17,'项目材料','project','projectmaterial'),(18,'材料选择','project','selectedlineitem'),(19,'单据','document','document'),(20,'单据名细','document','documentlineitem'),(21,'采购单注意事项','order','ordernote'),(22,'采购单','order','order'),(23,'采购单名细','order','orderline'),(24,'对账单','order','checkaccount'),(25,'到货单名细','order','receivingline'),(26,'发票','order','invoice'),(27,'对账单名细','order','checkaccountdetail'),(28,'流程','workflow','route'),(29,'步骤','workflow','actor'),(30,'步骤处理人','workflow','actoruser'),(31,'项目申请','workflow','item'),(32,'任务列表','workflow','tasklist'),(33,'审核日志','workflow','taskhistory'),(34,'支付方式','payment','paymenttype'),(35,'款项属性','payment','paymentproperty'),(36,'付款','payment','payment'),(37,'付款','payment','dopayemnt'),(38,'项目设置','setting','projectsetting'),(39,'供应商设置','setting','vendorsetting'),(40,'Bookmark','xadmin','bookmark'),(41,'User Setting','xadmin','usersettings'),(42,'User Widget','xadmin','userwidget'),(43,'部门','xadmin','companygroup');
 /*!40000 ALTER TABLE `django_content_type` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -319,7 +318,7 @@ CREATE TABLE `django_session` (
 
 LOCK TABLES `django_session` WRITE;
 /*!40000 ALTER TABLE `django_session` DISABLE KEYS */;
-INSERT INTO `django_session` VALUES ('0ffqy1tg1pwsoknpyfwrw4ucxfy69x99','ZDVkMjM5ZjU4NDQxMjIzMTUyZTIxNTNhMWFhMjE0YTRiMGY0OWVhZjp7IkxJU1RfUVVFUlkiOltbImRvY3VtZW50IiwiZG9jdW1lbnQiXSwiIl0sIl9hdXRoX3VzZXJfaWQiOjQsIl9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIn0=','2015-11-18 05:58:24'),('s763ml5izah9gtc8t9tq4gi2pvfhoclf','NGM1NGRkMmEyMjU0NjE1ZDk3NGNiM2E5Y2U1YzA5OTRiYmE3NmI1ZDp7IkxJU1RfUVVFUlkiOltbIndvcmtmbG93Iiwicm91dGUiXSwiIl0sIl9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIiwiX2F1dGhfdXNlcl9pZCI6Mn0=','2015-11-18 06:28:04'),('t60o2y8kw1ksj910n9ezex7hupqq7n6v','MmQ2MDIwNWY0Y2YwMDJkM2U2MWM2ZDdiMjBjNzgwNGI4MDZiNjlhMDp7IkxJU1RfUVVFUlkiOltbImNvbXBhbnkiLCJlbXBsb3llZSJdLCImX3FfPWomX2NvbHM9aWQuX19zdHJfXyZwPTAmXz0xNDQ2NDcyMzQ3OTQxIl0sIl9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIiwiX2F1dGhfdXNlcl9pZCI6Miwid2l6YXJkX3Byb2plY3Rwcm9qZWN0X2FkbWluX3dpemFyZF9mb3JtX3BsdWdpbiI6eyJzdGVwX2ZpbGVzIjp7fSwic3RlcCI6Ilx1OTg3OVx1NzZlZVx1NzI3OVx1NWY4MSIsImV4dHJhX2RhdGEiOnt9LCJzdGVwX2RhdGEiOnt9fX0=','2015-11-16 13:52:37'),('tg2u1req347p7wiltqzpcxx5aip40wqe','MWM2MzFlZjZmMzljNjc3ZjhmNjM5ZTRmYjIwNzNjODE4MGZmYjcxZDp7IkxJU1RfUVVFUlkiOltbIm9yZGVyIiwib3JkZXIiXSwiIl0sIl9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIiwiX2F1dGhfdXNlcl9pZCI6Nn0=','2015-11-19 09:31:25');
+INSERT INTO `django_session` VALUES ('hhtrpc3stiuo69d01aaywxpp5web9lga','NzI2ODk1NjcyNWFmYWExYTNiNjNiMzY3MmFkM2Y5Y2Q1ZmM2YTVjMjp7IkxJU1RfUVVFUlkiOltbInBheW1lbnQiLCJkb3BheWVtbnQiXSwiIl0sIl9hdXRoX3VzZXJfaWQiOjksIl9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIn0=','2015-11-25 09:38:02');
 /*!40000 ALTER TABLE `django_session` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -377,7 +376,7 @@ CREATE TABLE `document_document` (
 
 LOCK TABLES `document_document` WRITE;
 /*!40000 ALTER TABLE `document_document` DISABLE KEYS */;
-INSERT INTO `document_document` VALUES (2,'PM20151104111214',0,4,'2015-11-04','未采购',2),(4,'PM20151104152334',0,4,'2015-11-04','采购完成',2),(5,'PM20151104171739',0,4,'2015-11-04','采购完成',2);
+INSERT INTO `document_document` VALUES (2,'PM000120151111152000',0,5,'2015-11-11','未采购',2),(3,'PM000120151111152259',0,5,'2015-11-11','未采购',2),(4,'PM000120151111152907',0,5,'2015-11-11','未采购',2),(5,'PM000120151111172708',0,5,'2015-11-11','未采购',2);
 /*!40000 ALTER TABLE `document_document` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -405,10 +404,10 @@ CREATE TABLE `document_documentlineitem` (
   KEY `document_documentlineitem_b7398729` (`document_id`),
   KEY `document_documentlineitem_271e2461` (`projectMaterial_id`),
   KEY `document_documentlineitem_5afadb1e` (`brand_id`),
+  CONSTRAINT `projectMaterial_id_refs_id_773995b0` FOREIGN KEY (`projectMaterial_id`) REFERENCES `project_projectmaterial` (`id`),
   CONSTRAINT `brand_id_refs_id_27c3280c` FOREIGN KEY (`brand_id`) REFERENCES `material_brand` (`id`),
-  CONSTRAINT `document_id_refs_id_73ca7c56` FOREIGN KEY (`document_id`) REFERENCES `document_document` (`id`),
-  CONSTRAINT `projectMaterial_id_refs_id_773995b0` FOREIGN KEY (`projectMaterial_id`) REFERENCES `project_projectmaterial` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+  CONSTRAINT `document_id_refs_id_73ca7c56` FOREIGN KEY (`document_id`) REFERENCES `document_document` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -417,7 +416,7 @@ CREATE TABLE `document_documentlineitem` (
 
 LOCK TABLES `document_documentlineitem` WRITE;
 /*!40000 ALTER TABLE `document_documentlineitem` DISABLE KEYS */;
-INSERT INTO `document_documentlineitem` VALUES (3,2,1,NULL,10,NULL,NULL,'2015-11-04','test',NULL,'',NULL),(4,2,2,NULL,2,NULL,NULL,'2015-11-04',NULL,NULL,'',NULL),(7,4,1,NULL,10,10,NULL,'2015-11-04',NULL,NULL,'',NULL),(8,4,2,NULL,10,30,NULL,'2015-11-04',NULL,NULL,'',NULL),(9,5,1,NULL,10,NULL,NULL,'2015-11-04',NULL,NULL,'',NULL);
+INSERT INTO `document_documentlineitem` VALUES (3,2,1,NULL,10,NULL,NULL,'2015-11-11',NULL,NULL,'',NULL),(4,2,2,NULL,10,NULL,NULL,'2015-11-11',NULL,NULL,'',NULL),(5,2,3,NULL,10,NULL,NULL,'2015-11-11',NULL,NULL,'',NULL),(6,3,5,NULL,10,NULL,NULL,'2015-11-11',NULL,NULL,'',NULL),(7,3,6,NULL,2,NULL,NULL,'2015-11-11',NULL,NULL,'',NULL),(8,4,1,NULL,10,NULL,NULL,'2015-11-11',NULL,NULL,'',NULL),(9,4,3,NULL,2,NULL,NULL,'2015-11-11',NULL,NULL,'',NULL),(10,5,1,NULL,2,NULL,NULL,'2015-11-11',NULL,NULL,'',NULL),(11,5,3,NULL,2,NULL,NULL,'2015-11-11',NULL,NULL,'',NULL);
 /*!40000 ALTER TABLE `document_documentlineitem` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -432,7 +431,7 @@ CREATE TABLE `material_brand` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -441,7 +440,6 @@ CREATE TABLE `material_brand` (
 
 LOCK TABLES `material_brand` WRITE;
 /*!40000 ALTER TABLE `material_brand` DISABLE KEYS */;
-INSERT INTO `material_brand` VALUES (1,'dd');
 /*!40000 ALTER TABLE `material_brand` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -585,8 +583,8 @@ CREATE TABLE `material_vendor` (
   KEY `material_vendor_e763210f` (`rght`),
   KEY `material_vendor_ba470c4a` (`tree_id`),
   KEY `material_vendor_20e079f4` (`level`),
-  CONSTRAINT `category_id_refs_id_d13fce6c` FOREIGN KEY (`category_id`) REFERENCES `material_category` (`id`),
   CONSTRAINT `company_id_refs_id_7357d25d` FOREIGN KEY (`company_id`) REFERENCES `company_company` (`id`),
+  CONSTRAINT `category_id_refs_id_d13fce6c` FOREIGN KEY (`category_id`) REFERENCES `material_category` (`id`),
   CONSTRAINT `parent_id_refs_id_fd4d7a4c` FOREIGN KEY (`parent_id`) REFERENCES `material_vendor` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -597,7 +595,7 @@ CREATE TABLE `material_vendor` (
 
 LOCK TABLES `material_vendor` WRITE;
 /*!40000 ALTER TABLE `material_vendor` DISABLE KEYS */;
-INSERT INTO `material_vendor` VALUES (1,NULL,'二亮','二亮',1,1,'','','','','','','','','','','',1,2,1,0);
+INSERT INTO `material_vendor` VALUES (1,NULL,'二亮','二亮',1,1,'二亮','','','','','','','','','','',1,2,1,0);
 /*!40000 ALTER TABLE `material_vendor` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -658,7 +656,7 @@ CREATE TABLE `order_invoice` (
   CONSTRAINT `company_id_refs_id_0cb78776` FOREIGN KEY (`company_id`) REFERENCES `company_company` (`id`),
   CONSTRAINT `user_id_refs_id_f1d5ee0d` FOREIGN KEY (`user_id`) REFERENCES `company_employee` (`id`),
   CONSTRAINT `vendor_id_refs_id_648e0dbe` FOREIGN KEY (`vendor_id`) REFERENCES `material_vendor` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -667,36 +665,8 @@ CREATE TABLE `order_invoice` (
 
 LOCK TABLES `order_invoice` WRITE;
 /*!40000 ALTER TABLE `order_invoice` DISABLE KEYS */;
+INSERT INTO `order_invoice` VALUES (1,1,1,'111',1000010.00,1,4,'2015-11-11',NULL,0);
 /*!40000 ALTER TABLE `order_invoice` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `order_invoice_checkaccounts`
---
-
-DROP TABLE IF EXISTS `order_invoice_checkaccounts`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `order_invoice_checkaccounts` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `invoice_id` int(11) NOT NULL,
-  `checkaccount_id` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `invoice_id` (`invoice_id`,`checkaccount_id`),
-  KEY `order_invoice_checkAccounts_2bf5dd79` (`invoice_id`),
-  KEY `order_invoice_checkAccounts_ee919749` (`checkaccount_id`),
-  CONSTRAINT `invoice_id_refs_id_aef7cc15` FOREIGN KEY (`invoice_id`) REFERENCES `order_invoice` (`id`),
-  CONSTRAINT `checkaccount_id_refs_id_81289f5a` FOREIGN KEY (`checkaccount_id`) REFERENCES `order_checkaccount` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `order_invoice_checkaccounts`
---
-
-LOCK TABLES `order_invoice_checkaccounts` WRITE;
-/*!40000 ALTER TABLE `order_invoice_checkaccounts` DISABLE KEYS */;
-/*!40000 ALTER TABLE `order_invoice_checkaccounts` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -724,13 +694,13 @@ CREATE TABLE `order_order` (
   KEY `order_order_bc787c37` (`vendor_id`),
   KEY `order_order_f6e610e1` (`note_id`),
   KEY `order_order_6340c63c` (`user_id`),
-  CONSTRAINT `document_id_refs_id_ba90fb63` FOREIGN KEY (`document_id`) REFERENCES `document_document` (`id`),
   CONSTRAINT `company_id_refs_id_2e8feb57` FOREIGN KEY (`company_id`) REFERENCES `company_company` (`id`),
+  CONSTRAINT `document_id_refs_id_ba90fb63` FOREIGN KEY (`document_id`) REFERENCES `document_document` (`id`),
   CONSTRAINT `note_id_refs_id_207b77f2` FOREIGN KEY (`note_id`) REFERENCES `order_ordernote` (`id`),
   CONSTRAINT `project_id_refs_id_c78edba4` FOREIGN KEY (`project_id`) REFERENCES `project_project` (`id`),
   CONSTRAINT `user_id_refs_id_07cfe8b1` FOREIGN KEY (`user_id`) REFERENCES `company_employee` (`id`),
   CONSTRAINT `vendor_id_refs_id_caac93e2` FOREIGN KEY (`vendor_id`) REFERENCES `material_vendor` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -739,7 +709,6 @@ CREATE TABLE `order_order` (
 
 LOCK TABLES `order_order` WRITE;
 /*!40000 ALTER TABLE `order_order` DISABLE KEYS */;
-INSERT INTO `order_order` VALUES (2,'PO20151105154816',4,1,2,1,'2015-11-05',NULL,0,6),(3,'PO20151105161515',5,1,2,NULL,'2015-11-05',NULL,0,6);
 /*!40000 ALTER TABLE `order_order` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -763,10 +732,10 @@ CREATE TABLE `order_orderline` (
   KEY `order_orderline_68d25c7a` (`order_id`),
   KEY `order_orderline_f0d8b8d9` (`documentLineItem_id`),
   KEY `order_orderline_5afadb1e` (`brand_id`),
-  CONSTRAINT `brand_id_refs_id_f5f103ef` FOREIGN KEY (`brand_id`) REFERENCES `material_brand` (`id`),
   CONSTRAINT `documentLineItem_id_refs_id_95720001` FOREIGN KEY (`documentLineItem_id`) REFERENCES `document_documentlineitem` (`id`),
+  CONSTRAINT `brand_id_refs_id_f5f103ef` FOREIGN KEY (`brand_id`) REFERENCES `material_brand` (`id`),
   CONSTRAINT `order_id_refs_id_b91acd28` FOREIGN KEY (`order_id`) REFERENCES `order_order` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -775,7 +744,6 @@ CREATE TABLE `order_orderline` (
 
 LOCK TABLES `order_orderline` WRITE;
 /*!40000 ALTER TABLE `order_orderline` DISABLE KEYS */;
-INSERT INTO `order_orderline` VALUES (3,2,7,5.00,NULL,10,50.00,NULL),(4,2,8,5.00,NULL,10,50.00,NULL),(5,3,9,NULL,NULL,10,0.00,NULL);
 /*!40000 ALTER TABLE `order_orderline` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -790,7 +758,10 @@ CREATE TABLE `order_ordernote` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
   `note` longtext NOT NULL,
-  PRIMARY KEY (`id`)
+  `company_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `order_ordernote_0316dde1` (`company_id`),
+  CONSTRAINT `company_id_refs_id_d9628d91` FOREIGN KEY (`company_id`) REFERENCES `company_company` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -824,7 +795,7 @@ CREATE TABLE `order_receivingline` (
   KEY `order_receivingline_84e0fc55` (`checkAccount_id`),
   CONSTRAINT `checkAccount_id_refs_id_c2cc20ba` FOREIGN KEY (`checkAccount_id`) REFERENCES `order_checkaccount` (`id`),
   CONSTRAINT `orderLine_id_refs_id_e18dfc70` FOREIGN KEY (`orderLine_id`) REFERENCES `order_orderline` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -833,7 +804,6 @@ CREATE TABLE `order_receivingline` (
 
 LOCK TABLES `order_receivingline` WRITE;
 /*!40000 ALTER TABLE `order_receivingline` DISABLE KEYS */;
-INSERT INTO `order_receivingline` VALUES (1,4,10.00,10.00,'2015-11-05',50.00,NULL,NULL),(2,3,10.00,10.00,'2015-11-05',50.00,NULL,NULL);
 /*!40000 ALTER TABLE `order_receivingline` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -899,7 +869,10 @@ DROP TABLE IF EXISTS `payment_paymentproperty`;
 CREATE TABLE `payment_paymentproperty` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
-  PRIMARY KEY (`id`)
+  `company_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `payment_paymentproperty_0316dde1` (`company_id`),
+  CONSTRAINT `company_id_refs_id_7cca2561` FOREIGN KEY (`company_id`) REFERENCES `company_company` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -922,7 +895,10 @@ DROP TABLE IF EXISTS `payment_paymenttype`;
 CREATE TABLE `payment_paymenttype` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
-  PRIMARY KEY (`id`)
+  `company_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `payment_paymenttype_0316dde1` (`company_id`),
+  CONSTRAINT `company_id_refs_id_5ae72164` FOREIGN KEY (`company_id`) REFERENCES `company_company` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -950,7 +926,7 @@ CREATE TABLE `project_project` (
   `construct_unit` varchar(50) DEFAULT NULL,
   `property` varchar(50) DEFAULT NULL,
   `scale` varchar(50) DEFAULT NULL,
-  `estimate_user_id` int(11) NOT NULL,
+  `estimate_user_id` int(11) DEFAULT NULL,
   `amount` decimal(15,2) DEFAULT NULL,
   `material_amount` decimal(15,2) DEFAULT NULL,
   `contract_format` varchar(50) DEFAULT NULL,
@@ -975,7 +951,7 @@ CREATE TABLE `project_project` (
 
 LOCK TABLES `project_project` WRITE;
 /*!40000 ALTER TABLE `project_project` DISABLE KEYS */;
-INSERT INTO `project_project` VALUES (1,'万科一期','万科一期',1,'','','',5,NULL,NULL,'','',NULL,NULL,NULL,'',NULL,''),(2,'万科','万科',1,'','','',5,1000.00,NULL,'','','2015-11-03','2015-11-03','2015-11-03','',1000.00,'');
+INSERT INTO `project_project` VALUES (1,'万科','万科',1,'','','',3,10000000.00,NULL,'','','2015-11-11','2015-11-11','2015-11-11','',NULL,''),(2,'万科一期','',1,'','','',3,NULL,NULL,'','',NULL,NULL,NULL,'',NULL,'');
 /*!40000 ALTER TABLE `project_project` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -994,9 +970,9 @@ CREATE TABLE `project_project_users` (
   UNIQUE KEY `project_id` (`project_id`,`employee_id`),
   KEY `project_project_users_37952554` (`project_id`),
   KEY `project_project_users_5b3073ae` (`employee_id`),
-  CONSTRAINT `employee_id_refs_id_296e7dbe` FOREIGN KEY (`employee_id`) REFERENCES `company_employee` (`id`),
-  CONSTRAINT `project_id_refs_id_64cedd69` FOREIGN KEY (`project_id`) REFERENCES `project_project` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+  CONSTRAINT `project_id_refs_id_64cedd69` FOREIGN KEY (`project_id`) REFERENCES `project_project` (`id`),
+  CONSTRAINT `employee_id_refs_id_296e7dbe` FOREIGN KEY (`employee_id`) REFERENCES `company_employee` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1005,7 +981,7 @@ CREATE TABLE `project_project_users` (
 
 LOCK TABLES `project_project_users` WRITE;
 /*!40000 ALTER TABLE `project_project_users` DISABLE KEYS */;
-INSERT INTO `project_project_users` VALUES (1,1,4),(2,2,4);
+INSERT INTO `project_project_users` VALUES (3,1,5),(2,2,5);
 /*!40000 ALTER TABLE `project_project_users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1029,10 +1005,10 @@ CREATE TABLE `project_projectmaterial` (
   KEY `project_projectmaterial_37952554` (`project_id`),
   KEY `project_projectmaterial_6f33f001` (`category_id`),
   KEY `project_projectmaterial_f6ab4be3` (`material_id`),
+  CONSTRAINT `project_id_refs_id_445896f6` FOREIGN KEY (`project_id`) REFERENCES `project_project` (`id`),
   CONSTRAINT `category_id_refs_id_9267cf2d` FOREIGN KEY (`category_id`) REFERENCES `material_category` (`id`),
-  CONSTRAINT `material_id_refs_id_3972f73a` FOREIGN KEY (`material_id`) REFERENCES `material_material` (`id`),
-  CONSTRAINT `project_id_refs_id_445896f6` FOREIGN KEY (`project_id`) REFERENCES `project_project` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+  CONSTRAINT `material_id_refs_id_3972f73a` FOREIGN KEY (`material_id`) REFERENCES `material_material` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1041,7 +1017,7 @@ CREATE TABLE `project_projectmaterial` (
 
 LOCK TABLES `project_projectmaterial` WRITE;
 /*!40000 ALTER TABLE `project_projectmaterial` DISABLE KEYS */;
-INSERT INTO `project_projectmaterial` VALUES (1,2,NULL,1,100,10.00,11.00,1000.00),(2,2,NULL,2,100,10.00,10.50,1000.00);
+INSERT INTO `project_projectmaterial` VALUES (1,2,NULL,13,100,NULL,NULL,0.00),(2,2,NULL,10,100,NULL,NULL,0.00),(3,2,NULL,11,100,NULL,NULL,0.00),(4,2,NULL,16,100,NULL,NULL,0.00),(5,2,1,1,100,NULL,NULL,0.00),(6,2,1,2,100,NULL,NULL,0.00),(7,2,1,3,100,NULL,NULL,0.00),(8,2,1,4,100,NULL,NULL,0.00),(9,2,1,5,100,NULL,NULL,0.00),(10,2,1,6,100,NULL,NULL,0.00),(11,2,1,7,100,100.00,NULL,10000.00),(12,2,1,8,100,100.00,NULL,10000.00),(13,2,1,9,100,100.00,NULL,10000.00),(14,2,2,12,100,100.00,NULL,10000.00),(15,2,2,14,100,100.00,NULL,10000.00),(16,2,2,15,100,100.00,NULL,10000.00),(17,2,2,17,100,100.00,NULL,10000.00);
 /*!40000 ALTER TABLE `project_projectmaterial` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1138,6 +1114,63 @@ LOCK TABLES `reversion_version` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `setting_projectsetting`
+--
+
+DROP TABLE IF EXISTS `setting_projectsetting`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `setting_projectsetting` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `project_id` int(11) NOT NULL,
+  `online_before_amount` decimal(15,2) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `setting_projectsetting_37952554` (`project_id`),
+  CONSTRAINT `project_id_refs_id_0a11cdbf` FOREIGN KEY (`project_id`) REFERENCES `project_project` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `setting_projectsetting`
+--
+
+LOCK TABLES `setting_projectsetting` WRITE;
+/*!40000 ALTER TABLE `setting_projectsetting` DISABLE KEYS */;
+/*!40000 ALTER TABLE `setting_projectsetting` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `setting_vendorsetting`
+--
+
+DROP TABLE IF EXISTS `setting_vendorsetting`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `setting_vendorsetting` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `vendor_id` int(11) NOT NULL,
+  `company_id` int(11) NOT NULL,
+  `online_before_owed_amount` decimal(15,2) DEFAULT NULL,
+  `online_before_owed_invoice` decimal(15,2) DEFAULT NULL,
+  `online_before_received_amount` decimal(15,2) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `setting_vendorsetting_bc787c37` (`vendor_id`),
+  KEY `setting_vendorsetting_0316dde1` (`company_id`),
+  CONSTRAINT `company_id_refs_id_233d3bca` FOREIGN KEY (`company_id`) REFERENCES `company_company` (`id`),
+  CONSTRAINT `vendor_id_refs_id_12db2471` FOREIGN KEY (`vendor_id`) REFERENCES `material_vendor` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `setting_vendorsetting`
+--
+
+LOCK TABLES `setting_vendorsetting` WRITE;
+/*!40000 ALTER TABLE `setting_vendorsetting` DISABLE KEYS */;
+/*!40000 ALTER TABLE `setting_vendorsetting` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `workflow_actor`
 --
 
@@ -1152,7 +1185,7 @@ CREATE TABLE `workflow_actor` (
   PRIMARY KEY (`id`),
   KEY `workflow_actor_854631fb` (`route_id`),
   CONSTRAINT `route_id_refs_id_380c93bf` FOREIGN KEY (`route_id`) REFERENCES `workflow_route` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1161,7 +1194,7 @@ CREATE TABLE `workflow_actor` (
 
 LOCK TABLES `workflow_actor` WRITE;
 /*!40000 ALTER TABLE `workflow_actor` DISABLE KEYS */;
-INSERT INTO `workflow_actor` VALUES (1,1,'预算部门经理审批',1),(2,1,'副总经理审批',2),(3,1,'总经理审批',3),(4,2,'预算部门经理审批',1),(5,2,'副总经理审批',2),(6,2,'总经理审批',3);
+INSERT INTO `workflow_actor` VALUES (1,1,'预算部门经理审批',1),(2,1,'副总经理审批',2),(3,1,'总经理审批',3);
 /*!40000 ALTER TABLE `workflow_actor` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1179,9 +1212,9 @@ CREATE TABLE `workflow_actoruser` (
   PRIMARY KEY (`id`),
   KEY `workflow_actoruser_b6bbc2ee` (`actor_id`),
   KEY `workflow_actoruser_6340c63c` (`user_id`),
-  CONSTRAINT `user_id_refs_id_1ae24f1d` FOREIGN KEY (`user_id`) REFERENCES `company_employee` (`id`),
-  CONSTRAINT `actor_id_refs_id_f0ec64a6` FOREIGN KEY (`actor_id`) REFERENCES `workflow_actor` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+  CONSTRAINT `actor_id_refs_id_f0ec64a6` FOREIGN KEY (`actor_id`) REFERENCES `workflow_actor` (`id`),
+  CONSTRAINT `user_id_refs_id_1ae24f1d` FOREIGN KEY (`user_id`) REFERENCES `company_employee` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1190,7 +1223,7 @@ CREATE TABLE `workflow_actoruser` (
 
 LOCK TABLES `workflow_actoruser` WRITE;
 /*!40000 ALTER TABLE `workflow_actoruser` DISABLE KEYS */;
-INSERT INTO `workflow_actoruser` VALUES (1,1,5),(2,2,9),(3,3,8),(4,4,5),(5,5,9),(6,6,8);
+INSERT INTO `workflow_actoruser` VALUES (1,1,9),(2,2,8),(3,3,7);
 /*!40000 ALTER TABLE `workflow_actoruser` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1212,10 +1245,10 @@ CREATE TABLE `workflow_item` (
   KEY `workflow_item_b7398729` (`document_id`),
   KEY `workflow_item_854631fb` (`route_id`),
   KEY `workflow_item_6340c63c` (`user_id`),
-  CONSTRAINT `route_id_refs_id_3dbaff88` FOREIGN KEY (`route_id`) REFERENCES `workflow_route` (`id`),
   CONSTRAINT `document_id_refs_id_0c431d66` FOREIGN KEY (`document_id`) REFERENCES `document_document` (`id`),
+  CONSTRAINT `route_id_refs_id_3dbaff88` FOREIGN KEY (`route_id`) REFERENCES `workflow_route` (`id`),
   CONSTRAINT `user_id_refs_id_fda339f2` FOREIGN KEY (`user_id`) REFERENCES `company_employee` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1224,7 +1257,7 @@ CREATE TABLE `workflow_item` (
 
 LOCK TABLES `workflow_item` WRITE;
 /*!40000 ALTER TABLE `workflow_item` DISABLE KEYS */;
-INSERT INTO `workflow_item` VALUES (1,2,'项目材料申请',1,4,0),(2,4,'项目材料申请',1,4,2),(3,5,'项目材料申请',1,4,2);
+INSERT INTO `workflow_item` VALUES (1,2,'项目材料申请',1,5,NULL),(2,3,'项目材料申请',1,5,NULL),(3,4,'项目材料申请',1,5,1),(4,5,'项目材料申请',1,5,0);
 /*!40000 ALTER TABLE `workflow_item` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1243,8 +1276,8 @@ CREATE TABLE `workflow_route` (
   PRIMARY KEY (`id`),
   KEY `workflow_route_5f412f9a` (`group_id`),
   KEY `workflow_route_0316dde1` (`company_id`),
-  CONSTRAINT `company_id_refs_id_3d127632` FOREIGN KEY (`company_id`) REFERENCES `company_company` (`id`),
-  CONSTRAINT `group_id_refs_id_fab60d9f` FOREIGN KEY (`group_id`) REFERENCES `auth_group` (`id`)
+  CONSTRAINT `group_id_refs_id_fab60d9f` FOREIGN KEY (`group_id`) REFERENCES `auth_group` (`id`),
+  CONSTRAINT `company_id_refs_id_3d127632` FOREIGN KEY (`company_id`) REFERENCES `company_company` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1254,7 +1287,7 @@ CREATE TABLE `workflow_route` (
 
 LOCK TABLES `workflow_route` WRITE;
 /*!40000 ALTER TABLE `workflow_route` DISABLE KEYS */;
-INSERT INTO `workflow_route` VALUES (1,'项目材料申请',8,1),(2,'付款申请',7,1);
+INSERT INTO `workflow_route` VALUES (1,'项目材料申请',100,1),(2,'付款申请',100,1);
 /*!40000 ALTER TABLE `workflow_route` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1277,10 +1310,10 @@ CREATE TABLE `workflow_taskhistory` (
   KEY `workflow_taskhistory_0a47aae8` (`item_id`),
   KEY `workflow_taskhistory_b6bbc2ee` (`actor_id`),
   KEY `workflow_taskhistory_6340c63c` (`user_id`),
-  CONSTRAINT `user_id_refs_id_838580d0` FOREIGN KEY (`user_id`) REFERENCES `company_employee` (`id`),
   CONSTRAINT `actor_id_refs_id_0e7a1a95` FOREIGN KEY (`actor_id`) REFERENCES `workflow_actor` (`id`),
-  CONSTRAINT `item_id_refs_id_8804e046` FOREIGN KEY (`item_id`) REFERENCES `workflow_item` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+  CONSTRAINT `item_id_refs_id_8804e046` FOREIGN KEY (`item_id`) REFERENCES `workflow_item` (`id`),
+  CONSTRAINT `user_id_refs_id_838580d0` FOREIGN KEY (`user_id`) REFERENCES `company_employee` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1289,7 +1322,7 @@ CREATE TABLE `workflow_taskhistory` (
 
 LOCK TABLES `workflow_taskhistory` WRITE;
 /*!40000 ALTER TABLE `workflow_taskhistory` DISABLE KEYS */;
-INSERT INTO `workflow_taskhistory` VALUES (1,3,1,1,5,'2015-11-05 06:06:33',''),(2,2,1,1,5,'2015-11-05 06:06:33',''),(3,3,2,1,9,'2015-11-05 06:33:48',''),(4,2,2,1,9,'2015-11-05 06:33:48',''),(5,3,3,1,8,'2015-11-05 06:34:37',''),(6,2,3,1,8,'2015-11-05 06:34:37','');
+INSERT INTO `workflow_taskhistory` VALUES (1,3,1,1,9,'2015-11-11 09:22:36','approve');
 /*!40000 ALTER TABLE `workflow_taskhistory` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1309,7 +1342,7 @@ CREATE TABLE `workflow_tasklist` (
   KEY `workflow_tasklist_b6bbc2ee` (`actor_id`),
   CONSTRAINT `actor_id_refs_id_07186254` FOREIGN KEY (`actor_id`) REFERENCES `workflow_actor` (`id`),
   CONSTRAINT `item_id_refs_id_bcada7d7` FOREIGN KEY (`item_id`) REFERENCES `workflow_item` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1318,7 +1351,7 @@ CREATE TABLE `workflow_tasklist` (
 
 LOCK TABLES `workflow_tasklist` WRITE;
 /*!40000 ALTER TABLE `workflow_tasklist` DISABLE KEYS */;
-INSERT INTO `workflow_tasklist` VALUES (1,1,1),(2,2,3),(3,3,3);
+INSERT INTO `workflow_tasklist` VALUES (1,3,2),(2,4,1);
 /*!40000 ALTER TABLE `workflow_tasklist` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1366,8 +1399,8 @@ CREATE TABLE `xadmin_companygroup` (
   `company_id` int(11) NOT NULL,
   PRIMARY KEY (`group_ptr_id`),
   KEY `xadmin_companygroup_0316dde1` (`company_id`),
-  CONSTRAINT `company_id_refs_id_88125bed` FOREIGN KEY (`company_id`) REFERENCES `company_company` (`id`),
-  CONSTRAINT `group_ptr_id_refs_id_f496f25a` FOREIGN KEY (`group_ptr_id`) REFERENCES `auth_group` (`id`)
+  CONSTRAINT `group_ptr_id_refs_id_f496f25a` FOREIGN KEY (`group_ptr_id`) REFERENCES `auth_group` (`id`),
+  CONSTRAINT `company_id_refs_id_88125bed` FOREIGN KEY (`company_id`) REFERENCES `company_company` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1377,7 +1410,7 @@ CREATE TABLE `xadmin_companygroup` (
 
 LOCK TABLES `xadmin_companygroup` WRITE;
 /*!40000 ALTER TABLE `xadmin_companygroup` DISABLE KEYS */;
-INSERT INTO `xadmin_companygroup` VALUES (2,1),(3,1),(4,1),(5,1),(6,1),(7,1),(8,1),(9,1),(10,1);
+INSERT INTO `xadmin_companygroup` VALUES (1,1),(12,1),(13,1),(14,1),(15,1),(16,1),(17,1),(18,1),(19,1),(20,1),(21,1),(22,1),(23,1),(24,1),(25,1),(26,1),(27,1),(28,1),(29,1),(30,1),(31,1),(32,1),(33,1),(34,1),(35,1),(36,1),(37,1),(38,1),(39,1),(40,1),(41,1),(42,1),(43,1),(44,1),(45,1),(46,1),(47,1),(48,1),(49,1),(50,1),(51,1),(52,1),(53,1),(54,1),(55,1),(56,1),(57,1),(58,1),(59,1),(60,1),(61,1),(62,1),(63,1),(64,1),(65,1),(66,1),(67,1),(68,1),(69,1),(70,1),(71,1),(72,1),(73,1),(74,1),(75,1),(76,1),(77,1),(78,1),(79,1),(80,1),(81,1),(82,1),(83,1),(84,1),(85,1),(86,1),(87,1),(88,1),(89,1),(90,1),(91,1),(92,1),(93,1),(94,1),(95,1),(96,1),(97,1),(98,1),(99,1),(100,1),(101,1),(102,1),(103,1),(104,1),(105,1),(106,1),(107,1),(108,1),(109,1),(110,1),(111,1),(112,1),(113,1),(114,1),(115,1),(116,1),(117,1),(118,1),(119,1),(120,1),(121,1),(122,1),(123,1),(124,1),(125,1),(126,1),(127,1),(128,1),(129,1),(130,1),(131,1),(132,1),(133,1),(134,1),(135,1),(136,1),(137,1),(138,1),(139,1),(140,1),(141,1),(142,1),(143,1),(144,1),(145,1),(146,1),(147,1),(148,1),(149,1),(150,1),(151,1),(152,1),(153,1),(154,1),(155,1),(156,1),(157,1),(158,1),(159,1),(160,1),(161,1),(162,1),(163,1),(164,1),(165,1),(166,1),(167,1),(168,1),(169,1),(170,1),(171,1),(172,1),(173,1),(174,1),(175,1),(176,1),(177,1),(178,1),(179,1),(180,1),(181,1),(182,1),(183,1),(184,1),(185,1),(186,1),(187,1),(188,1),(189,1),(190,1),(191,1);
 /*!40000 ALTER TABLE `xadmin_companygroup` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1396,7 +1429,7 @@ CREATE TABLE `xadmin_usersettings` (
   PRIMARY KEY (`id`),
   KEY `xadmin_usersettings_6340c63c` (`user_id`),
   CONSTRAINT `user_id_refs_id_b50d6e52` FOREIGN KEY (`user_id`) REFERENCES `company_employee` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1405,7 +1438,7 @@ CREATE TABLE `xadmin_usersettings` (
 
 LOCK TABLES `xadmin_usersettings` WRITE;
 /*!40000 ALTER TABLE `xadmin_usersettings` DISABLE KEYS */;
-INSERT INTO `xadmin_usersettings` VALUES (1,1,'dashboard:home:pos',''),(2,2,'dashboard:home:pos',''),(3,4,'dashboard:home:pos',''),(4,5,'dashboard:home:pos',''),(5,9,'dashboard:home:pos',''),(6,8,'dashboard:home:pos',''),(7,7,'dashboard:home:pos',''),(8,6,'dashboard:home:pos','');
+INSERT INTO `xadmin_usersettings` VALUES (1,1,'dashboard:home:pos',''),(2,2,'dashboard:home:pos',''),(3,3,'dashboard:home:pos',''),(4,9,'dashboard:home:pos',''),(5,5,'dashboard:home:pos',''),(6,4,'dashboard:home:pos','');
 /*!40000 ALTER TABLE `xadmin_usersettings` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1446,4 +1479,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-11-05 17:55:51
+-- Dump completed on 2015-11-11 17:40:38
