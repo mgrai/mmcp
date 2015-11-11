@@ -180,8 +180,11 @@ BEGIN
 		
 		
 		-- 报表管理 
-		-- 到货单
---		insert auth_group_permissions (group_id, permission_id) values(v_group_id, 102); -- for view
+		-- 对帐单
+		insert auth_group_permissions (group_id, permission_id) values(v_group_id, 104); -- view_checkaccount
+		-- 对帐名细
+		insert auth_group_permissions (group_id, permission_id) values(v_group_id, 105); -- view_checkaccountdetail
+		
 		
 		
 	 END IF;
