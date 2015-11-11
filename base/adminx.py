@@ -2,6 +2,7 @@
 
 class AbstractObjectAdmin(object):
     
+    reversion_enable = True
     
     @property
     def exclude(self):

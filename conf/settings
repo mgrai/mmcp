@@ -2,7 +2,7 @@
 bob   admin
 alex 工程部门
 ray  预算部门
-ray  预算部门经理
+jason 预算部门经理
 zeal 采购部门
 jack 财务部门
 tom  总经理
@@ -16,6 +16,11 @@ jeff 副总经理
 项目负责人 是 工程部门
  
 
+1. create new company
+2. create new admin user (公司，电话 必填)
+3. run create_admin_user_privilege.sql
+3. run assign_group_to_company.sql
+4. run assign_group_privilege.sql
 
 
 

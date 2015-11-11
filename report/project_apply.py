@@ -19,7 +19,7 @@ def build_query(project, category, material_name):
                        CONCAT(material.name ,  coalesce(CONCAT(' - ', material.specification), ''), coalesce(CONCAT(' - ', unit.name), '')) AS material_name,
                        category.name AS category_name,
                        line.expected_quantity,
-                       (case when line.audit_quantity > 0 then line.audit_quantity else line.expected_quantity end) AS audit_quantity,
+                       line.audit_quantity,
                        line.posted_quantity,
                       sum(order_line.purchase_quantity) AS purchase_quantity, 
                       material.name AS materialName,

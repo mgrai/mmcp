@@ -40,7 +40,7 @@ def isGroup(self, GROUP_NAME):
     result = False
     if len(self.user.groups.all()) > 0:
         for group in self.user.groups.all():
-            if GROUP_NAME == group.name:
+            if GROUP_NAME + str(self.user.company.id) == group.name:
                 result = True
                 break
             

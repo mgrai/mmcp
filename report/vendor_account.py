@@ -1038,7 +1038,7 @@ def getAllParentVendor(self):
 
 def getAllUsers(self, GROUP_NAME):
     company_ids = getAllCompanyIds(self)
-    return Employee.objects.filter(company__id__in = company_ids, groups__name = GROUP_NAME)
+    return Employee.objects.filter(company__id__in = company_ids, groups__name__contains = GROUP_NAME)
         
 
 #公司（包括所有子公司） 总欠款

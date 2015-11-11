@@ -8,7 +8,7 @@ from django.template.response import TemplateResponse
 from django.http import HttpResponse, HttpResponseRedirect
 from django.utils.safestring import mark_safe
 from django.db.models import Q
-from report.vendor_account import getAllCompany
+from report.vendor_account import getAllCompany, getAllUsers
 from models import *
 from mmcp.util import *
 from mmcp.constant import *
@@ -40,6 +40,12 @@ class ProjectAdmin(object):
     def formfield_for_dbfield(self, db_field, **kwargs):
         if db_field.name == 'company':
             kwargs['queryset'] = getAllCompany(self)
+            
+        if db_field.name == 'estimate_user':
+            kwargs['queryset'] = getAllUsers(self, ESTIMATE_GROUP)
+            
+        if db_field.name == 'users':
+            kwargs['queryset'] = getAllUsers(self, PROJECT_GROUP)
         field = super(ProjectAdmin, self).formfield_for_dbfield(db_field, **kwargs)
         return field
     
@@ -50,19 +56,19 @@ class ProjectAdmin(object):
             ('项目特征', ('name', 'short_name', 'company', 'construct_unit', 'property', 'scale', 'estimate_user', 'users' )),
             ('合同条款', ('amount', 'contract_format', 'payment_type', 'bid_date', 'start_date', 'end_date', 'settlement_method', 'settlement_amount', 'file')),
         ]
-        #预算部门经理不需要指定项目负责人
-        if isGroup(self, ESTIMATE_GROUP):
-            list = [
-            ('项目特征', ('name','full_name', 'company', 'construct_unit', 'property', 'scale', 'estimate_user' )),
-            ('合同条款', ('amount', 'contract_format', 'payment_type', 'bid_date', 'start_date', 'end_date', 'settlement_method', 'settlement_amount', 'file')),
-        ]
+#         #预算部门经理不需要指定项目负责人
+#         if isGroup(self, ESTIMATE_GROUP):
+#             list = [
+#             ('项目特征', ('name','short_name', 'company', 'construct_unit', 'property', 'scale', 'estimate_user' )),
+#             ('合同条款', ('amount', 'contract_format', 'payment_type', 'bid_date', 'start_date', 'end_date', 'settlement_method', 'settlement_amount', 'file')),
+#         ]
         return list
             
         
-    @property
-    def exclude(self):
-        if isGroup(self, ESTIMATE_GROUP):
-            return ['users',]
+#     @property
+#     def exclude(self):
+#         if isGroup(self, ESTIMATE_GROUP):
+#             return ['users',]
         
     def queryset(self):
         #工程人员只能看到自己的项目
@@ -86,7 +92,7 @@ class ProjectMaterialAdmin(object):
             
             nodes.append('&nbsp;&nbsp;')
             
-        if hasattr(self, 'params') and '_rel_project__id__exact' in self.params:
+        if hasattr(self, 'params') and '_rel_project__id__exact' in self.params and (isGroup(self, ESTIMATE_GROUP) or isGroup(self, ESTIMATE_GROUP_MANAGER)):
             project_id = self.params['_rel_project__id__exact']
             batch_add_url = '/material/material/?project_id=%s' %project_id
             nodes.append(mark_safe('<a href="%s" class="btn btn-primary">%s</a>' % (batch_add_url, '批量增加材料')))

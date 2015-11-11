@@ -63,7 +63,7 @@ class GlobalSetting(object):
             )},
                 
             {'title': '采购管理', 'icon': 'fa fa-truck', 'perm': self.get_model_perm(Order, 'view'), 'menus':(
-                {'title': '要料单', 'icon': 'fa fa-file-text-o', 'url': '/document/request/order', 'perm': self.get_model_perm(DocumentLineItem, 'change')},
+                {'title': '要料单', 'icon': 'fa fa-file-text-o', 'url': '/document/request/order', 'perm': self.get_model_perm(Document, 'change')},
                 {'title': '采购单', 'icon': 'fa fa-align-justify', 'url': self.get_model_url(Order, 'changelist'), 'perm': self.get_model_perm(Order, 'change')},
                 {'title': '采购名细', 'icon': 'fa fa-align-justify', 'url': self.get_model_url(OrderLine, 'changelist'), 'perm': self.get_model_perm(OrderLine, 'change')},
                 {'title': '到货单', 'icon': 'fa fa-align-justify', 'url': self.get_model_url(ReceivingLine, 'changelist'), 'perm': self.get_model_perm(ReceivingLine, 'view')},
@@ -79,7 +79,7 @@ class GlobalSetting(object):
             )},
                 
             {'title': '报表', 'icon': 'fa fa-file-text-o', 'menus':(
-                {'title': '到货单', 'icon': 'fa fa-truck', 'url': '/report/project/receiving/list', 'perm': self.get_model_perm(Order, 'view')},
+                {'title': '到货单', 'icon': 'fa fa-truck', 'url': '/report/project/receiving/list', 'perm': self.get_model_perm(ReceivingLine, 'view')},
                 {'title': '对帐单', 'icon': 'fa fa-align-justify', 'url': self.get_model_url(CheckAccount, 'changelist'), 'perm': self.get_model_perm(CheckAccount, 'view')},
                 {'title': '对账单名细', 'icon': 'fa fa-align-justify', 'url': self.get_model_url(CheckAccountDetail, 'changelist'), 'perm': self.get_model_perm(CheckAccountDetail, 'view')},
                 {'title': '工程用量', 'icon': 'fa fa-indent', 'url': '/report/project/used/list', 'perm': self.get_model_perm(Order, 'view'),},
@@ -96,7 +96,7 @@ class GlobalSetting(object):
                 
             {'title': '系统管理', 'icon': 'fa fa-wrench',  'menus':(
                 {'title': '公司管理', 'icon': 'fa fa-home', 'url': self.get_model_url(Company, 'changelist'), 'perm': self.get_model_perm(Company, 'change')},
-                {'title': '部门管理', 'icon': 'fa fa-users', 'url': self.get_model_url(CompanyGroup, 'changelist'), 'perm': self.get_model_perm(Group, 'change')},
+                {'title': '部门管理', 'icon': 'fa fa-users', 'url': self.get_model_url(CompanyGroup, 'changelist'), 'perm': self.get_model_perm(CompanyGroup, 'change')},
                 {'title': '用户管理', 'icon': 'fa fa-user', 'url': self.get_model_url(Employee, 'changelist'), 'perm': self.get_model_perm(Employee, 'change')},
                 {'title': '权限管理', 'icon': 'fa fa-lock', 'url': self.get_model_url(Permission, 'changelist'), 'perm': self.get_model_perm(Permission, 'view')},
             )},

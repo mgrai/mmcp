@@ -334,7 +334,7 @@ class Invoice(models.Model):
     invoice_number = models.CharField(u'发票号码',max_length=50)
     amount = models.DecimalField(u'金额',max_digits = 15, decimal_places=2)
     invoice_type = models.SmallIntegerField(u'发票类型', choices=INVOICE_TYPES)
-    user = models.ForeignKey(Employee,verbose_name=u'经手人', limit_choices_to = {'groups__name' : u'采购部门'})
+    user = models.ForeignKey(Employee,verbose_name=u'经手人')
     date = models.DateField(u'发票日期')
     receive_date = models.DateField(u'收票日期', blank=True,null=True)
 #     checkAccounts = models.ManyToManyField(CheckAccount,verbose_name=u'对帐单', blank=True, null=True)
