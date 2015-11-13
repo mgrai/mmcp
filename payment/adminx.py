@@ -145,7 +145,7 @@ class PaymentAdmin(object):
                     payment.is_applied = True
                     payment.save(update_fields=['create_time', 'is_applied'])
                 
-                route = Route.objects.filter(route_name = PAYMENT_APPLY)[0]
+                route = Route.objects.filter(route_name = PAYMENT_APPLY, company = self.user.company)[0]
                 
                 document = Document.objects.get_or_create(document_id = payment_id, defaults = {'document_type':PAYMENT_TYPE,
                                                                                                 'user':self.user,

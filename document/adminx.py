@@ -62,7 +62,7 @@ class DocumentAdmin(object):
     def post(self, request, *args, **kwargs):
         document_id = request.POST.get('_submit')
         if document_id:
-            route = Route.objects.filter(route_name = PROJECT_MATERIAL_APPLY)[0]
+            route = Route.objects.filter(route_name = PROJECT_MATERIAL_APPLY, company = self.user.company)[0]
             document = Document.objects.filter(document_id = document_id)[0]
             document.create_date = datetime.datetime.now()
             document.save(update_fields=['create_date'])

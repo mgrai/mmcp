@@ -75,7 +75,7 @@ class ActorUser(models.Model):
     
     
     def __unicode__(self):
-        return self.id  
+        return "步骤处理人"  
     
 class Item(models.Model):
     class Meta:
@@ -104,7 +104,7 @@ class TaskList(models.Model):
     actor = models.ForeignKey(Actor,verbose_name=u'步骤',blank=True,null=True)
     
     def __unicode__(self):
-        return self.id  
+        return "任务列表"  
       
 class TaskHistory(models.Model):
     class Meta:
