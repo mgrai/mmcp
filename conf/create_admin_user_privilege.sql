@@ -5,13 +5,13 @@ DELIMITER $$
 CREATE PROCEDURE create_admin_user_privilege(v_company_id INT, v_employee_id INT)
 BEGIN
 	DECLARE ESTIMATE_GROUP_MANAGER varchar(30);
-	DECLARE PRCHASE_GROUP_MANAGER varchar(30);
+	DECLARE PURCHASE_GROUP_MANAGER varchar(30);
 	DECLARE ACCONT_GROUP_MANAGER varchar(30);
 	DECLARE VICE_GENERAL_MANAGER varchar(30);
 	DECLARE GENERAL_MANAGER varchar(30);
 	DECLARE ACCONT_GROUP varchar(30);
 	DECLARE PROJECT_GROUP varchar(30);
-	DECLARE PRCHASE_GROUP varchar(30);
+	DECLARE PURCHASE_GROUP varchar(30);
 	DECLARE ESTIMATE_GROUP varchar(30);
 	
 	DECLARE v_group_id INT;
@@ -79,57 +79,57 @@ BEGIN
 	
 	-- 增加 公司下面的部门----------------------------------------------------------------------------------
 	Set ESTIMATE_GROUP_MANAGER = '预算部门经理';
-	Set PRCHASE_GROUP_MANAGER = '采购部门经理';
+	Set PURCHASE_GROUP_MANAGER = '采购部门经理';
 	Set ACCONT_GROUP_MANAGER = '财务部门经理';
 	Set VICE_GENERAL_MANAGER = '副总经理';
 	Set GENERAL_MANAGER = '总经理';
 
 	Set ACCONT_GROUP = '财务部门';
 	Set PROJECT_GROUP = '工程部门';
-	Set PRCHASE_GROUP = '采购部门';
+	Set PURCHASE_GROUP = '采购部门';
 	Set ESTIMATE_GROUP = '预算部门';
 
 	delete from auth_group where name in (CONCAT(ESTIMATE_GROUP_MANAGER, v_company_id),
-										CONCAT(PRCHASE_GROUP_MANAGER, v_company_id),
+										CONCAT(PURCHASE_GROUP_MANAGER, v_company_id),
 										CONCAT(ACCONT_GROUP_MANAGER, v_company_id),
 										CONCAT(VICE_GENERAL_MANAGER, v_company_id),
 										CONCAT(GENERAL_MANAGER, v_company_id),
 										CONCAT(ACCONT_GROUP, v_company_id),
 										CONCAT(PROJECT_GROUP, v_company_id),
-										CONCAT(PRCHASE_GROUP, v_company_id),
+										CONCAT(PURCHASE_GROUP, v_company_id),
 										CONCAT(ESTIMATE_GROUP, v_company_id)
 										);
 										
 	insert auth_group (name) values(CONCAT(ESTIMATE_GROUP_MANAGER, v_company_id));
-	insert auth_group (name) values(CONCAT(PRCHASE_GROUP_MANAGER, v_company_id));
+	insert auth_group (name) values(CONCAT(PURCHASE_GROUP_MANAGER, v_company_id));
 	insert auth_group (name) values(CONCAT(ACCONT_GROUP_MANAGER, v_company_id));
 	insert auth_group (name) values(CONCAT(VICE_GENERAL_MANAGER, v_company_id));
 	insert auth_group (name) values(CONCAT(GENERAL_MANAGER, v_company_id));
 	insert auth_group (name) values(CONCAT(ACCONT_GROUP, v_company_id));
 	insert auth_group (name) values(CONCAT(PROJECT_GROUP, v_company_id));
-	insert auth_group (name) values(CONCAT(PRCHASE_GROUP, v_company_id));
+	insert auth_group (name) values(CONCAT(PURCHASE_GROUP, v_company_id));
 	insert auth_group (name) values(CONCAT(ESTIMATE_GROUP, v_company_id));
 	
 	-- 把部门分配到公司下面
 	Call assign_group_to_company(v_company_id, ESTIMATE_GROUP_MANAGER);	
-	Call assign_group_to_company(v_company_id, PRCHASE_GROUP_MANAGER);	
+	Call assign_group_to_company(v_company_id, PURCHASE_GROUP_MANAGER);	
 	Call assign_group_to_company(v_company_id, ACCONT_GROUP_MANAGER);	
 	Call assign_group_to_company(v_company_id, VICE_GENERAL_MANAGER);	
 	Call assign_group_to_company(v_company_id, GENERAL_MANAGER);	
 	Call assign_group_to_company(v_company_id, ACCONT_GROUP);	
 	Call assign_group_to_company(v_company_id, PROJECT_GROUP);	
-	Call assign_group_to_company(v_company_id, PRCHASE_GROUP);	
+	Call assign_group_to_company(v_company_id, PURCHASE_GROUP);	
 	Call assign_group_to_company(v_company_id, ESTIMATE_GROUP);	
 	
 	-- 分配各部门的权限
 	Call assign_group_privilege(v_company_id, ESTIMATE_GROUP_MANAGER);	
-	Call assign_group_privilege(v_company_id, PRCHASE_GROUP_MANAGER);	
+	Call assign_group_privilege(v_company_id, PURCHASE_GROUP_MANAGER);	
 	Call assign_group_privilege(v_company_id, ACCONT_GROUP_MANAGER);	
 	Call assign_group_privilege(v_company_id, VICE_GENERAL_MANAGER);	
 	Call assign_group_privilege(v_company_id, GENERAL_MANAGER);	
 	Call assign_group_privilege(v_company_id, ACCONT_GROUP);	
 	Call assign_group_privilege(v_company_id, PROJECT_GROUP);	
-	Call assign_group_privilege(v_company_id, PRCHASE_GROUP);	
+	Call assign_group_privilege(v_company_id, PURCHASE_GROUP);	
 	Call assign_group_privilege(v_company_id, ESTIMATE_GROUP);	
 	
 	

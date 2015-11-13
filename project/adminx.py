@@ -56,19 +56,8 @@ class ProjectAdmin(object):
             ('项目特征', ('name', 'short_name', 'company', 'construct_unit', 'property', 'scale', 'estimate_user', 'users' )),
             ('合同条款', ('amount', 'contract_format', 'payment_type', 'bid_date', 'start_date', 'end_date', 'settlement_method', 'settlement_amount', 'file')),
         ]
-#         #预算部门经理不需要指定项目负责人
-#         if isGroup(self, ESTIMATE_GROUP):
-#             list = [
-#             ('项目特征', ('name','short_name', 'company', 'construct_unit', 'property', 'scale', 'estimate_user' )),
-#             ('合同条款', ('amount', 'contract_format', 'payment_type', 'bid_date', 'start_date', 'end_date', 'settlement_method', 'settlement_amount', 'file')),
-#         ]
         return list
             
-        
-#     @property
-#     def exclude(self):
-#         if isGroup(self, ESTIMATE_GROUP):
-#             return ['users',]
         
     def queryset(self):
         #工程人员只能看到自己的项目
@@ -179,8 +168,7 @@ class ProjectMaterialAdmin(object):
         return actions
     
     def get_applied_quantity_lable(self, instance):
-        return 0
-#         return get_received_quantity(self, instance)
+        return get_total_approved_quantity(self, instance)
     get_applied_quantity_lable.short_description = "已申请量"
     get_applied_quantity_lable.allow_tags = True
     get_applied_quantity_lable.is_column = True

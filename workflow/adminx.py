@@ -14,7 +14,7 @@ from mmcp.actions import AuditSelectedAction
 from mmcp.util import handle_audit, has_audit_comment_by_item_id, get_audit_comments_by_item_id, getAuditComments, buildPaymentItems, buildProjectItems
 from models import Route, Actor, ActorUser, Item, TaskList, TaskHistory, AUDIT_STATUS, APPROVED, ITEM_START, ITEM_REJECTED, ITEM_APPROVING, PAYMENT_ROUTE, PROJECT_ROUTE
 from payment.models import Payment
-from workflow import Workflow, getMyApplayItems, getMyHandleItems, getMyHandledItems, handlePayment
+from workflow import *
 import xadmin
 from xadmin.models import CompanyGroup
 from xadmin.plugins.actions import ActionPlugin
@@ -128,6 +128,7 @@ class AuditItemsAdmin(UpdateAdminView):
             workflow = Workflow()
             if str(APPROVED) == audit:
                 handlePayment(item)
+                handleDocumentLine(item)
                 workflow.approveWorkflow(item, self.user, comments)
             else:
                 workflow.rejectWorkflow(item, self.user, comments)

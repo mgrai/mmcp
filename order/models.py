@@ -157,7 +157,7 @@ class OrderLine(models.Model):
     
     def getExpectedQuantity(self):
         return self.documentLineItem.expected_quantity
-    getExpectedQuantity.short_description = u"要求量"
+    getExpectedQuantity.short_description = u"申请量"
     
     def getAuditQuantity(self):
         return (self.documentLineItem.audit_quantity or '')
@@ -189,7 +189,7 @@ class OrderLine(models.Model):
         if self.documentLineItem.projectMaterial.max_price > 0:
             max_price = self.documentLineItem.projectMaterial.max_price
         return max_price
-    getExpectedQuantity.short_description = u"最大限价"
+    getMaxPrice.short_description = u"最大限价"
     
     
     def clean(self):
@@ -214,7 +214,7 @@ class OrderLine(models.Model):
             
             #限价检查
             max_price = self.getMaxPrice()
-            if self.price > max_price:
+            if max_price > 0 and self.price > max_price:
                 raise ValidationError('单价不能大于最大限价')
             
             
@@ -337,7 +337,6 @@ class Invoice(models.Model):
     user = models.ForeignKey(Employee,verbose_name=u'经手人')
     date = models.DateField(u'发票日期')
     receive_date = models.DateField(u'收票日期', blank=True,null=True)
-#     checkAccounts = models.ManyToManyField(CheckAccount,verbose_name=u'对帐单', blank=True, null=True)
     # for account to receive
     is_received = models.BooleanField(u'确认收票', default=False)
     

@@ -931,28 +931,6 @@ def getOwedInvoiceBeforeOnline(vendors, company):
     return owed_invoice  
 
 
-# def getOwedAmountBy2015Year2Month(vendors, company):
-#     owed_amount = 0
-#     args = build_vendor_setting_parameters(vendors, company)
-# 
-#     vendorSettings = VendorSetting.objects.filter(*(args,))
-#     for vendorSetting in vendorSettings:
-#         owed_amount += (vendorSetting.before_2015_2_owed_amount or 0)
-#             
-#     return owed_amount 
-# 
-# def getOwedInvoiceBy2015Year2Month(vendors, company):
-#     owed_invoice = 0
-#     args = build_vendor_setting_parameters(vendors, company)
-#      
-#     vendorSettings = VendorSetting.objects.filter(*(args,))
-#     
-#     for vendorSetting in vendorSettings:
-#             owed_invoice += (vendorSetting.before_2015_2_owed_invoice or 0)
-#             
-#     return owed_invoice   
-
-
 def getReceivedAmountBeforeOnline(vendors, company):
     received_amount = 0
     args = build_vendor_setting_parameters(vendors, company)

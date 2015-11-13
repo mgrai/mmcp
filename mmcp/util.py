@@ -362,6 +362,23 @@ def get_received_quantity(self, projectMaterial):
         total_quantity = DocumentLineItem.objects.filter(projectMaterial = projectMaterial).aggregate(Sum('posted_quantity'))
         return (total_quantity['posted_quantity__sum'] or 0)
     
+def get_total_approved_quantity(self, projectMaterial):
+    
+    query = """select sum(coalesce(audit_quantity,expected_quantity)) as total_approved_quantity
+               from document_documentlineitem where projectmaterial_id = {0}""".format(projectMaterial.id)
+        
+    rows= []
+    c = connection.cursor()
+    try:
+        c.execute(query)
+        rows = dictfetchall(c)
+    finally:
+        c.close()
+    quantity = rows[0]['total_approved_quantity']
+    if quantity is None:
+        quantity = 0
+    return quantity
+    
 def serialize_results(results):
     return [
         {'value': item.pk, 'text': unicode(item)} for item in results
@@ -371,6 +388,7 @@ def handle_audit(self, item, audit, comments):
     workflow = Workflow()
     if str(APPROVED) == audit:
             handlePayment(item)
+            handleDocumentLine(item)
             workflow.approveWorkflow(item, self.user, comments)
     else:
             workflow.rejectWorkflow(item, self.user, comments)

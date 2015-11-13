@@ -1,5 +1,6 @@
 合和
 bob   admin
+
 alex 工程部门
 ray  预算部门
 jason 预算部门经理
@@ -9,18 +10,44 @@ tom  总经理
 jeff 副总经理
 
 
+合和
+bob1   admin
+
+alex1 工程部门
+ray1  预算部门
+jason1 预算部门经理
+zeal1 采购部门
+jack1 财务部门
+tom1  总经理
+jeff1 副总经理
 
 
-新建项目时： 
-预算负责人 是 预算部门
-项目负责人 是 工程部门
- 
+setup system as below steps:
+1. python manage.py syncdb
+2. run model_update.sql
+3. run create_admin_user_privilege.sql
+4. run assign_group_to_company.sql
+5. run assign_group_privilege.sql
+6. run material_data.sql
 
+
+
+Create a new company as below steps:
 1. create new company
 2. create new admin user (公司，电话 必填)
-3. run create_admin_user_privilege.sql
-3. run assign_group_to_company.sql
-4. run assign_group_privilege.sql
 
+3. call create_admin_user_privilege(1, 2); -- (company_id, employee_id)
+
+
+
+
+财务需要做的操作：
+1. 确认收到发票  填收票时间
+2. 确认付款
+
+报表 如下 都是以对完帐以后才有数据：
+1. 到货单
+2. 工程用量
+到货单 是指材料对完帐之后 才能显示
 
 

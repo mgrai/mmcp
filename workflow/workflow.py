@@ -4,6 +4,7 @@ from models import Route, Actor, ActorUser, Item, TaskList,TaskHistory,ITEM_REJE
 from payment.models import Payment
 from django.conf import settings
 from mmcp.weixin import send_message
+from document.models import *
 
 
 def send_message_to_next_approval(actor, item): 
@@ -176,8 +177,28 @@ def getPayment(payment_id):
 def handlePayment(item):
         payment = getPayment(item.document.document_id)
         if payment is not None:
-            if not payment.applied_amount:
+            if payment.applied_amount is None:
                 payment.applied_amount = payment.payment_amount
                 payment.save(update_fields=['applied_amount'])
- 
+                
+def handleDocumentLine(item):
+    lines = DocumentLineItem.objects.filter(document = item.document)
+    for line in lines:
+        if  line.audit_quantity is None:
+                line.audit_quantity = line.expected_quantity
+                line.save(update_fields=['audit_quantity'])
+    
 
+def hasApprovedBySelf(self, item):
+    result = False
+    #在审批中
+    if item.status == 1 :
+        queryset = TaskHistory.objects.filter(user = self.user, item = item, status = 1)
+        if len(queryset) > 0:
+            result = True
+    
+    return result
+        
+        
+        
+    

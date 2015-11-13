@@ -19,7 +19,7 @@ from payment.models import *
 from project.models import Project
 from report.project_apply import get_project_apply_list
 from workflow.models import Route, Item, ITEM_START, ITEM_APPROVED, ITEM_REJECTED
-from workflow.workflow import Workflow
+from workflow.workflow import Workflow, hasApprovedBySelf
 import xadmin
 from xadmin.plugins.actions import DeleteSelectedAction
 from xadmin.plugins.batch import BatchChangeAction
@@ -165,6 +165,11 @@ class DocumentLineItemAdmin(object):
             item = getItem(document_id)
             if item is not None:
                 document = Document.objects.get(id = document_id)
+                
+                #自己已经审批通过不能再修改
+                if hasApprovedBySelf(self, item):
+                    return []
+                
                 #采购部门可以修改实际采购名称
                 if (item.status == ITEM_APPROVED):
                     if isGroup(self, PURCHASE_GROUP) and (document and not isPurchCompleted(document)):

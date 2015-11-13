@@ -19,7 +19,6 @@ encoding//payment/adminx.py=utf-8
 encoding//payment/export.py=utf-8
 encoding//payment/models.py=utf-8
 encoding//project/adminx.py=utf-8
-encoding//project/adminx_old.py=utf-8
 encoding//project/models.py=utf-8
 encoding//report/adminx.py=utf-8
 encoding//report/payment_summary.py=utf-8
